@@ -11,6 +11,7 @@ const MainBox = styled.div`
   flex-direction: column;
   width:60%;
   margin: 20px auto;
+  padding-top: 160px;
 `;
 
 const FirstContainer = styled.div`

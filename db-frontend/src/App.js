@@ -19,6 +19,7 @@ function App() {
       <ThemeProvider theme = {defaultTheme}>
         <GlobalStyle />
           <BrowserRouter>
+            <MenuNav />
           <Routes>
             <Route path="/" element={<Main />}/>
             <Route path="/join" element={<Join />}/>
@@ -28,7 +29,6 @@ function App() {
             <Route path="/stockview" element={<StockView />}/>
             <Route path="/usermy" element={<UserMy />}/>
           </Routes>
-          <MenuNav />
           </BrowserRouter>
       </ThemeProvider>
     </BackgroundLayout>
