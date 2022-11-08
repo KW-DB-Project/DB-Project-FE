@@ -1,15 +1,15 @@
 import { useState } from "react";
 import styled from "styled-components"
-import ChartWrapper from "../component/ChartWrapper";
-import InterestStock from "../component/InterestStock";
-import SoaringStock from "../component/SoaringStock";
-import TradingRanking from "../component/TradingRanking";
-import UpDownRanking from "../component/UpDownRanking";
+import ChartWrapper from "../component/main-page/ChartWrapper";
+import InterestStock from "../component/main-page/InterestStock";
+import SoaringStock from "../component/main-page/SoaringStock";
+import TradingRanking from "../component/main-page/TradingRanking";
+import UpDownRanking from "../component/main-page/UpDownRanking";
 
 const MainBox = styled.div`
   display: flex;
   flex-direction: column;
-  width:60%;
+  width:50%;
   padding-top: 160px;
   margin: 0 auto;
 `;

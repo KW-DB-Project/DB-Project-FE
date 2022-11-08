@@ -26,12 +26,27 @@ const Box = styled.div`
   padding: 20px;
 `;
 
+const SubNav = styled.div`
+  display:flex;
+  justify-content: center;
+  align-items: center;
+  font-size:20px;
+  background-color: rgba(0,0,0,0.2);
+  border-radius:15px;
+  padding: 0 5px;
+  margin-left: 10px;
+  h3{
+    font-weight: 600;
+  }
+`;
+
 
 function StockViewPage(){
   return (
   <MainBox>
     <Container>
-      <Box/>
+      <Box>
+      </Box>
       <Box/>
     </Container>
   </MainBox>
