@@ -37,7 +37,12 @@ const MenuNav = () => {
   width:100%;
   position:fixed;
   display:flex;
+<<<<<<< HEAD
   justify-content:center;
+=======
+  justify-content: center;
+
+>>>>>>> 0aecf29171a306d9d5e69d3b982ac7798cf5130a
 `;
 
 
