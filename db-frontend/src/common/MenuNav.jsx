@@ -37,8 +37,10 @@ const MenuNav = () => {
   width:100%;
   position:fixed;
   display:flex;
-
+  justify-content:center;
 `;
+
+
 
   const StyledMenubar = styled.nav`
     display:flex;
@@ -50,10 +52,10 @@ const StyledMenuButton = styled(NavLink)`
 
 const StyledFontawsome = styled(FontAwesomeIcon)`
 
-margin-top:35px;
-width:35px;
-height:35px;
-position:absolute;
+margin-top:30px;
+width:40px;
+height:40px;
+position:absolute; 
 
 `;
 
@@ -61,7 +63,7 @@ const MenuName = styled.div`
 
   font-size: 20px;
   font-weight:bold;
-  margin:5px;
+  margin:15px;
   margin-top:20px;
   width:120px;
   height:65px;
@@ -71,7 +73,7 @@ const MenuName = styled.div`
 `;
 
 const ClickMenuName = styled.div`
-  border-radius:15px 15px 15px 15px;  
+border-radius:15px 15px 15px 15px;  
   font-size: 20px;
   font-weight:bold;
   margin:15px;
