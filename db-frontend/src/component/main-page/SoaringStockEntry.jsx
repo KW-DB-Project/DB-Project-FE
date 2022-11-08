@@ -20,6 +20,7 @@ const RankNumber = styled.div`
   height:30px;
   background-color: rgba(0,0,0,0.2);
   padding-bottom: 2px;
+  margin-right: 20px;
 `;
 
 const StockName = styled.div`
