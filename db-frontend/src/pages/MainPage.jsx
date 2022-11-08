@@ -10,8 +10,8 @@ const MainBox = styled.div`
   display: flex;
   flex-direction: column;
   width:60%;
-  margin: 20px auto;
   padding-top: 160px;
+  margin: 0 auto;
 `;
 
 const FirstContainer = styled.div`

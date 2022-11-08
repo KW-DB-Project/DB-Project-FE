@@ -2,8 +2,9 @@ import { createGlobalStyle } from "styled-components";
 
 const GlobalStyle = createGlobalStyle`
   body{
-    background-color : white;
-    color : black };
+    background-color : ${(props) => props.theme.bgColor};
+    color : black;
+    margin-top: 20px; 
   }
   
   *{
