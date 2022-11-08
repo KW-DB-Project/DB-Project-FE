@@ -31,7 +31,7 @@ function KOSPIChart(){
 
   return(
     <div>
-      <Line type="line" data={data} />
+
     </div>
   );
 }
