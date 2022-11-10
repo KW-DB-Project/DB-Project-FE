@@ -8,7 +8,6 @@ const Container = styled.div`
     color: rgba(0,0,0,0.3);
   }
   display: flex;
-  flex-di
 `;
 
 const Title = styled.div`

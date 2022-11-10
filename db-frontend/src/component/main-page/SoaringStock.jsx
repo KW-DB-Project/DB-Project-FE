@@ -54,7 +54,7 @@ const Title = styled.div`
 
 const Timeline = styled.div`
   font-weight: 600;
-  margin-top: 10px;
+  margin-top: 15px;
   font-size:20px;
 `;
 
