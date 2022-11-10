@@ -20,19 +20,25 @@ const RankNumber = styled.div`
   height:30px;
   background-color: rgba(0,0,0,0.2);
   padding-bottom: 2px;
+  margin-right: 20px;
 `;
 
 const StockName = styled.div`
-  margin-left : 10px;
+  width: 40%;
 `;
 
 const StockPrice = styled.div`
-  margin-left: 60px;
+  display:flex;
+  justify-content: flex-end;
+  width: 40%;
+  margin-right:5px;
+  padding-right: 10px;
 `;
 
 const StockRate = styled.div`
   display:flex;
-  margin-left: 20px;
+  justify-content: flex-start;
+  width: 18%;
   color : ${props => props.theme.upColor};
   div{
     font-size: 20px;
@@ -41,12 +47,14 @@ const StockRate = styled.div`
   }
 `;
 
-function SoaringStockEntry({entry, index}){
+function StockPriceEntry({entry, index}){
+  const number = entry.price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+
   return(
   <Entry>
     <RankNumber>{`${index+1}`}</RankNumber>
     <StockName>{`${entry.name}`}</StockName>
-    <StockPrice>{`${entry.price}원`}</StockPrice>
+    <StockPrice>{`${number}원`}</StockPrice>
     <StockRate>
       <div><FontAwesomeIcon icon={faCaretUp} size='1x'/></div>
       {`${entry.rate}%`}
@@ -55,4 +63,4 @@ function SoaringStockEntry({entry, index}){
   );
 }
 
-export default SoaringStockEntry;
+export default StockPriceEntry;

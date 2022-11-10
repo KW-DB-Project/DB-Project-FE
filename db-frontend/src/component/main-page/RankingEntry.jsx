@@ -4,9 +4,9 @@ const Entry = styled.li`
   display: flex;
   align-items: center;
   width: 100%;
-  height:50px;
+  height:52px;
   margin-bottom:7px;
-  font-size: 15px;
+  font-size: 20px;
   font-weight: 800;
 `;
 
@@ -14,10 +14,11 @@ const RankNumber = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  width:20px;
-  height:20px;
+  width:30px;
+  height:30px;
   background-color: rgba(0,0,0,0.2);
   padding-bottom: 2px;
+  margin-right: 20px;
 `;
 
 const StockName = styled.div`

@@ -37,7 +37,9 @@ const MenuNav = () => {
   width:100%;
   position:fixed;
   display:flex;
-  `;
+  justify-content:center;
+
+`;
 
 
 
