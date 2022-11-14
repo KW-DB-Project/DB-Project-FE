@@ -4,7 +4,6 @@ const GlobalStyle = createGlobalStyle`
   body{
     background-color : white;
     color : black;
-    margin-top:20px;
   }
   
   *{
