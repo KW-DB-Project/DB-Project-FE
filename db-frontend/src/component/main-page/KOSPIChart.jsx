@@ -19,7 +19,7 @@ const Container = styled.div`
 function KOSPIChart(){
   const datas = [];
 
-  for(let i=0; i<=72; i++){
+  for(let i=0; i<=36; i++){
     const v = new Date(timestamp + tenMinutes * i);
 
     datas.push({

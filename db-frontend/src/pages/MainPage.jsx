@@ -45,7 +45,7 @@ const SecondContainer = styled.div`
 
 const Box = styled.div`
   background-color: transparent;
-  border-radius: 5px;
+  border-radius: 30px;
   box-shadow: ${(props) => props.theme.defaultShadow};
   height: 350px;
   padding: 20px;
@@ -53,7 +53,7 @@ const Box = styled.div`
 
 const MiniBox = styled.div`
   background-color: transparent;
-  border-radius: 5px;
+  border-radius: 30px;
   box-shadow: ${(props) => props.theme.defaultShadow};
   height: 350px;
   padding:15px 20px;

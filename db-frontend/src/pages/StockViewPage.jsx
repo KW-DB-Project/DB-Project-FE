@@ -30,7 +30,7 @@ const Container = styled.div`
 
 const Box = styled.div`
   background-color: transparent;
-  border-radius: 5px;
+  border-radius: 30px;
   box-shadow: ${(props) => props.theme.defaultShadow};
   height: 850px;
   padding: 20px;
