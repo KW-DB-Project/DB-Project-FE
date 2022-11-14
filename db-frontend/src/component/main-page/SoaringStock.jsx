@@ -78,7 +78,7 @@ const SoaringStockList = styled.ul`
 `;
 
 function SoaringStock(){
-  const[today, setToday] = useState(new Date(Date.now()));
+  const[today] = useState(new Date(Date.now()));
   const data = [
   {
     name: "주식2",

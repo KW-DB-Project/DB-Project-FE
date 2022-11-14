@@ -1,4 +1,3 @@
-import { useState } from "react";
 import styled from "styled-components";
 import StockPriceEntry from "./StockPriceEntry";
 
@@ -30,20 +29,6 @@ const RankList = styled.ul`
 `;
 
 function StockRightMenu({data}){
-  const [match, setMatch] = useState(10000);
-  const onMenuClicked = (target, index)=> {
-    if(match === target)
-      return;
-    else{
-      setMatch(target);
-    }
-  }
-
-
-  function compare(key){
-    return (a,b) => (a[key] < b[key] ? 1 : (a[key] > b[key] ? -1 : 0));
-  }
-
   return(
   <Container>
     <RankList>

@@ -1,31 +1,55 @@
 import { useState } from "react";
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import styled from "styled-components";
+import {useRecoilValue, useSetRecoilState} from "recoil";
+import { isLoginedAtom } from "../atom/loginAtom";
+import Axios from "axios";
 
 function LoginPage(){
-
+  const navigate = useNavigate();
+  const login = useRecoilValue(isLoginedAtom);
+  const setLoginAtom = useSetRecoilState(isLoginedAtom);
   const [inputs, setInputs] = useState({id:'',password:''});
-  const {id,password} = inputs; // 비구조화 할당을 통해 값 추출
+  const {id, password} = inputs; // 비구조화 할당을 통해 값 추출
 
-
-  const onChange = (e) => {
+  const onChangeLoginInput= (e) => {
     const {name, value} =e.target; //우선 e.target에서 id와 value 추출
     setInputs({
       ...inputs, //기존의 input 객체를 복사한 뒤
       [name]: value // name 키를 가진 값을 value 로 설정
     });
-
   };
 
-  const onClick = () => {
-
+  const onClickLoginButton = () => {
     if(id==='' || password==='')
     {
       alert("값을 모두 입력해주세요");
       return;
     }
     else{
-    alert("아이디: "+id+"비번: "+password);
+      if(!login.isLogined){
+        Axios.post("http://localhost:8000/login", {
+          id: id,
+          password :password
+        }).then((res)=>{
+          if(res.data.success === true){
+            alert(res.data.msg);
+            setLoginAtom({
+              isLogined : true,
+              userName : res.data.result[0].U_NM,
+              id : res.data.result[0].ID,
+              password: res.data.result[0].PW,
+              age : res.data.result[0].AGE,
+              balance : res.data.result[0].BALANCE
+            });
+            navigate('/');
+         }else{
+          alert(res.data.msg);
+         }
+      }).catch((e) => {
+        console.error(e);
+      })
+      }
     }
   };
 
@@ -35,17 +59,17 @@ function LoginPage(){
      <TitleInputCon >
         <TitleLayout className="아이디 레이아웃"><Title>아이디</Title></TitleLayout>
         <InputLayout>
-          <StyledInput type="text" onChange={onChange} name="id" value={id} ></StyledInput>
+          <StyledInput type="text" onChange={onChangeLoginInput} name="id" value={id} ></StyledInput>
         </InputLayout>
       </TitleInputCon>
       <TitleInputCon>
         <TitleLayout><Title>비밀번호</Title></TitleLayout>
         <InputLayout>
-          <StyledInput type="password" onChange={onChange} name="password" value={password}></StyledInput>
+          <StyledInput type="password" onChange={onChangeLoginInput} name="password" value={password}></StyledInput>
         </InputLayout>
       </TitleInputCon>
       <JoinBtnLayout>
-     <LoginBtn onClick={onClick} >로그인</LoginBtn>
+     <LoginBtn onClick={onClickLoginButton} >로그인</LoginBtn>
      </JoinBtnLayout>
      <JoinBtnLayout>
       <JoinBtn to="/join">회원가입</JoinBtn>
@@ -99,6 +123,7 @@ const LoginBtn = styled.button`
   height:50px;
   font-weight:bold;
   border:none;
+  cursor: pointer;
 `;
 
 //인풋 레이아웃

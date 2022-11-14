@@ -1,4 +1,4 @@
-import {BrowserRouter, Route, Routes} from "react-router-dom"
+import {Route, Routes} from "react-router-dom"
 import JoinPage from "./pages/JoinPage";
 import LoginPage from "./pages/LoginPage";
 import MainPage from "./pages/MainPage";
@@ -9,17 +9,15 @@ import UserMyPage from "./pages/UserMyPage";
 
 const Router = () => {
   return (
-    <BrowserRouter>
       <Routes>
         <Route path = '/' element={<MainPage/>}></Route>
         <Route path = '/login' element={<LoginPage/>}></Route>
         <Route path = '/join' element={<JoinPage/>}></Route>
         <Route path = '/debate/*' element={<StockDebatePage/>}></Route>
-        <Route path = '/trading/*' element={<StockTradingPage/>}></Route>
-        <Route path = '/view/*' element={<StockViewPage/>}></Route>
-        <Route path = '/mypage' element={<UserMyPage/>}></Route>
+        <Route path = '/stocktrading' element={<StockTradingPage/>}></Route>
+        <Route path = '/stockview' element={<StockViewPage/>}></Route>
+        <Route path = '/usermy' element={<UserMyPage/>}></Route>
       </Routes>
-    </BrowserRouter>
   );
 }
 

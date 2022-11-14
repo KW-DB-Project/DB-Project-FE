@@ -157,7 +157,7 @@ function StockViewPageCategory(){
       setLeftActive(true);
       setRightActive(true);
     }
-  }, [pageNum]);
+  }, [pageNum, menu.length]);
 
 
   const onClickRight = () => {
