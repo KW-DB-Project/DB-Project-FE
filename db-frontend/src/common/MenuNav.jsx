@@ -19,11 +19,8 @@ const MenuNav = () => {
         <StyledMenuButton to="/stocktrading" >
         {location.pathname === '/stocktrading' ? <ClickMenuName>매매</ClickMenuName> : <MenuName>매매</MenuName> }
         </StyledMenuButton>
-        <StyledMenuButton to="/stockdebate" >
-        {location.pathname === '/stockdebate' ? <ClickMenuName>토론</ClickMenuName> : <MenuName>토론</MenuName> }
-        </StyledMenuButton>
       </StyledMenubar>
-      <StyledMenuButton to="/login">
+      <StyledMenuButton to="/usermy">
       <StyledFontawsome icon={faUser}  />
       </StyledMenuButton>
       </MenubarLayout>
@@ -53,10 +50,11 @@ const StyledMenuButton = styled(NavLink)`
 
 const StyledFontawsome = styled(FontAwesomeIcon)`
 
-margin-top:30px;
-width:40px;
-height:40px;
+margin-top:40px;
+width:30px;
+height:30px;
 position:absolute; 
+margin-left:190px;
 
 `;
 
