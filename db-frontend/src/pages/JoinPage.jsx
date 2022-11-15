@@ -1,9 +1,9 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
+import Axios from "axios";
 
 function JoinPage(){
-
   const [inputs, setInputs] = useState({userName:'',id:'',age:'',password:''});
   const {userName,id,age,password} = inputs; // 비구조화 할당을 통해 값 추출
   const navigate = useNavigate();
@@ -18,15 +18,27 @@ function JoinPage(){
   };
 
   const onClick = () => {
-
     if(id==='' || password==='' || userName==='' || age==='')
     {
       alert("값을 모두 입력해주세요");
       return;
     }
     else{
-    alert("이름"+userName+"아이디: "+id+"비번: "+password+"나이"+age);
-    navigate('/usermy');
+      Axios.post("http://localhost:8000/join", {
+        id: id,
+        password :password,
+        userName : userName,
+        age : age,
+      }).then((res)=>{
+        if(res.data.success === true){
+          alert(res.data.msg);
+          navigate('/usermy');
+        }else{
+          alert(res.data.msg);
+       }
+    }).catch((e) => {
+      console.error(e);
+    })
     }
   };
 
@@ -68,9 +80,12 @@ function JoinPage(){
 export default JoinPage;
 
 const JoinPageLayout =styled.div`
-height:100%;
-width:100%;
-display: flex;
+  height:100%;
+  padding-top: 200px;
+  padding-bottom: 160px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 `;
 
 //전체 화면 레이아웃
@@ -123,6 +138,7 @@ const JoinBtn = styled.button`
   height:50px;
   font-weight:bold;
   border:none;
+  cursor: pointer;
 `;
 
 //글자 레이아웃
