@@ -85,6 +85,8 @@ const LoginPageLayout = styled.div`
 height:100%;
 width:100%;
 display: flex;
+padding-top:120px;
+padding-bottom:160px;
 `;
 
 const TitleLayout = styled.div`

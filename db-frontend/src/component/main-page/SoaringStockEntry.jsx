@@ -6,7 +6,7 @@ const Entry = styled.li`
   display: flex;
   align-items: center;
   width: 100%;
-  height:60px;
+  height:55px;
   margin-bottom:5px;
   font-size: 20px;
   font-weight: 800;

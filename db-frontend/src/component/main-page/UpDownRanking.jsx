@@ -34,21 +34,8 @@ const Wrapper = styled.div`
 const UpDownRankingList = styled.ul`
   height:100%;
   width: 80%;
-  overflow: scroll;
-  overflow-x:hidden;
   padding-right: 10px;
   margin-top: 10px;
-
-  &::-webkit-scrollbar {
-    width: 8px;
-    height: 8px;
-    border-radius: 6px;
-    background: rgba(255, 255, 255, 0.4);
-  }
-  &::-webkit-scrollbar-thumb {
-    background: rgba(0, 0, 0, 0.3);
-    border-radius: 6px;
-  }
 `;
 
 const UpDownBox = styled.div`
@@ -93,22 +80,7 @@ function UpDownRanking(){
       name: "주식3",
       price: 45000,
       rate : 4.7
-    },
-    {
-      name: "주식5",
-      price: 40000,
-      rate : 4.0
-    },
-    {
-      name: "주식8",
-      price: 50000,
-      rate : 2.0
-    },
-    {
-      name: "주식9",
-      price: 35000,
-      rate : 1.9
-    },
+    }
     ];
 
   return(

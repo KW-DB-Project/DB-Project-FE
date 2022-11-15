@@ -60,21 +60,8 @@ const Timeline = styled.div`
 
 const SoaringStockList = styled.ul`
   height:230px;
-  overflow: scroll;
-  overflow-x:hidden;
   padding-right: 10px;
   margin-top: 10px;
-
-  &::-webkit-scrollbar {
-    width: 8px;
-    height: 8px;
-    border-radius: 6px;
-    background: rgba(255, 255, 255, 0.4);
-  }
-  &::-webkit-scrollbar-thumb {
-    background: rgba(0, 0, 0, 0.3);
-    border-radius: 6px;
-  }
 `;
 
 function SoaringStock(){
@@ -99,12 +86,7 @@ function SoaringStock(){
     name: "주식8",
     price: 50000,
     rate : 2.0
-  },
-  {
-    name: "주식9",
-    price: 35000,
-    rate : 1.9
-  },
+  }
   ];
 
   return(
