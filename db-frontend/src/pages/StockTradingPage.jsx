@@ -1,8 +1,11 @@
 import styled from "styled-components";
 import { useState } from "react";
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
-import { faHeart, faMagnifyingGlass} from '@fortawesome/free-solid-svg-icons';
+import { faMagnifyingGlass} from '@fortawesome/free-solid-svg-icons';
 
+import ComExplain from '../component/stock-trading-page/ComExplain';
+import StockTrade from '../component/stock-trading-page/StockTrade';
+import DebateBtn from '../component/stock-trading-page/DebateBtn'
 
 function StockTradingPage(){
 
@@ -24,19 +27,10 @@ function StockTradingPage(){
       }
   }
 
-  const BuyClick = () => {
-      alert('매수 클릭');
-   
-  }
-
-  const SellClick = () => {
-    alert('매도 클릭');
- 
-}
-
   return (
     <Tradelayout>
-      <LeftSide>
+      <Container>
+      <Box>
       <StyledSearchLayout>
         <input type="text" value={wrSearch} onChange={onChange} style={{
             width:"80%",
@@ -53,22 +47,13 @@ function StockTradingPage(){
           }}></input>
           <StyledFontawsome icon={faMagnifyingGlass} onClick={SearchOnClick}/> 
       </StyledSearchLayout>
-      <StyledLayout>
-        <NameLayout>
-        <StyledFontawsome icon={faHeart} /><ComName>기업명</ComName><ComEx>기업정보</ComEx>
-        </NameLayout>
-      </StyledLayout>
-      </LeftSide>
-      <RightSide>
-      <StyledLayout>
-        <NameLayout>
-          <DisplayFlex>
-        <StyledBtn style={{backgroundColor:'rgb(252,190,190)'}} onClick={BuyClick} >매수</StyledBtn>
-        <StyledBtn style={{backgroundColor:'rgb(190,222,252)',marginLeft:'40px'}} onClick={SellClick}>매도</StyledBtn>
-        </DisplayFlex>
-        </NameLayout>
-      </StyledLayout>
-      </RightSide>
+      <ComExplain />
+      </Box>
+      <Box>
+        <DebateBtn />
+        <StockTrade />
+      </Box>
+      </Container>
     </Tradelayout>
 
   );
@@ -76,31 +61,33 @@ function StockTradingPage(){
 
 export default StockTradingPage;
 
-//기업 정보
-const ComEx = styled.div`
-font-size:15px;
-postion:absolute;
-right:10px;
-`;
-
-//기업 이름
-const ComName = styled.div`
-  font-size:25px;
-  margin-left:10px;
-  margin-top:5px;
-`;
-
 //전체 화면 레이아웃
 const Tradelayout = styled.div`
   display:flex;
+  flex-direction: column;
   width:60%;
   padding-top: 160px;
+  padding-bottom: 160px;
   margin: 0 auto;
 `;
 
-//디스플레이 플렉스
-const DisplayFlex=styled.div`
-display:flex;
+const Container = styled.div`
+  display: grid;
+  margin: 0 auto;
+  width:80%;
+  @media screen and (max-width : 1100px){
+    grid-template-columns : repeat(1, 540px);
+  }
+  @media screen and (min-width : 1100px){
+    grid-template-columns : repeat(2, 540px);
+  }
+  justify-content : center;
+  gap: 50px;
+  margin-top: 25px;
+`;
+
+const Box = styled.div`
+ 
 `;
 
 //검색창
@@ -112,50 +99,8 @@ box-shadow: ${(props) => props.theme.defaultShadow};
 padding:5px;
 `;
 
-//왼쪽 설정
-const LeftSide =styled.div`
-
-`;
-
-//오른쪽 설정
-const RightSide =styled.div`
-margin-left:40px;
-margin-top:70px;
-`;
-
-//스타일 레이아웃
-const StyledLayout = styled.div`
-margin-top:30px;
-border-radius: 50px 50px 50px 50px;
-width:500px;
-box-shadow: ${(props) => props.theme.defaultShadow};
-padding:5px;
-`;
-
-//기업명 기업정보 아이콘 묶는 레이아웃
-const NameLayout =styled.div`
-display:flex;
-padding:10px;
-margin:10px;
-position:relative;
-`;
-
 //아이콘 스타일
 const StyledFontawsome = styled(FontAwesomeIcon)`
-
 width:30px;
 height:30px;
-
-`;
-
-//버튼 스타일
-const StyledBtn = styled.button`
-height:45px;
-width:200px;
-border-radius: 30px;
-padding:5px;
-text-algin:center;
-border:none;
-color:white;
-font-size:20px;
 `;
