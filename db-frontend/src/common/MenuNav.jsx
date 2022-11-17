@@ -16,8 +16,8 @@ const MenuNav = () => {
         <StyledMenuButton to="/stockview" >
         {location.pathname === '/stockview' ? <ClickMenuName>국내</ClickMenuName> : <MenuName>국내</MenuName> }
         </StyledMenuButton>
-        <StyledMenuButton to="/stocktrading" >
-        {location.pathname === '/stocktrading' ? <ClickMenuName>매매</ClickMenuName> : <MenuName>매매</MenuName> }
+        <StyledMenuButton to="/stocktrading/buy" >
+        {(location.pathname === '/stocktrading/buy'|| location.pathname === '/stocktrading/sell'  )? <ClickMenuName>매매</ClickMenuName> : <MenuName>매매</MenuName> }
         </StyledMenuButton>
       </StyledMenubar>
       <StyledMenuButton to="/usermy">
