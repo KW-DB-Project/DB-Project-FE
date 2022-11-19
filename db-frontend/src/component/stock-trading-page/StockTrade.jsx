@@ -1,14 +1,10 @@
 import { useState } from "react";
-import { useParams, useNavigate } from "react-router-dom";
 import styled from "styled-components";
 
 function StockTrade (){
 
-const params = useParams();
-const tradeType = Object.values(params);
-var type = tradeType[0];
 const [amount,setAmount]=useState('1');
-const navigate=useNavigate();
+const [selectedType,setSelectedType]=useState('매수');
 
   const onChange = (e) => {
     setAmount(e.target.value);
@@ -16,22 +12,26 @@ const navigate=useNavigate();
 
     const BuyClick = () => {
        
-        console.log(type);
-        navigate('/stocktrading/buy');
+      //  console.log(type);
+        setSelectedType('매수');
+        console.log(selectedType);
+       // navigate('/stocktrading/buy');
     }
   
     const SellClick = () => {
      
-      console.log(type);
-      navigate('/stocktrading/sell');
+    //  console.log(type);
+      setSelectedType('매도');
+      console.log(selectedType);
+    //  navigate('/stocktrading/sell');
   }
 
   const Trade = () => {
 
-    if(type === 'buy'){
+    if(selectedType === '매수'){
         alert('매수: '+amount+'주');
     }
-    else if(type === 'sell'){
+    else if(selectedType === '매도'){
         alert('매도: '+amount+'주');
     }
     else{
@@ -62,7 +62,7 @@ const navigate=useNavigate();
         </InputLayout>
         </Box>
         <Box>
-        {type === 'buy' ? (<StyledBtn style={{backgroundColor:'rgb(252,190,190)', margin:'0 auto'}} onClick={Trade} >주문</StyledBtn>):(<StyledBtn style={{backgroundColor:'rgb(190,222,252)', margin:'0 auto'}} onClick={Trade} >주문</StyledBtn>)}
+        <StyledBtn className={selectedType === '매수' ? 'buy' : 'sell'} onClick={Trade} >주문</StyledBtn>
         </Box>
       </StyledLayout>
       </StockTradeCom>
@@ -139,5 +139,18 @@ text-algin:center;
 border:none;
 color:white;
 font-size:20px;
+margin:0 auto;
+${(props)=>{
+    if(props.className === 'buy' ){
+        return `
+        background-color:rgb(252,190,190);
+        `;
+    }
+    else{
+        return `
+        background-color:rgb(190,222,252);
+        `;
+    }
+}};
 `;
 
