@@ -65,9 +65,11 @@ function ComExplain(){
   const onClick = () => {
         if(clicked){
             setClicked(false);
+            console.log(clicked);
         }
-        else if(clicked == false){
+        else if(clicked === false){
             setClicked(true);
+            console.log(clicked);
         }
         else{
             console.log('clicked value 변경불가');
@@ -80,7 +82,7 @@ function ComExplain(){
         <div className="ComExplainComponent">
         <StyledLayout>
             <Box>
-            <StyledFontawsome icon={faHeart} />
+            <StyledFontawsome className={clicked ? 'clicked' : 'unclicked'} onClick={onClick} icon={faHeart} />
             <Title style={{fontWeight:'bold'}}>기업명</Title>
             <RightLayout><ComEx>ㅐㅐㅐㅐㅐㅐㅐㅐㅐㅐㅐㅐㅐㅐㅐㅐㅐㅐㅐㅐㅐㅐㅐㅐㅐㅐㅐㅐㅐㅐㅐㅐㅐㅐㅐㅐㅐㅐㅐㅐㅐㅐㅐㅐㅐㅐㅐㅐㅐㅐㅐㅐㅐㅐㅐㅐㅐㅐㅐㅐㅐㅐㅐㅐㅐ</ComEx></RightLayout>
             </Box>
@@ -152,5 +154,16 @@ const Title = styled.div`
 const StyledFontawsome = styled(FontAwesomeIcon)`
 width:30px;
 height:30px;
-
+${(props)=>{
+    if(props.className === 'clicked' ){
+        return `
+        color:rgb(255,84,84);
+        `;
+    }
+    else{
+        return `
+        color:rgb(217,217,217);
+        `;
+    }
+}};
 `;
