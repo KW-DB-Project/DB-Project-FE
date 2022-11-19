@@ -3,6 +3,7 @@ import {faCaretLeft, faCaretRight} from "@fortawesome/free-solid-svg-icons";
 import { useEffect, useState } from "react";
 import styled from "styled-components";
 import StockPriceEntry from "./StockPriceEntry";
+import StockPriceLeftEntry from "./StockPriceLeftEntry";
 
 const Container = styled.div`
   display: flex;
@@ -63,11 +64,11 @@ const Right = styled.span`
 `;
 
 function StockViewPageCategory(){
-  const [match, setMatch] = useState(10000);
+  const [match, setMatch] = useState("");
   const [leftActive, setLeftActive] = useState(false);
   const [rightActive, setRightActive] = useState(true);
   const [pageNum, setPageNum] = useState(0);
-  const menu = [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20];
+  const menu = ["a","b","c","d",5,6,7,8,9,10,11,12,13,14,15,16,17];
   const unit = [10000, 50000, 100000, 500000];
 
     const data = [
@@ -132,7 +133,7 @@ function StockViewPageCategory(){
         rate : 4.7
       },
     ]
-  const onMenuClicked = (target, index)=> {
+  const onMenuClicked = (target)=> {
     if(match === target)
       return;
     else{
@@ -141,8 +142,10 @@ function StockViewPageCategory(){
   }
 
   const onClickLeft = () => {
-    if(pageNum - 4 >= 0)
+    if(pageNum - 4 >= 0){
       setPageNum(pageNum - 4);
+      setMatch(menu[pageNum-4]);
+    }
     else{    
       setPageNum(0);
     }
@@ -161,13 +164,13 @@ function StockViewPageCategory(){
 
 
   const onClickRight = () => {
-    if(pageNum + 4 < menu.length)
+    if(pageNum + 4 < menu.length){
       setPageNum(pageNum + 4);
+      setMatch(menu[pageNum+4]);
+    }
     else
       return;
   }
-
-  console.log(pageNum);
 
   function compare(key){
     return (a,b) => (a[key] < b[key] ? 1 : (a[key] > b[key] ? -1 : 0));
@@ -178,23 +181,23 @@ function StockViewPageCategory(){
     <SubNav>
       <Left active = {leftActive}><FontAwesomeIcon icon={faCaretLeft} size='1x' cursor={'pointer'} onClick={() => onClickLeft()}/></Left>
           {
-            menu.slice(pageNum, pageNum+4).map((item, index) => 
+            menu.slice(pageNum, pageNum+4).map((item) => 
               <SubNavMenu
                 key = {item}
-                match = {match === unit[index]}
-                onClick = {() => onMenuClicked(unit[index], index)}
+                match = {match === item}
+                onClick = {() => onMenuClicked(item)}
               >
-                {menu[index + pageNum]}
+                {item}
               </SubNavMenu>
               )
           }
-      <Right active = {rightActive}><FontAwesomeIcon icon={faCaretRight} size='1x' cursor={'pointer'} onClick={() => onClickRight()} active = {rightActive}/></Right>
+      <Right active = {rightActive}><FontAwesomeIcon icon={faCaretRight} size='1x' cursor={'pointer'} onClick={() => onClickRight()}/></Right>
     </SubNav>
     <RankList>
       {
        data.filter(entry => ( (entry.price <= match))).sort(compare('price')).map((entry, index) =>{
         return (
-          <StockPriceEntry 
+          <StockPriceLeftEntry 
             key = {index}
             entry = {entry}
             index = {index}

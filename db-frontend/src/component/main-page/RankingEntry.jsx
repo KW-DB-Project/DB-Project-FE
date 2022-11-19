@@ -22,6 +22,7 @@ const RankNumber = styled.div`
 `;
 
 const StockName = styled.div`
+  width: 40%;
   margin-left : 10px;
 `;
 

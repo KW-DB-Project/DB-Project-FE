@@ -1,6 +1,7 @@
 import { useState } from "react";
 import styled from "styled-components";
 import StockPriceEntry from "./StockPriceEntry";
+import StockPriceLeftEntry from "./StockPriceLeftEntry";
 
 const Container = styled.div`
   display: flex;
@@ -151,7 +152,7 @@ function StockViewPagePrice(){
       {
        data.filter(entry => ( (entry.price <= match))).sort(compare('price')).map((entry, index) =>{
         return (
-          <StockPriceEntry 
+          <StockPriceLeftEntry
             key = {index}
             entry = {entry}
             index = {index}

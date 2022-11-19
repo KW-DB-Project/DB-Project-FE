@@ -101,10 +101,6 @@ function SoaringStock(){
           </Wrapper>
           <Timeline>{`${today.getMonth()+1}/${today.getDate()} ${today.getHours()}:00`}</Timeline>
         </Container>
-        <Calendar>
-          <span><FontAwesomeIcon icon={faClock} size='1x'/></span>
-          <span><FontAwesomeIcon icon={faCalendar} size='1x'/></span>
-        </Calendar>
       </Header>
       <SoaringStockList>
         {

@@ -57,7 +57,7 @@ function StockPriceEntry({entry, index}){
     <StockPrice>{`${number}원`}</StockPrice>
     <StockRate>
       <div><FontAwesomeIcon icon={faCaretUp} size='1x'/></div>
-      {`${entry.rate}%`}
+      {`${entry.rate.toFixed(1)}%`}
     </StockRate>
   </Entry>
   );

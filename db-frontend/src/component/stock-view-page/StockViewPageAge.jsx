@@ -1,6 +1,7 @@
 import { useState } from "react";
 import styled from "styled-components";
 import StockPriceEntry from "./StockPriceEntry";
+import StockPriceLeftEntry from "./StockPriceLeftEntry";
 
 const Container = styled.div`
   display: flex;
@@ -53,11 +54,9 @@ const RankList = styled.ul`
 `;
 
 function StockViewPageAge(){
-  const [match, setMatch] = useState(10000);
+  const [match, setMatch] = useState("20대");
   const menu = ["20대", "30대" , "40대", "50대"];
-  const unit = [10000, 50000, 100000, 500000];
-
-    const data = [
+  const data = [
       {
         name: "주식2",
         price: 50000,
@@ -118,8 +117,8 @@ function StockViewPageAge(){
         price: 1000,
         rate : 4.7
       },
-    ]
-  const onMenuClicked = (target, index)=> {
+  ]
+  const onMenuClicked = (target)=> {
     if(match === target)
       return;
     else{
@@ -136,13 +135,13 @@ function StockViewPageAge(){
   <Container> 
     <SubNav>
           {
-            menu.map((item, index) => 
+            menu.map((item) => 
               <SubNavMenu
                 key = {item}
-                match = {match === unit[index]}
-                onClick = {() => onMenuClicked(unit[index], index)}
+                match = {match === item}
+                onClick = {() => onMenuClicked(item)}
               >
-                {menu[index]}
+                {item}
               </SubNavMenu>
               )
           }
@@ -151,7 +150,7 @@ function StockViewPageAge(){
       {
        data.filter(entry => ( (entry.price <= match))).sort(compare('price')).map((entry, index) =>{
         return (
-          <StockPriceEntry 
+          <StockPriceLeftEntry
             key = {index}
             entry = {entry}
             index = {index}
