@@ -16,7 +16,6 @@ export default DebateBtn;
 const StyledBtnLayout = styled.div`
 height:70px;
 border-radius: 30px;
-width:500px;
 padding:25px;
 background-color:black;
 text-align:center;

@@ -94,7 +94,6 @@ const Box = styled.div`
 const StyledSearchLayout = styled.div`
 height:70px;
 border-radius: 30px;
-width:500px;
 box-shadow: ${(props) => props.theme.defaultShadow};
 padding:5px;
 `;
