@@ -117,7 +117,6 @@ const StockTradeCom =styled.div`
 const StyledLayout = styled.div`
 margin-top:30px;
 border-radius: 50px 50px 50px 50px;
-width:500px;
 box-shadow: ${(props) => props.theme.defaultShadow};
 padding:10px;
 `;
