@@ -18,7 +18,7 @@ const Router = () => {
         <Route path = '/debate/:stock' element={<StockDebatePage/>}></Route>
         <Route path = '/debate/:stock/write' element={<StockDebateWrite/>}></Route>
         <Route path = '/debate/:stock/:idx' element={<StockDebateView/>}></Route>
-        <Route path = '/stocktrading/:type' element={<StockTradingPage/>}></Route>
+        <Route path = '/stocktrading' element={<StockTradingPage/>}></Route>
         <Route path = '/stockview' element={<StockViewPage/>}></Route>
         <Route path = '/usermy' element={<UserMyPage/>}></Route>
       </Routes>
