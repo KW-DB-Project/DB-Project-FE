@@ -36,7 +36,7 @@ const SecondContainer = styled.div`
     grid-template-columns : repeat(1, 550px);
   }
   @media screen and (min-width : 1600px){
-    grid-template-columns : repeat(3, 1fr);
+    grid-template-columns : 2fr 3fr 2fr;
   }
   justify-content : center;
   margin-top: 25px;

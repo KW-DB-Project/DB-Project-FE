@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import styled from "styled-components";
 
 const MainBox = styled.div`
@@ -9,7 +9,7 @@ const MainBox = styled.div`
   margin: 0 auto;
 `;
   
-  const Box = styled.div`
+const Box = styled.div`
   display: flex;
   width: 100%;
   flex-direction: column;
@@ -25,10 +25,13 @@ const MiniBox = styled.div`
   font-size: 20px;
 `;
 
-const Category = styled.select`
+const Category = styled.div`
+  display:flex;
+  justify-content: flex-start;
+  align-items: center;
   width: 200px;
   height: 50px;
-  padding: 5px;
+  padding: 10px;
   border-radius: 10px;
   box-shadow: ${(props) => props.theme.defaultShadow};
   border: none;
@@ -88,7 +91,7 @@ const Content = styled.textarea`
 
 function StockDebateWrite(){
   const navigate = useNavigate();
-  const categories = ['123',2,3,4];
+  const {stock} = useParams();
   const [inputs, setInputs] = useState({
     userName: '',
     stockCode: '',
@@ -125,13 +128,7 @@ function StockDebateWrite(){
       <MiniBox>
         <Lable>종목</Lable>
         <Category>
-          {categories.map((item, index) => {
-            return(
-            <option  key = {item} value = {item}>
-              {item}
-            </option>
-            );
-          })}
+          {stock}
         </Category> 
       </MiniBox>
       <MiniBox>

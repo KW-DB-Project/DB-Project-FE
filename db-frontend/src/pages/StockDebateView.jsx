@@ -1,9 +1,11 @@
 import { faHeart } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
+import Axios from "axios";
+
 
 const MainBox = styled.div`
   width: 980px;
@@ -96,20 +98,28 @@ const LikeButton = styled.button`
 `;
 
 function StockDebateView(){
-  const [data, setData] = useState({
-    userName: '',
-    title: '',
-    content: '',
-    like : null,
-    createDate: '',
-  });
+  const [data, setData] = useState(null);
   const {idx} = useParams();
+  const {stock} = useParams();
   const navigate = useNavigate();
   //useEffect();
 
   const onClickExit = () =>{
-    navigate("/debate");
+    navigate(`/debate/${stock}`);
   }
+
+  useEffect(() => {
+    console.log(idx);
+    Axios.post("http://localhost:8000/v", {
+      idx: idx
+    }).then((res)=>{
+      setData(res.data[0]);
+    }).catch((e)=>{
+      console.error(e);
+    })
+  }, []);
+
+  console.log(data);
 
   return(
   <MainBox>
@@ -119,18 +129,18 @@ function StockDebateView(){
         <Title>asd</Title>
         <BoardDescription>
           <FirstRow>
-            <span>{`어떤 종목 | `}</span>
-            <span>{`2022-11-15 19:53:47 | `}</span>
-            <span>{`닉네임`}</span>
+            <span>{`${data?.STOCK_STK_CD} | `}</span>
+            <span>{`${data?.CREATE_DATE.split('T')[0]} | `}</span>
+            <span>{`${data?.USER_ID}`}</span>
           </FirstRow>
           <SecondRow>
-            <span>{`좋아요 : 4`}</span>
+            <span>{`좋아요 : ${data?.B_LIKE}`}</span>
           </SecondRow>
         </BoardDescription>
       </Header>
       <ContentWrapper> 
         <Content>
-          123123123123123123
+          {data?.CONTENT}
         </Content>
         <LikeButton>
           <span><FontAwesomeIcon icon={faHeart} size='2x'/></span>

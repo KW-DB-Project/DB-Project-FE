@@ -15,9 +15,9 @@ const Router = () => {
         <Route path = '/' element={<MainPage/>}></Route>
         <Route path = '/login' element={<LoginPage/>}></Route>
         <Route path = '/join' element={<JoinPage/>}></Route>
-        <Route path = '/debate' element={<StockDebatePage/>}></Route>
-        <Route path = '/debate/write' element={<StockDebateWrite/>}></Route>
-        <Route path = '/debate/:idx' element={<StockDebateView/>}></Route>
+        <Route path = '/debate/:stock' element={<StockDebatePage/>}></Route>
+        <Route path = '/debate/:stock/write' element={<StockDebateWrite/>}></Route>
+        <Route path = '/debate/:stock/:idx' element={<StockDebateView/>}></Route>
         <Route path = '/stocktrading/:type' element={<StockTradingPage/>}></Route>
         <Route path = '/stockview' element={<StockViewPage/>}></Route>
         <Route path = '/usermy' element={<UserMyPage/>}></Route>

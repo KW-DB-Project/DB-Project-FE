@@ -1,12 +1,12 @@
 import styled from "styled-components";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {faCaretDown, faCaretUp} from "@fortawesome/free-solid-svg-icons";
+import {faCaretUp} from "@fortawesome/free-solid-svg-icons";
 
 const Entry = styled.li`
   display: flex;
   align-items: center;
   width: 100%;
-  height:55px;
+  height:60px;
   margin-bottom:5px;
   font-size: 20px;
   font-weight: 800;
@@ -25,38 +25,42 @@ const RankNumber = styled.div`
 
 const StockName = styled.div`
   width: 40%;
-  margin-left : 10px;
 `;
 
 const StockPrice = styled.div`
-  width: 30%;
-  margin-left: 60px;
+  display:flex;
+  justify-content: flex-end;
+  width: 40%;
+  margin-right:5px;
+  padding-right: 10px;
 `;
 
 const StockRate = styled.div`
   display:flex;
-  margin-left: 20px;
-  color : ${props => props.positive? props.theme.upColor : props.theme.downColor};
+  justify-content: flex-start;
+  width: 18%;
+  color : ${props => props.theme.upColor};
   div{
-    display: flex;
-    width: 70px;
-    justify-content: space-between;
-    align-items: center;
     font-size: 20px;
+    margin-right: 10px;
+    padding-top:1px;
   }
+  margin-left:10px;
 `;
 
-function SoaringStockEntry({entry, index}){
+function StockPriceLeftEntry({entry, index}){
+  const number = entry.price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+
   return(
   <Entry>
     <RankNumber>{`${index+1}`}</RankNumber>
     <StockName>{`${entry.name}`}</StockName>
-    <StockPrice>{`${entry.price}원`}</StockPrice>
-    <StockRate positive = {entry.rate >= 0 ? true : false}>
-    {entry.rate >= 0 ? <div><FontAwesomeIcon  icon={faCaretUp} size='1x'/>{`${entry.rate.toFixed(1)}%`}</div> : <div><FontAwesomeIcon  icon={faCaretDown} size='1x'/>{`${entry.rate}%`}</div>}
+    <StockPrice>{`${number}원`}</StockPrice>
+    <StockRate>
+      {`${entry.rate.toFixed(1)}명`}
     </StockRate>
   </Entry>
   );
 }
 
-export default SoaringStockEntry;
+export default StockPriceLeftEntry;

@@ -23,7 +23,13 @@ function JoinPage(){
       alert("값을 모두 입력해주세요");
       return;
     }
+    else if(!parseInt(age)|| parseInt(age) <= 0)
+    {
+      alert("나이를 다시 입력해주세요");
+      return;
+    }
     else{
+      console.log(parseInt(age));
       Axios.post("http://localhost:8000/join", {
         id: id,
         password :password,

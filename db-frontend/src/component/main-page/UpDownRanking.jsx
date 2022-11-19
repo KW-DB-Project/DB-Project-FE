@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faRankingStar, faArrowUp, faArrowDown} from "@fortawesome/free-solid-svg-icons";
-import RankingEntry from "./RankingEntry";
+import SoaringStockEntry from "./SoaringStockEntry";
 
 const Container = styled.div`
   span{
@@ -40,7 +40,6 @@ const UpDownRankingList = styled.ul`
 
 const UpDownBox = styled.div`
   display: flex;
-  justify-content: space-between;
   align-items: center;
   height:50%;
 `;
@@ -55,6 +54,7 @@ const UpMark = styled.div`
   align-items: center;
   color: white;
   opacity: 0.5;
+  margin-right: 30px;
 `;
 
 const DownMark =styled.div`
@@ -67,6 +67,7 @@ const DownMark =styled.div`
   align-items: center;
   color: white;
   opacity: 0.5;
+  margin-right: 30px;
 `;
 
 function UpDownRanking(){
@@ -79,7 +80,7 @@ function UpDownRanking(){
     {
       name: "주식3",
       price: 45000,
-      rate : 4.7
+      rate : -4.7
     }
     ];
 
@@ -99,7 +100,7 @@ function UpDownRanking(){
           <UpDownRankingList>
           {
             data.map((entry, index) =>
-              <RankingEntry 
+              <SoaringStockEntry 
                 key = {index}
                 entry = {entry}
                 index = {index}
@@ -116,7 +117,7 @@ function UpDownRanking(){
           <UpDownRankingList>
             {
               data.map((entry, index) =>
-                <RankingEntry 
+                <SoaringStockEntry 
                   key = {index}
                   entry = {entry}
                   index = {index}
