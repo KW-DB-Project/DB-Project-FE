@@ -28,23 +28,23 @@ function LoginPage(){
     }
     else{
       if(!login.isLogined){
-        Axios.post("http://localhost:8000/login", {
+        Axios.post("/user/login", {
           id: id,
-          password :password
+          pw :password
         }).then((res)=>{
-          if(res.data.success === true){
-            alert(res.data.msg);
+          if(res.data.id !== null){
+            alert("성공");
             setLoginAtom({
               isLogined : true,
-              userName : res.data.result[0].U_NM,
-              id : res.data.result[0].ID,
-              password: res.data.result[0].PW,
-              age : res.data.result[0].AGE,
-              balance : res.data.result[0].BALANCE
+              userName : res.data.uNm,
+              id : res.data.id,
+              password: res.data.pw,
+              age : res.data.age,
+              balance : res.data.balance
             });
             navigate('/');
          }else{
-          alert(res.data.msg);
+          alert("실패");
          }
       }).catch((e) => {
         console.error(e);

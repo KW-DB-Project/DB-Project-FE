@@ -1,9 +1,10 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import styled from "styled-components";
 import StockRightMenu from "../component/stock-view-page/StockRightMenu";
 import StockViewPageAge from "../component/stock-view-page/StockViewPageAge";
 import StockViewPageCategory from "../component/stock-view-page/StockViewPageCategory";
 import StockViewPagePrice from "../component/stock-view-page/StockViewPagePrice";
+import Axios from "axios";
 
 const MainBox = styled.div`
   display: flex;
@@ -65,69 +66,33 @@ function StockViewPage(){
   const [rightMatch, setRightMatch] = useState("관심");
   const leftMenu = ["금액", "연령", "업종"];
   const rightMenu = ["관심", "등락", "거래"];
+  const [rightData, setRightData]= useState([]);
 
-  const data = [
-    {
-      name: "주식2",
-      price: 50000,
-      rate : 5.0
-    },
-    {
-      name: "아주아주아주아주아주긴이름",
-      price: 45000,
-      rate : 4.7
-    },
-    {
-      name: "주식5",
-      price: 60000,
-      rate : 4.0
-    },
-    {
-      name: "주식8",
-      price: 50000,
-      rate : 2.0
-    },
-    {
-      name: "주식9",
-      price: 75000,
-      rate : 1.9
-    },
-    {
-      name: "주식2",
-      price: 150000,
-      rate : 5.0
-    },
-    {
-      name: "주식3",
-      price: 545000,
-      rate : 4.7
-    },
-    {
-      name: "주식5",
-      price: 140000,
-      rate : 4.0
-    },
-    {
-      name: "주식8",
-      price: 50000,
-      rate : 2.0
-    },
-    {
-      name: "주식9",
-      price: 35000,
-      rate : 1.9
-    },
-    {
-      name: "주식2",
-      price: 5000,
-      rate : 5.0
-    },
-    {
-      name: "주식3",
-      price: 1000,
-      rate : 4.7
-    },
-  ]
+  useEffect(()=>{
+    if(rightMatch === "관심"){
+      Axios.get("/stock/interest")
+        .then((res)=>{
+          setRightData(res.data);
+        }).catch((e)=>{
+          console.error(e);
+        })
+    }else if(rightMatch === "등락"){
+      Axios.get("/stock/fluctuation")
+        .then((res)=>{
+          setRightData(res.data);
+        }).catch((e)=>{
+          console.error(e);
+        })
+    }else if(rightMatch === "거래"){
+      Axios.get("/stock/volume")
+        .then((res)=>{
+          setRightData(res.data);
+        }).catch((e)=>{
+          console.error(e);
+        })
+    }
+  },[rightMatch]);
+  
 
   const onLeftMenuClicked = (name)=> {
     if(leftMatch === name)
@@ -180,7 +145,7 @@ function StockViewPage(){
               )
           }
         </SubNav>
-        <StockRightMenu data = {data}/>
+        <StockRightMenu data = {rightData}/>
       </Box>
     </Container>
   </MainBox>

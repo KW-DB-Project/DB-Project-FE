@@ -30,17 +30,17 @@ function JoinPage(){
     }
     else{
       console.log(parseInt(age));
-      Axios.post("http://localhost:8000/join", {
+      Axios.post("/user/signup", {
         id: id,
-        password :password,
+        pw :password,
         userName : userName,
         age : age,
       }).then((res)=>{
-        if(res.data.success === true){
-          alert(res.data.msg);
+        if(res.data.isSuccess === true){
+          alert("성공");
           navigate('/usermy');
         }else{
-          alert(res.data.msg);
+          alert("실패");
        }
     }).catch((e) => {
       console.error(e);

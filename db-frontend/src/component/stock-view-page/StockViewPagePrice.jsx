@@ -1,7 +1,8 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import styled from "styled-components";
 import StockPriceEntry from "./StockPriceEntry";
 import StockPriceLeftEntry from "./StockPriceLeftEntry";
+import Axios from "axios";
 
 const Container = styled.div`
   display: flex;
@@ -54,73 +55,20 @@ const RankList = styled.ul`
 `;
 
 function StockViewPagePrice(){
-  const [match, setMatch] = useState(10000);
+  const [match, setMatch] = useState("만원");
   const menu = ["만원", "오만원" , "십만원", "오십만원"];
-  const unit = [10000, 50000, 100000, 500000];
+  const [data, setData] = useState([]);
 
-  const data = [
-      {
-        name: "주식2",
-        price: 50000,
-        rate : 5.0
-      },
-      {
-        name: "아주아주아주아주아주긴이름",
-        price: 45000,
-        rate : 4.7
-      },
-      {
-        name: "주식5",
-        price: 60000,
-        rate : 4.0
-      },
-      {
-        name: "주식8",
-        price: 50000,
-        rate : 2.0
-      },
-      {
-        name: "주식9",
-        price: 75000,
-        rate : 1.9
-      },
-      {
-        name: "주식2",
-        price: 150000,
-        rate : 5.0
-      },
-      {
-        name: "주식3",
-        price: 545000,
-        rate : 4.7
-      },
-      {
-        name: "주식5",
-        price: 140000,
-        rate : 4.0
-      },
-      {
-        name: "주식8",
-        price: 50000,
-        rate : 2.0
-      },
-      {
-        name: "주식9",
-        price: 35000,
-        rate : 1.9
-      },
-      {
-        name: "주식2",
-        price: 5000,
-        rate : 5.0
-      },
-      {
-        name: "주식3",
-        price: 1000,
-        rate : 4.7
-      },
-    ]
-  const onMenuClicked = (target, index)=> {
+  useEffect(() => {
+    Axios.get("/stock/amount")
+      .then((res)=>{
+        setData(res.data);
+      }).catch((e)=>{
+        console.error(e);
+      })
+  }, []);
+
+  const onMenuClicked = (target)=> {
     if(match === target)
       return;
     else{
@@ -128,29 +76,24 @@ function StockViewPagePrice(){
     }
   }
 
-
-  function compare(key){
-    return (a,b) => (a[key] < b[key] ? 1 : (a[key] > b[key] ? -1 : 0));
-  }
-
   return(
   <Container> 
     <SubNav>
           {
-            menu.map((item, index) => 
+            menu.map((item) => 
               <SubNavMenu
                 key = {item}
-                match = {match === unit[index]}
-                onClick = {() => onMenuClicked(unit[index], index)}
+                match = {match === item}
+                onClick = {() => onMenuClicked(item)}
               >
-                {menu[index]}
+                {item}
               </SubNavMenu>
               )
           }
     </SubNav>
     <RankList>
       {
-       data.filter(entry => ( (entry.price <= match))).sort(compare('price')).map((entry, index) =>{
+       data.filter(entry => ((entry.moneyGroup === match))).map((entry, index) =>{
         return (
           <StockPriceLeftEntry
             key = {index}
