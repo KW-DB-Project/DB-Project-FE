@@ -2,10 +2,12 @@ import { NavLink, useLocation } from "react-router-dom";
 import styled from 'styled-components';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 import {faUser} from '@fortawesome/free-solid-svg-icons';
+import { isLoginedAtom } from '../atom/loginAtom';
+import { useRecoilValue } from "recoil";
 
 const MenuNav = () => {
-   
-   const location = useLocation();
+  const login = useRecoilValue(isLoginedAtom);
+  const location = useLocation();
 
     return (
         <MenubarLayout>
@@ -22,6 +24,7 @@ const MenuNav = () => {
       </StyledMenubar>
       <StyledMenuButton to="/usermy">
       <StyledFontawsome icon={faUser}  />
+        {login.isLogined? <span>{`${login.userName}님 안녕하세요!`}</span> :null}
       </StyledMenuButton>
       </MenubarLayout>
     );
@@ -35,12 +38,10 @@ const MenuNav = () => {
   position:fixed;
   display:flex;
   justify-content:center;
-
+  z-index: 1;
 `;
 
-
-
-  const StyledMenubar = styled.nav`
+const StyledMenubar = styled.nav`
     display:flex;
 `;
 

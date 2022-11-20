@@ -32,7 +32,7 @@ function LoginPage(){
           id: id,
           pw :password
         }).then((res)=>{
-          if(res.data.id !== NULL){
+          if(res.data.id !== null){
             alert("성공");
             setLoginAtom({
               isLogined : true,
