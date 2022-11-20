@@ -34,9 +34,10 @@ function LoginPage(){
         }).then((res)=>{
           if(res.data.id !== null){
             alert("성공");
+            console.log(res.data);
             setLoginAtom({
               isLogined : true,
-              userName : res.data.uNm,
+              userName : res.data.unm,
               id : res.data.id,
               password: res.data.pw,
               age : res.data.age,

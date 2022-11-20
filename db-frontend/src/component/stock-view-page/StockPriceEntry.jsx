@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {faCaretUp} from "@fortawesome/free-solid-svg-icons";
+import {faCaretDown, faCaretUp} from "@fortawesome/free-solid-svg-icons";
 
 const Entry = styled.li`
   display: flex;
@@ -39,7 +39,7 @@ const StockRate = styled.div`
   display:flex;
   justify-content: flex-start;
   width: 18%;
-  color : ${props => props.theme.upColor};
+  color : ${props => props.isPositive?props.theme.upColor : props.theme.downColor};
   div{
     font-size: 20px;
     margin-right: 10px;
@@ -48,16 +48,17 @@ const StockRate = styled.div`
 `;
 
 function StockPriceEntry({entry, index}){
-  const number = entry.price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+  const number = entry.slast.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+  const data = entry.schg? entry.schg : entry.svol;
 
   return(
   <Entry>
     <RankNumber>{`${index+1}`}</RankNumber>
-    <StockName>{`${entry.name}`}</StockName>
+    <StockName>{`${entry.stkNm}`}</StockName>
     <StockPrice>{`${number}원`}</StockPrice>
-    <StockRate>
-      <div><FontAwesomeIcon icon={faCaretUp} size='1x'/></div>
-      {`${entry.rate.toFixed(1)}%`}
+    <StockRate isPositive = {data >= 0 ? true : false}>
+      <div><FontAwesomeIcon icon={data >= 0 ? faCaretUp : faCaretDown} size='1x'/></div>
+      {`${entry.schg?entry.schg.toFixed(3):entry.svol}%`}
     </StockRate>
   </Entry>
   );

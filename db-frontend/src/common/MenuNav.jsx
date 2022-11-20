@@ -24,7 +24,7 @@ const MenuNav = () => {
       </StyledMenubar>
       <StyledMenuButton to="/usermy">
       <StyledFontawsome icon={faUser}  />
-        {login.isLogined? <span>{`${login.userName}님 안녕하세요!`}</span> :null}
+      {login.isLogined? <span>{`${login.userName}님 안녕하세요!`}</span> :null}
       </StyledMenuButton>
       </MenubarLayout>
     );
@@ -46,7 +46,8 @@ const StyledMenubar = styled.nav`
 `;
 
 const StyledMenuButton = styled(NavLink)`
-
+  display:flex;
+  align-items:center;
 `;
 
 const StyledFontawsome = styled(FontAwesomeIcon)`

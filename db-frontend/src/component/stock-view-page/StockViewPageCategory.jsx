@@ -71,7 +71,7 @@ function StockViewPageCategory(){
   const [data, setData] = useState([]);
 
   useEffect(()=>{
-    Axios.get("/stcok/sector")
+    Axios.get("/stock/sector")
       .then((res)=>{
         setData(res.data);
       }).catch((e)=>{

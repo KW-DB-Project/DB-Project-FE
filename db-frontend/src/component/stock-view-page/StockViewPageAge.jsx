@@ -60,8 +60,9 @@ function StockViewPageAge(){
   const [data, setData] = useState([]);
 
   useEffect(()=> {
-    Axios.get("/stcok/age")
+    Axios.get("/stock/age")
       .then((res)=>{
+        console.log(res.data);
         setData(res.data);
       }).catch((e)=>{
         console.error(e);

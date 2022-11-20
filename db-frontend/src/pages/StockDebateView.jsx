@@ -109,24 +109,23 @@ function StockDebateView(){
   }
 
   useEffect(() => {
-    console.log(idx);
-    Axios.post("/comuunity/print", {
+    Axios.post("/community/print", {
       stockName: stock
     }).then((res)=>{
-      setData(res.data.filter(idx === data.idx)[0]);
+      setData(res.data.filter((item) => {
+        return (idx === item.idx.toString());
+      })[0]);
     }).catch((e)=>{
       console.error(e);
     })
   }, []);
-
-  console.log(data);
 
   return(
   <MainBox>
     <ExitButton onClick = {onClickExit}>목록</ExitButton>
     <Box>
       <Header>
-        <Title>asd</Title>
+        <Title>{`${data?.title}`}</Title>
         <BoardDescription>
           <FirstRow>
             <span>{`${stock} | `}</span>

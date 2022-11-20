@@ -99,7 +99,7 @@ function UpDownRanking(){
           </UpMark>
           <UpDownRankingList>
           {
-            data.map((entry, index) =>
+            data.slice(0,2).map((entry, index) =>
               <SoaringStockEntry 
                 key = {index}
                 entry = {entry}
@@ -116,7 +116,7 @@ function UpDownRanking(){
           </DownMark>
           <UpDownRankingList>
             {
-              data.map((entry, index) =>
+              data.slice(2,4).map((entry, index) =>
                 <SoaringStockEntry 
                   key = {index}
                   entry = {entry}

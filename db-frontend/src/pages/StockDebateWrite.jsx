@@ -103,7 +103,9 @@ function StockDebateWrite(){
     content: ''
   })
   const {id, stockName, title, content} = inputs;
-  
+
+  console.log(login);
+
   const onChangeInput = (e) => {
     const {name, value} = e.target;
     setInputs({
@@ -128,6 +130,7 @@ function StockDebateWrite(){
         title : title,
         content: content
       }).then((res)=>{
+        console.log(id);
         if(res.data.isSuccess){
           alert("성공")
           navigate(-1);
