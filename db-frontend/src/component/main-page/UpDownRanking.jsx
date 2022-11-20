@@ -2,6 +2,8 @@ import styled from "styled-components";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faRankingStar, faArrowUp, faArrowDown} from "@fortawesome/free-solid-svg-icons";
 import SoaringStockEntry from "./SoaringStockEntry";
+import { useEffect, useState } from "react";
+import Axios from "axios";
 
 const Container = styled.div`
   span{
@@ -71,18 +73,16 @@ const DownMark =styled.div`
 `;
 
 function UpDownRanking(){
-  const data = [
-    {
-      name: "주식2",
-      price: 50000,
-      rate : 5.0
-    },
-    {
-      name: "주식3",
-      price: 45000,
-      rate : -4.7
-    }
-    ];
+  const [data, setData] = useState([]);
+  useEffect(()=>{
+    Axios.get("main/fluctuation")
+      .then((res) => {
+        setData(res.data);
+      }).catch((e)=>{
+        console.error(e);
+      })
+  }, []);
+
 
   return(
     <>

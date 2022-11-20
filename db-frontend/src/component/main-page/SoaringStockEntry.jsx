@@ -50,10 +50,10 @@ function SoaringStockEntry({entry, index}){
   return(
   <Entry>
     <RankNumber>{`${index+1}`}</RankNumber>
-    <StockName>{`${entry.name}`}</StockName>
-    <StockPrice>{`${entry.price}원`}</StockPrice>
-    <StockRate positive = {entry.rate >= 0 ? true : false}>
-    {entry.rate >= 0 ? <div><FontAwesomeIcon  icon={faCaretUp} size='1x'/>{`${entry.rate.toFixed(1)}%`}</div> : <div><FontAwesomeIcon  icon={faCaretDown} size='1x'/>{`${entry.rate}%`}</div>}
+    <StockName>{`${entry.stkNm}`}</StockName>
+    <StockPrice>{`${entry.sLast}원`}</StockPrice>
+    <StockRate positive = {entry.sChg >= 0 ? true : false}>
+    {entry.sChg >= 0 ? <div><FontAwesomeIcon  icon={faCaretUp} size='1x'/>{`${entry.sChg.toFixed(1)}%`}</div> : <div><FontAwesomeIcon  icon={faCaretDown} size='1x'/>{`${entry.sChg}%`}</div>}
     </StockRate>
   </Entry>
   );

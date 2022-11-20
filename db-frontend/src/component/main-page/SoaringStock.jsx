@@ -1,8 +1,9 @@
 import styled from "styled-components";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import { faChartLine, faClock, faCalendar} from "@fortawesome/free-solid-svg-icons";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import SoaringStockEntry from "./SoaringStockEntry";
+import Axios from "axios";
 
 const Header = styled.div`
   display:flex;
@@ -66,28 +67,16 @@ const SoaringStockList = styled.ul`
 
 function SoaringStock(){
   const[today] = useState(new Date(Date.now()));
-  const data = [
-  {
-    name: "주식2",
-    price: 50000,
-    rate : 5.0
-  },
-  {
-    name: "주식3",
-    price: 45000,
-    rate : 4.7
-  },
-  {
-    name: "주식5",
-    price: 40000,
-    rate : 4.0
-  },
-  {
-    name: "주식8",
-    price: 50000,
-    rate : 2.0
-  }
-  ];
+  const [data, setData] = useState([]);
+
+  useEffect(()=>{
+    Axios.get("/main/soaring")
+      .then((res) => {
+        setData(res.data);
+      }).catch((e) => {
+        console.error(e);
+      })
+  }, []);
 
   return(
     <>

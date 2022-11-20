@@ -49,15 +49,15 @@ const StockRate = styled.div`
 `;
 
 function StockPriceLeftEntry({entry, index}){
-  const number = entry.price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+  const number = entry.slast.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
 
   return(
   <Entry>
     <RankNumber>{`${index+1}`}</RankNumber>
-    <StockName>{`${entry.name}`}</StockName>
+    <StockName>{`${entry.stkNm}`}</StockName>
     <StockPrice>{`${number}원`}</StockPrice>
     <StockRate>
-      {`${entry.rate.toFixed(1)}명`}
+      {`${entry.cnt}명`}
     </StockRate>
   </Entry>
   );

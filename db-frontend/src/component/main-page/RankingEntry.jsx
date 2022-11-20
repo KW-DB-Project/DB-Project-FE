@@ -34,8 +34,8 @@ function RankingEntry({entry, index}){
   return(
   <Entry>
     <RankNumber>{`${index+1}`}</RankNumber>
-    <StockName>{`${entry.name}`}</StockName>
-    <StockPrice>{`${entry.price}원`}</StockPrice>
+    <StockName>{`${entry.stkNm}`}</StockName>
+    <StockPrice>{`${entry.slast}원`}</StockPrice>
   </Entry>
   );
 }

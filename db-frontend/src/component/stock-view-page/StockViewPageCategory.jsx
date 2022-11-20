@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import styled from "styled-components";
 import StockPriceEntry from "./StockPriceEntry";
 import StockPriceLeftEntry from "./StockPriceLeftEntry";
+import Axios from "axios";
 
 const Container = styled.div`
   display: flex;
@@ -56,83 +57,28 @@ const RankList = styled.ul`
 `;
 
 const Left = styled.span`
-  opacity: ${props => props.active ? '1.0' : '0.2'};
 `;
 
 const Right = styled.span`
-  opacity: ${props => props.active ? '1.0' : '0.2'};
 `;
 
 function StockViewPageCategory(){
-  const [match, setMatch] = useState("");
+  const [match, setMatch] = useState("건설업");
   const [leftActive, setLeftActive] = useState(false);
   const [rightActive, setRightActive] = useState(true);
   const [pageNum, setPageNum] = useState(0);
-  const menu = ["a","b","c","d",5,6,7,8,9,10,11,12,13,14,15,16,17];
-  const unit = [10000, 50000, 100000, 500000];
+  const menu = ["건설업", "농업", "제조업", "운송업", "금융업", "서비스업"];
+  const [data, setData] = useState([]);
 
-    const data = [
-      {
-        name: "주식2",
-        price: 50000,
-        rate : 5.0
-      },
-      {
-        name: "아주아주아주아주아주긴이름",
-        price: 45000,
-        rate : 4.7
-      },
-      {
-        name: "주식5",
-        price: 60000,
-        rate : 4.0
-      },
-      {
-        name: "주식8",
-        price: 50000,
-        rate : 2.0
-      },
-      {
-        name: "주식9",
-        price: 75000,
-        rate : 1.9
-      },
-      {
-        name: "주식2",
-        price: 150000,
-        rate : 5.0
-      },
-      {
-        name: "주식3",
-        price: 545000,
-        rate : 4.7
-      },
-      {
-        name: "주식5",
-        price: 140000,
-        rate : 4.0
-      },
-      {
-        name: "주식8",
-        price: 50000,
-        rate : 2.0
-      },
-      {
-        name: "주식9",
-        price: 35000,
-        rate : 1.9
-      },
-      {
-        name: "주식2",
-        price: 5000,
-        rate : 5.0
-      },
-      {
-        name: "주식3",
-        price: 1000,
-        rate : 4.7
-      },
-    ]
+  useEffect(()=>{
+    Axios.get("/stcok/sector")
+      .then((res)=>{
+        setData(res.data);
+      }).catch((e)=>{
+        console.error(e);
+      })
+  },[]);
+
   const onMenuClicked = (target)=> {
     if(match === target)
       return;
@@ -172,10 +118,6 @@ function StockViewPageCategory(){
       return;
   }
 
-  function compare(key){
-    return (a,b) => (a[key] < b[key] ? 1 : (a[key] > b[key] ? -1 : 0));
-  }
-
   return(
   <Container> 
     <SubNav>
@@ -195,7 +137,7 @@ function StockViewPageCategory(){
     </SubNav>
     <RankList>
       {
-       data.filter(entry => ( (entry.price <= match))).sort(compare('price')).map((entry, index) =>{
+       data.filter(entry => ( (entry.category === match))).map((entry, index) =>{
         return (
           <StockPriceLeftEntry 
             key = {index}

@@ -1,7 +1,8 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import styled from "styled-components";
 import StockPriceEntry from "./StockPriceEntry";
 import StockPriceLeftEntry from "./StockPriceLeftEntry";
+import Axios from "axios";
 
 const Container = styled.div`
   display: flex;
@@ -56,79 +57,23 @@ const RankList = styled.ul`
 function StockViewPageAge(){
   const [match, setMatch] = useState("20대");
   const menu = ["20대", "30대" , "40대", "50대"];
-  const data = [
-      {
-        name: "주식2",
-        price: 50000,
-        rate : 5.0
-      },
-      {
-        name: "아주아주아주아주아주긴이름",
-        price: 45000,
-        rate : 4.7
-      },
-      {
-        name: "주식5",
-        price: 60000,
-        rate : 4.0
-      },
-      {
-        name: "주식8",
-        price: 50000,
-        rate : 2.0
-      },
-      {
-        name: "주식9",
-        price: 75000,
-        rate : 1.9
-      },
-      {
-        name: "주식2",
-        price: 150000,
-        rate : 5.0
-      },
-      {
-        name: "주식3",
-        price: 545000,
-        rate : 4.7
-      },
-      {
-        name: "주식5",
-        price: 140000,
-        rate : 4.0
-      },
-      {
-        name: "주식8",
-        price: 50000,
-        rate : 2.0
-      },
-      {
-        name: "주식9",
-        price: 35000,
-        rate : 1.9
-      },
-      {
-        name: "주식2",
-        price: 5000,
-        rate : 5.0
-      },
-      {
-        name: "주식3",
-        price: 1000,
-        rate : 4.7
-      },
-  ]
+  const [data, setData] = useState([]);
+
+  useEffect(()=> {
+    Axios.get("/stcok/age")
+      .then((res)=>{
+        setData(res.data);
+      }).catch((e)=>{
+        console.error(e);
+      })
+  }, []);
+
   const onMenuClicked = (target)=> {
     if(match === target)
       return;
     else{
       setMatch(target);
     }
-  }
-
-
-  function compare(key){
-    return (a,b) => (a[key] < b[key] ? 1 : (a[key] > b[key] ? -1 : 0));
   }
 
   return(
@@ -148,7 +93,7 @@ function StockViewPageAge(){
     </SubNav>
     <RankList>
       {
-       data.filter(entry => ( (entry.price <= match))).sort(compare('price')).map((entry, index) =>{
+       data.filter(entry => ( (entry.ageGroup === match))).map((entry, index) =>{
         return (
           <StockPriceLeftEntry
             key = {index}

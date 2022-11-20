@@ -2,6 +2,8 @@ import styled from "styled-components";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faHeart} from "@fortawesome/free-solid-svg-icons";
 import RankingEntry from "./RankingEntry";
+import { useEffect, useState } from "react";
+import Axios from "axios";
 
 const Container = styled.div`
   span{
@@ -33,33 +35,16 @@ const Title = styled.div`
 `;
 
 function InterestStock(){
-  const data = [
-    {
-      name: "주식2",
-      price: 50000,
-      rate : 5.0
-    },
-    {
-      name: "주식3",
-      price: 45000,
-      rate : 4.7
-    },
-    {
-      name: "주식5",
-      price: 40000,
-      rate : 4.0
-    },
-    {
-      name: "주식8",
-      price: 50000,
-      rate : 2.0
-    },
-    {
-      name: "주식9",
-      price: 35000,
-      rate : 1.9
-    },
-    ];
+  const [data, setData] = useState([]);
+
+  useEffect(() => {
+    Axios.get("/main/interest")
+      .then((res) => {
+        setData(res.data);
+      }).catch((e)=>{
+        console.error(e);
+      })
+  }, []);
 
   return(
     <>
