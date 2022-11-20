@@ -110,10 +110,10 @@ function StockDebateView(){
 
   useEffect(() => {
     console.log(idx);
-    Axios.post("http://localhost:8000/v", {
-      idx: idx
+    Axios.post("/comuunity/print", {
+      stockName: stock
     }).then((res)=>{
-      setData(res.data[0]);
+      setData(res.data.filter(idx === data.idx)[0]);
     }).catch((e)=>{
       console.error(e);
     })
@@ -129,18 +129,18 @@ function StockDebateView(){
         <Title>asd</Title>
         <BoardDescription>
           <FirstRow>
-            <span>{`${data?.STOCK_STK_CD} | `}</span>
-            <span>{`${data?.CREATE_DATE.split('T')[0]} | `}</span>
-            <span>{`${data?.USER_ID}`}</span>
+            <span>{`${stock} | `}</span>
+            <span>{`${data?.createDate.split('T')[0]} | `}</span>
+            <span>{`${data?.userId}`}</span>
           </FirstRow>
           <SecondRow>
-            <span>{`좋아요 : ${data?.B_LIKE}`}</span>
+            <span>{`좋아요 : ${data?.blike}`}</span>
           </SecondRow>
         </BoardDescription>
       </Header>
       <ContentWrapper> 
         <Content>
-          {data?.CONTENT}
+          {data?.content}
         </Content>
         <LikeButton>
           <span><FontAwesomeIcon icon={faHeart} size='2x'/></span>

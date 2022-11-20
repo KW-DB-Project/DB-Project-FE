@@ -1,6 +1,9 @@
 import { useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import styled from "styled-components";
+import Axios from "axios";
+import { useRecoilValue } from "recoil";
+import { isLoginedAtom } from "../atom/loginAtom";
 
 const MainBox = styled.div`
   width: 980px;
@@ -90,17 +93,16 @@ const Content = styled.textarea`
 `;
 
 function StockDebateWrite(){
+  const login = useRecoilValue(isLoginedAtom);
   const navigate = useNavigate();
   const {stock} = useParams();
   const [inputs, setInputs] = useState({
-    userName: '',
-    stockCode: '',
+    id: login.id,
+    stockName: stock,
     title: '',
-    content: '',
-    createDate: '',
-    like: 0,
+    content: ''
   })
-  const {userName, stockCode, title, content, createDate, like} = inputs;
+  const {id, stockName, title, content} = inputs;
   
   const onChangeInput = (e) => {
     const {name, value} = e.target;
@@ -119,6 +121,22 @@ function StockDebateWrite(){
       alert("내용, 제목은 필수로 입력해주셔야 합니다.");
       console.log(content);
       return;
+    }else{
+      Axios.post("/community/write", {
+        id : id,
+        stockName: stockName,
+        title : title,
+        content: content
+      }).then((res)=>{
+        if(res.data.isSuccess){
+          alert("성공")
+          navigate(-1);
+        }
+        else  
+          alert("실패")
+      }).catch((e)=>{
+        console.error(e);
+      })
     }
   }
 
