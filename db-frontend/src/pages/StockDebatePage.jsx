@@ -92,7 +92,9 @@ function StockDebatePage(){
   console.log(stock);
 
   useEffect(() => {
-    Axios.get("http://localhost:8000/list")
+    Axios.post("/community/print", {
+      stockName : stock
+    })
     .then((res) => {
       setBoards(res.data);
     })
@@ -101,19 +103,7 @@ function StockDebatePage(){
     })
   },[]);
 
-  useEffect(() => {
-    Axios.get("http://localhost:8000/stocks")
-    .then((res) => {
-      setStocks(res.data);
-    })
-    .catch((e) => {
-      console.error(e);
-    })
-  },[]);
-
   console.log(stocks);
-
-
   return(<Box>
     <Board>
     <Header>
@@ -122,12 +112,12 @@ function StockDebatePage(){
     </Header>
     {
       boards.map((item) => {
-        return (<BoardEntry key = {item.IDX}>
-          <Index>{item.IDX}</Index>
-          <Title to = {`/debate/${stock}/${item.IDX}`}>{item.TITLE}</Title>
-          <Like><span><FontAwesomeIcon icon={faHeart} size='2x'/></span>{item.B_LIKE}</Like>
-          <Name>{item.USER_ID}</Name>
-          <Cdate>{item.CREATE_DATE.split('T')[0]}</Cdate>
+        return (<BoardEntry key = {item.idx}>
+          <Index>{item.idx}</Index>
+          <Title to = {`/debate/${stock}/${item.idx}`}>{item.title}</Title>
+          <Like><span><FontAwesomeIcon icon={faHeart} size='2x'/></span>{item.blike}</Like>
+          <Name>{item.userId}</Name>
+          <Cdate>{item.createDate.split('T')[0]}</Cdate>
           </BoardEntry>);
       })
     }
