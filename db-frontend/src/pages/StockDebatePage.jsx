@@ -4,6 +4,8 @@ import Axios from "axios";
 import { Link, useParams } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faHeart } from "@fortawesome/free-solid-svg-icons";
+import { useRecoilValue } from "recoil";
+import { isLoginedAtom } from "../atom/loginAtom";
 
 const Box = styled.div`
   padding-top: 200px;
@@ -88,8 +90,7 @@ function StockDebatePage(){
   const [boards, setBoards] = useState([]);
   const [stocks, setStocks] = useState();
   const {stock} = useParams();
-
-  console.log(stock);
+  const login = useRecoilValue(isLoginedAtom);
 
   useEffect(() => {
     Axios.post("/community/print", {
@@ -108,7 +109,7 @@ function StockDebatePage(){
     <Board>
     <Header>
       <h2>{`${stock} 토론방`}</h2>
-      <WriteButton to = {`/debate/${stock}/write`}>글쓰기</WriteButton>
+      <WriteButton to = {login.isLogined?`/debate/${stock}/write` : `/login`}>글쓰기</WriteButton>
     </Header>
     {
       boards.map((item) => {

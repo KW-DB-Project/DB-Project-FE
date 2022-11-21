@@ -5,6 +5,8 @@ import { useParams } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import Axios from "axios";
+import { useRecoilValue } from "recoil";
+import { isLoginedAtom } from "../atom/loginAtom";
 
 
 const MainBox = styled.div`
@@ -95,6 +97,7 @@ const LikeButton = styled.button`
   span{
     opacity: 0.5;
   }
+  cursor: pointer;
 `;
 
 function StockDebateView(){
@@ -102,11 +105,30 @@ function StockDebateView(){
   const {idx} = useParams();
   const {stock} = useParams();
   const navigate = useNavigate();
+  const login = useRecoilValue(isLoginedAtom);
   //useEffect();
 
   const onClickExit = () =>{
     navigate(`/debate/${stock}`);
   }
+
+  const onClickLike = (e) => {
+    const {name} = e.target;
+    if(login.isLogined){
+      Axios.post("community/like" , {
+        idx : idx
+      }).then((res)=> {
+        setData({
+          ...data,
+          [name] : res.data.likeCount
+        });
+      }).catch((e)=>{
+        console.error(e);
+      })
+    }else{
+      navigate("/login");
+    }
+  };
 
   useEffect(() => {
     Axios.post("/community/print", {
@@ -141,7 +163,7 @@ function StockDebateView(){
         <Content>
           {data?.content}
         </Content>
-        <LikeButton>
+        <LikeButton onClick={onClickLike} name ="blike">
           <span><FontAwesomeIcon icon={faHeart} size='2x'/></span>
         </LikeButton>
       </ContentWrapper>

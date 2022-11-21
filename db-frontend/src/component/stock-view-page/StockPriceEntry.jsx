@@ -58,7 +58,7 @@ function StockPriceEntry({entry, index}){
     <StockPrice>{`${number}원`}</StockPrice>
     <StockRate isPositive = {data >= 0 ? true : false}>
       <div><FontAwesomeIcon icon={data >= 0 ? faCaretUp : faCaretDown} size='1x'/></div>
-      {`${entry.schg?entry.schg.toFixed(3):entry.svol}%`}
+      {entry.schg?`${entry.schg.toFixed(3)}%` :`${entry.svol}개`}
     </StockRate>
   </Entry>
   );
