@@ -1,6 +1,8 @@
-import { Link, Route, Routes } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { Link, Route, Routes,useParams} from "react-router-dom";
 import styled from "styled-components";
 import StockEnterprise from "./StcokEnterprise";
+import Axios from "axios";
 
 const MainBox = styled.div`
   width: 1080px;
@@ -89,7 +91,7 @@ const Header = styled.div`
 `;
 
 const List = styled(Header)`
-  border-bottom: 1px solid rgba(0,0,0,0.2);
+  border-bottom: ${props => !props.clicked ? "1px solid rgba(0,0,0,0.2)" : "none"};
   ${Name}{
     h5{
       font-size:25px;
@@ -109,27 +111,41 @@ const List = styled(Header)`
     font-weight: 500;
   }
   ${Change}{
+    width: 70px;
     font-size: 17px;
     color: white;
     padding: 8px;
-    background-color: ${(props) => props.isPositive ? props.theme.upColor : props.theme.downColor};
+    background-color: ${props => props.isPositive ? props.theme.upColor : props.theme.downColor};
     border-radius: 5px;
   }
   align-items: center;
+  margin-bottom: 5px;
+`;
+
+const Entry = styled.div`
+  padding-bottom: 20px;
 `;
 
 
 function StockEnterpriseList(){
+  const {code} = useParams();
+  const [data, setData] = useState([]);
   const numberTransform = (number) => {
     return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
   };
 
+  useEffect(()=>{
+    Axios.get("/enterpriseInfo")
+      .then((res)=>{
+        setData(res.data);
+      }).catch((e) => {
+        console.error(e);
+      })
+  }, []);
+
   return(
   <MainBox>
     <Box>
-      <Routes>
-       <Route path = ":code" element={<StockEnterprise/>}></Route>
-      </Routes>
       <Header>
         <Name as = "div">기업명</Name>
         <Last>종가</Last>
@@ -139,18 +155,27 @@ function StockEnterpriseList(){
         <Change>등락률</Change>
         <Volume>거래량</Volume>
       </Header>
-      <List>
-          <Name to = {`/enterprise/삼성전자`}>
-            <h5>삼성전자</h5>
-            <span>005930</span>
-          </Name>
-          <Price>{numberTransform(60900)}</Price>
-          <Price>60,900</Price>
-          <Price>60,900</Price>
-          <Price>60,900</Price>
-          <Change isPositive = {true}>{`${-1.46}%`}</Change>
-          <Volume>{numberTransform(6796468)}</Volume>
-      </List>
+      {data.map((entry) => {
+        return (
+          <Entry key = {entry.enterpriseAndStockQuoteDto.stockStkCd} clicked = {code === entry.enterpriseAndStockQuoteDto.stockStkCd}>
+            <List isPositive = {entry.enterpriseAndStockQuoteDto.schg >= 0 ? true: false} clicked = {code === entry.enterpriseAndStockQuoteDto.stockStkCd}>
+              <Name to = {code===entry.enterpriseAndStockQuoteDto.stockStkCd ? `/enterprise` : `/enterprise/${entry.enterpriseAndStockQuoteDto.stockStkCd}`}>
+                <h5>{entry.enterpriseAndStockQuoteDto.entNm}</h5>
+                <span>{entry.enterpriseAndStockQuoteDto.stockStkCd}</span>
+              </Name>
+              <Price>{numberTransform(entry.enterpriseAndStockQuoteDto.slast)}</Price>
+              <Price>{numberTransform(entry.enterpriseAndStockQuoteDto.sopen)}</Price>
+              <Price>{numberTransform(entry.enterpriseAndStockQuoteDto.shigh)}</Price>
+              <Price>{numberTransform(entry.enterpriseAndStockQuoteDto.slow)}</Price>
+              <Change>{`${entry.enterpriseAndStockQuoteDto.schg}%`}</Change>
+              <Volume>{numberTransform(entry.enterpriseAndStockQuoteDto.svol)}</Volume>
+           </List> 
+        <Routes>
+          <Route path = ":code" element={<StockEnterprise data = {entry}/>}></Route>
+        </Routes>
+      </Entry>
+        );
+      })}
     </Box>
   </MainBox>);
 }
