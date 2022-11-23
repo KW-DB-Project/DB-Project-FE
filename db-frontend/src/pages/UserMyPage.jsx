@@ -7,14 +7,8 @@ import LikeStock from '../component/user-my-page/LikeStock';
 import MyBoard from '../component/user-my-page/MyBoard';
 import MyStock from '../component/user-my-page/MyStock';
 
-
-function UserMyPage(){
-  const login = useRecoilValue(isLoginedAtom);
-
-
-  return(
-  <div className='UserMyPage'>
-   { login.isLogined ?
+/*
+{ login.isLogined ?
    <MyPage>
     <UserInfo>{login.username} {login.age}</UserInfo>
     <Container>
@@ -30,6 +24,27 @@ function UserMyPage(){
     </MyPage> :
     <Login />
     }
+*/
+
+function UserMyPage(){
+  const login = useRecoilValue(isLoginedAtom);
+
+
+  return(
+  <div className='UserMyPage'>
+   <MyPage>
+    <UserInfo>{login.username} {login.age}</UserInfo>
+    <Container>
+      <Box>
+      <MyBalance></MyBalance>
+      <MyStock id={login.id}></MyStock>
+      </Box>
+      <Box>
+      <LikeStock></LikeStock>
+      <MyBoard></MyBoard>
+      </Box>
+    </Container>
+    </MyPage>
   </div>
   );
 }

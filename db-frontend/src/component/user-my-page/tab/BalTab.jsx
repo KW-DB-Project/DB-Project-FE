@@ -1,10 +1,10 @@
 import styled from "styled-components";
 
-function BalTab () {
+function BalTab (props) {
 
     return(
         <div>
-        <LittleTitle>10000000000원</LittleTitle>
+        <LittleTitle>{props.bal}원</LittleTitle>
         </div>
     );
 }

@@ -2,6 +2,22 @@ import styled from "styled-components";
 
 function MyBoard () {
     
+    const printStock = () => {
+
+        const result = [];
+
+        for(var i =0 ; i <10 ; i++){
+        result.push(
+            <GrayMargin>
+            <GrayLayout>
+                <LittleTitle>글제목</LittleTitle><RightLayout><LittleTitle>날짜</LittleTitle></RightLayout>
+            </GrayLayout>
+            </GrayMargin>
+        )
+        }
+        return result;
+    }
+
     return(
 <div className="likeStockPage">
 <StyledLayout>
@@ -9,11 +25,7 @@ function MyBoard () {
         <Title>내가 쓴 글</Title><RightLayout></RightLayout>
     </Box>
     <ScrBox>
-    <GrayMargin>
-        <GrayLayout>
-            <LittleTitle>글제목</LittleTitle><RightLayout><LittleTitle>날짜</LittleTitle></RightLayout>
-        </GrayLayout>
-    </GrayMargin>
+    {printStock()}
     </ScrBox>
     <div style={{marginBottom:'20px'}}/>
 </StyledLayout>
