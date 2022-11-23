@@ -48,7 +48,7 @@ const [userSnum,setUserSnum]=useState(0); //사용자의 보유 주식 수
           console.log(res.data);
           setUserBal(res.data.balance);
 
-          if(res.data.balance > 0){
+          if(userBal > (s_price*amount)){
 
             //구매
             axios
@@ -65,6 +65,9 @@ const [userSnum,setUserSnum]=useState(0); //사용자의 보유 주식 수
               console.log(err);
             });
 
+          }
+          else{
+            alert('잔액이 부족합니다.');
           }
         })
         .catch((err) => {
@@ -84,12 +87,12 @@ const [userSnum,setUserSnum]=useState(0); //사용자의 보유 주식 수
         .then((res) => {
           console.log(res.data);
           setUserSnum(res.data.num);
-
-          if(res.data.balance > 0){
-
-            //구매
+          
+          if(userSnum >= amount){ 
+          
+            //판매
             axios
-            .post('/trade/buy',{
+            .post('/trade/sell',{
               id:login.id,
               cd:s_cd,
               price:s_price,
@@ -101,8 +104,11 @@ const [userSnum,setUserSnum]=useState(0); //사용자의 보유 주식 수
             .catch((err) => {
               console.log(err);
             });
-
           }
+          else{
+            alert('판매 주식 수가 보유 주식 수 보다 많습니다.');
+          }
+          
         })
         .catch((err) => {
           console.log(err);
