@@ -101,7 +101,7 @@ const LikeButton = styled.button`
 `;
 
 function StockDebateView(){
-  const [data, setData] = useState(null);
+  const [data, setData] = useState([]);
   const {idx} = useParams();
   const {stock} = useParams();
   const navigate = useNavigate();

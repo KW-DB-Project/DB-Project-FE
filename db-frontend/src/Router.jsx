@@ -23,8 +23,8 @@ const Router = () => {
         <Route path = '/stocktrading' element={<StockTradingPage/>}></Route>
         <Route path = '/stockview' element={<StockViewPage/>}></Route>
         <Route path = '/usermy' element={<UserMyPage/>}></Route>
-        <Route path = "/enterprise" element={<StockEnterpriseList/>}>
-          <Route path = ":code" element={<StockEnterprise/>}></Route>
+        <Route path = "/enterprise/*" element={<StockEnterpriseList/>}>
+        <Route path = ":code" element={<StockEnterprise/>}></Route>
         </Route>
       </Routes>
   );
