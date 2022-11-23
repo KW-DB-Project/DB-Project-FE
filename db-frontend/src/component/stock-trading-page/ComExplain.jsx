@@ -3,23 +3,26 @@ import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 import { faHeart} from '@fortawesome/free-solid-svg-icons';
 import { Line } from 'react-chartjs-2'
 import { useState } from "react";
+import axios from 'axios';
 
-const tenMinutes = 600000;
-const date = new Date('2010/07/24/00:00');
-const timestamp = date.getTime();
+import {useRecoilValue} from "recoil";
+import { isLoginedAtom } from '../../atom/loginAtom'
 
-function ComExplain(){
+function ComExplain(props){
+    const login = useRecoilValue(isLoginedAtom);    
+
+    const {s_name,cd,slow,sopen,slast,shigh,schg,svol,lastPriceDto} = props.stockInfo;
 
     const datas = [];
-    const [price,setPrice] = useState(0);
     const [clicked,setClicked]= useState('false');
+    
+    console.log(lastPriceDto);
+           
 
-  for(let i=0; i<=36; i++){
-    const v = new Date(timestamp + tenMinutes * i);
-
+  for(let i=0; i<lastPriceDto.length; i++){
     datas.push({
-      x : `${v.getHours() >= 10 ? v.getHours() : '0'+v.getHours()}:${v.getMinutes() >= 10 ? v.getMinutes() : '0'+v.getMinutes()}`,
-      y : Math.floor(Math.random() * 100),
+      x : lastPriceDto[i].day,
+      y : lastPriceDto[i].slast,
     })
   }
 
@@ -62,18 +65,32 @@ function ComExplain(){
     ]
   };
 
+  //관심 클릭 이벤트
   const onClick = () => {
         if(clicked){
-            setClicked(false);
-            console.log(clicked);
+          console.log(clicked);  
+          setClicked(false);
         }
         else if(clicked === false){
-            setClicked(true);
-            console.log(clicked);
+          console.log(clicked);  
+          setClicked(true);    
         }
         else{
             console.log('clicked value 변경불가');
         }
+
+        axios
+        .post('/trade/interest', {
+          id:login.id, //아이디
+          cd:1, // 주식코드
+          heart:!(clicked) // 타입
+        })
+        .then((res) => {
+          console.log(res.data);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
         
         return;
   }
@@ -83,11 +100,11 @@ function ComExplain(){
         <StyledLayout>
             <Box>
             <StyledFontawsome className={clicked ? 'clicked' : 'unclicked'} onClick={onClick} icon={faHeart} />
-            <Title style={{fontWeight:'bold'}}>기업명</Title>
+            <Title style={{fontWeight:'bold'}}>{s_name}</Title>
             <RightLayout><ComEx>ㅐㅐㅐㅐㅐㅐㅐㅐㅐㅐㅐㅐㅐㅐㅐㅐㅐㅐㅐㅐㅐㅐㅐㅐㅐㅐㅐㅐㅐㅐㅐㅐㅐㅐㅐㅐㅐㅐㅐㅐㅐㅐㅐㅐㅐㅐㅐㅐㅐㅐㅐㅐㅐㅐㅐㅐㅐㅐㅐㅐㅐㅐㅐㅐㅐ</ComEx></RightLayout>
             </Box>
             <Box>
-                <Title>{price}원</Title><RightLayout>5.0%</RightLayout>
+                <Title>{slast}원</Title><RightLayout>{schg < 0 ? <DownSchg>▼&nbsp;{-schg}%</DownSchg> : <UpSchg>▲&nbsp;{schg}%</UpSchg>}</RightLayout>
             </Box>
             <Box>
                 <Line type="line" data={data} options={options} ></Line>
@@ -96,13 +113,13 @@ function ComExplain(){
                 <Title style={{fontWeight:'bold'}}>투자정보</Title>
             </Box>
             <Box>
-                <Title>상한가</Title><RightLayout style={{color:'rgb(252,190,190)'}}>상한가 원</RightLayout>
+                <Title>상한가</Title><RightLayout style={{color:'rgb(252,190,190)'}}>{shigh} 원</RightLayout>
             </Box>
             <Box>
-                <Title>하한가</Title><RightLayout style={{color:'rgb(190,222,252)'}}>하한가 원</RightLayout>
+                <Title>하한가</Title><RightLayout style={{color:'rgb(190,222,252)'}}>{slow} 원</RightLayout>
             </Box>
             <Box>
-                <Title>거래량</Title><RightLayout>거래량</RightLayout>
+                <Title>거래량</Title><RightLayout>{svol}</RightLayout>
             </Box>
       </StyledLayout>
       </div>
@@ -110,6 +127,16 @@ function ComExplain(){
 }
 
 export default ComExplain;
+
+//상승
+const UpSchg = styled.div`
+color:rgb(252,190,190);
+`;
+
+//하락
+const DownSchg = styled.div`
+color:rgb(190,222,252);
+`;
 
 //스타일 레이아웃
 const StyledLayout = styled.div`
