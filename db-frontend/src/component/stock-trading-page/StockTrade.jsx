@@ -1,46 +1,123 @@
 import { useState } from "react";
 import styled from "styled-components";
+import axios from 'axios';
 
-function StockTrade (){
+import {useRecoilValue} from "recoil";
+import { isLoginedAtom } from '../../atom/loginAtom'
+
+function StockTrade ({s_cd,s_price}){
+const login = useRecoilValue(isLoginedAtom);
 
 const [amount,setAmount]=useState('1');
 const [selectedType,setSelectedType]=useState('매수');
+const [userBal,setUserBal]=useState(0); // 사용자의 잔액
+const [userSnum,setUserSnum]=useState(0); //사용자의 보유 주식 수
 
+
+  //인풋 이벤트
   const onChange = (e) => {
     setAmount(e.target.value);
   };
 
-    const BuyClick = () => {
+  //매수 버튼 이벤트 함수
+  const BuyClick = () => {
        
-      //  console.log(type);
         setSelectedType('매수');
         console.log(selectedType);
-       // navigate('/stocktrading/buy');
-    }
-  
-    const SellClick = () => {
-     
-    //  console.log(type);
+  }
+  //매도 버튼 이벤트 함수
+  const SellClick = () => {
       setSelectedType('매도');
       console.log(selectedType);
-    //  navigate('/stocktrading/sell');
   }
 
+  //주문 버튼 이벤트
   const Trade = () => {
+
+    if(login.isLoginedAtom){
 
     if(selectedType === '매수'){
         alert('매수: '+amount+'주');
-    }
+        
+        //잔액 확인
+        axios
+        .post('/trade/balance', {
+          id:login.id, //아이디
+        })
+        .then((res) => {
+          console.log(res.data);
+          setUserBal(res.data.balance);
+
+          if(res.data.balance > 0){
+
+            //구매
+            axios
+            .post('/trade/buy',{
+              id:login.id,
+              cd:s_cd,
+              price:s_price,
+              num:amount
+            })
+            .then((res) => {
+              console.log(res.data);
+            })
+            .catch((err) => {
+              console.log(err);
+            });
+
+          }
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    
+      }
     else if(selectedType === '매도'){
         alert('매도: '+amount+'주');
+
+        //잔액 확인
+        axios
+        .post('/trade/num', {
+          id:login.id, //아이디
+          cd:s_cd
+        })
+        .then((res) => {
+          console.log(res.data);
+          setUserSnum(res.data.num);
+
+          if(res.data.balance > 0){
+
+            //구매
+            axios
+            .post('/trade/buy',{
+              id:login.id,
+              cd:s_cd,
+              price:s_price,
+              num:amount
+            })
+            .then((res) => {
+              console.log(res.data);
+            })
+            .catch((err) => {
+              console.log(err);
+            });
+
+          }
+        })
+        .catch((err) => {
+          console.log(err);
+        });
     }
     else{
         alert('매수, 매도 알수없음');
     }
 
   }
+  else{
+    alert('로그인 후 이용해주십시오.');
+  }
 
-
+  }
 
   return(
    <StockTradeCom className="StockTradeComponent">
@@ -52,7 +129,7 @@ const [selectedType,setSelectedType]=useState('매수');
         <Box>
         <TitleLayout><Title>주문수량</Title></TitleLayout>
         <InputLayout>
-          <StyledInput type="text" onChange={onChange} name="amount" value={amount}></StyledInput><Title style={{marginRight:'15px'}}>주</Title>
+          <StyledInput type="number" onChange={onChange} name="amount" value={amount}></StyledInput><Title style={{marginRight:'15px'}}>주</Title>
         </InputLayout>
         </Box>
         <Box>
