@@ -8,18 +8,25 @@ import axios from 'axios';
 import {useRecoilValue} from "recoil";
 import { isLoginedAtom } from '../../atom/loginAtom'
 
-function ComExplain(props){
+const tenMinutes = 600000;
+const date = new Date('2010/07/24/00:00');
+const timestamp = date.getTime();
+
+function ComExplain({name,stockPriceDto,lastPriceDto}){
     const login = useRecoilValue(isLoginedAtom);    
 
-    const stockInfo = props.stockInfo;
+    const {stkCd,slow,svol,schg,shigh,slast,sopen}=stockPriceDto;
 
     const datas = [];
     const [clicked,setClicked]= useState('false');
 
-  for(let i=1; i<=stockInfo.lastPriceDto.length; i++){
+  for(let i=1; i<=lastPriceDto.length; i++){
+
+    const v = new Date(timestamp + tenMinutes * i);
+
     datas.push({
-      x : stockInfo.lastPriceDto[i].day,
-      y : stockInfo.lastPriceDto[i].slast,
+      x : `${v.getHours() >= 10 ? v.getHours() : '0'+v.getHours()}:${v.getMinutes() >= 10 ? v.getMinutes() : '0'+v.getMinutes()}`,
+      y : lastPriceDto[i].slast,
     })
   }
 
@@ -79,7 +86,7 @@ function ComExplain(props){
         axios
         .post('/trade/interest', {
           id:login.id, //아이디
-          cd:stockInfo.stockPriceDto.stkCd, // 주식코드
+          cd:stkCd, // 주식코드
           heart:!(clicked) // 타입
         })
         .then((res) => {
@@ -97,11 +104,11 @@ function ComExplain(props){
         <StyledLayout>
             <Box>
             <StyledFontawsome className={clicked ? 'clicked' : 'unclicked'} onClick={onClick} icon={faHeart} />
-            <Title style={{fontWeight:'bold'}}>삼성전자</Title>
+            <Title style={{fontWeight:'bold'}}>{name}</Title>
             <RightLayout><ComEx>ㅐㅐㅐㅐㅐㅐㅐㅐㅐㅐㅐㅐㅐㅐㅐㅐㅐㅐㅐㅐㅐㅐㅐㅐㅐㅐㅐㅐㅐㅐㅐㅐㅐㅐㅐㅐㅐㅐㅐㅐㅐㅐㅐㅐㅐㅐㅐㅐㅐㅐㅐㅐㅐㅐㅐㅐㅐㅐㅐㅐㅐㅐㅐㅐㅐ</ComEx></RightLayout>
             </Box>
             <Box>
-                <Title>{stockInfo.stockPriceDto.slast}원</Title><RightLayout>{stockInfo.stockPriceDto.schg < 0 ? <DownSchg>▼&nbsp;{-stockInfo.stockPriceDto.schg}%</DownSchg> : <UpSchg>▲&nbsp;{stockInfo.stockPriceDto.schg}%</UpSchg>}</RightLayout>
+                <Title>{slast}원</Title><RightLayout>{schg < 0 ? <DownSchg>▼&nbsp;{-schg}%</DownSchg> : <UpSchg>▲&nbsp;{schg}%</UpSchg>}</RightLayout>
             </Box>
             <Box>
                 <Line type="line" data={data} options={options} ></Line>
@@ -110,13 +117,13 @@ function ComExplain(props){
                 <Title style={{fontWeight:'bold'}}>투자정보</Title>
             </Box>
             <Box>
-                <Title>상한가</Title><RightLayout style={{color:'rgb(252,190,190)'}}>{stockInfo.stockPriceDto.shigh} 원</RightLayout>
+                <Title>상한가</Title><RightLayout style={{color:'rgb(252,190,190)'}}>{shigh} 원</RightLayout>
             </Box>
             <Box>
-                <Title>하한가</Title><RightLayout style={{color:'rgb(190,222,252)'}}>{stockInfo.stockPriceDto.slow} 원</RightLayout>
+                <Title>하한가</Title><RightLayout style={{color:'rgb(190,222,252)'}}>{slow} 원</RightLayout>
             </Box>
             <Box>
-                <Title>거래량</Title><RightLayout>{stockInfo.stockPriceDto.svol}</RightLayout>
+                <Title>거래량</Title><RightLayout>{svol}</RightLayout>
             </Box>
       </StyledLayout>
       </div>

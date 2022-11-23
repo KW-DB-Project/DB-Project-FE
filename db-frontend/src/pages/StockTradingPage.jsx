@@ -16,25 +16,38 @@ function StockTradingPage(){
   const login = useRecoilValue(isLoginedAtom);
 
   const [wrSearch,setwrSearch]=useState('');
-  const datas =[];
+  const [sname,setSname]=useState('삼성전자');
 
   const onChange = (e) => {
     setwrSearch(e.target.value);
   };
 
-  const [stockInfo, setStockInfo] = useState([]);
+  const [stockInfo,setStockInfo] = useState({stkCd:'',slow:'',svol:'',schg:'',shigh:'',slast:'',sopen:''});
+  const [lastPrice, setLastPrice] = useState([{}]);
 
  // const tradeVal =  {cd:stockInfo.stockPriceDto.stkCd,price:stockInfo.stockPriceDto.slast};
 
   useEffect(() =>{  
+
     axios
     .get(`/trade/search?name=${encodeURIComponent('삼성전자')}`, {
       id:login.id
     })
     .then((res) => {
       console.log(res.data);
-      res.data= datas;
-      setStockInfo(stockInfo);
+  
+     setStockInfo({
+      stkCd:res.data.stockPriceDto.stkCd,
+      slow:res.data.stockPriceDto.slow,
+      svol:res.data.stockPriceDto.svol,
+      schg:res.data.stockPriceDto.schg,
+      shigh:res.data.stockPriceDto.shigh,
+      slast:res.data.stockPriceDto.slast,
+      sopen:res.data.stockPriceDto.sopen
+    });
+    
+    setLastPrice(res.data.lastPriceDto); 
+
     })
     .catch((err) => {
       console.log(err);
@@ -43,13 +56,23 @@ function StockTradingPage(){
   const searchStock = (stockname) => {
 
     axios
-    .get(`/trade/search?name=${encodeURIComponent(stockname)}`, {
+    .get(`/trade/search?name=${encodeURIComponent('삼성전자')}`, {
       id:login.id
     })
     .then((res) => {
       console.log(res.data);
-      setStockInfo(res.data);
-      console.log(res.data);
+  
+      setStockInfo({
+       stkCd:res.data.stockPriceDto.stkCd,
+       slow:res.data.stockPriceDto.slow,
+       svol:res.data.stockPriceDto.svol,
+       schg:res.data.stockPriceDto.schg,
+       shigh:res.data.stockPriceDto.shigh,
+       slast:res.data.stockPriceDto.slast,
+       sopen:res.data.stockPriceDto.sopen
+     });
+     
+     setLastPrice(res.data.lastPriceDto); 
     })
     .catch((err) => {
       console.log(err);
@@ -64,6 +87,7 @@ function StockTradingPage(){
       else{
       alert(wrSearch);
       searchStock(wrSearch);
+      setSname(wrSearch);
       setwrSearch('');
       }
   }
@@ -76,7 +100,7 @@ function StockTradingPage(){
         <StyledInput type="text" value={wrSearch} onChange={onChange} />
         <StyledFontawsome icon={faMagnifyingGlass} onClick={SearchOnClick}/> 
       </StyledSearchLayout>
-      <ComExplain stockInfo={stockInfo} />
+      <ComExplain name={sname} stockPriceDto={stockInfo} lastPriceDto={lastPrice}/>
       </Box>
       <Box>
         <DebateBtn />
