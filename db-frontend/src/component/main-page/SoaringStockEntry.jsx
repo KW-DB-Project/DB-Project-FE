@@ -47,11 +47,15 @@ const StockRate = styled.div`
 `;
 
 function SoaringStockEntry({entry, index}){
+  const transNumber = (num) => {
+    return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+  }
+
   return(
   <Entry>
     <RankNumber>{`${index+1}`}</RankNumber>
     <StockName>{`${entry.stkNm}`}</StockName>
-    <StockPrice>{`${entry.slast}원`}</StockPrice>
+    <StockPrice>{`${transNumber(entry.slast)}원`}</StockPrice>
     <StockRate positive = {entry.schg >= 0 ? true : false}>
     {entry.schg >= 0 ? <div><FontAwesomeIcon  icon={faCaretUp} size='1x'/>{`${entry.schg.toFixed(4)}%`}</div> : <div><FontAwesomeIcon  icon={faCaretDown} size='1x'/>{`${entry.schg.toFixed(4)}%`}</div>}
     </StockRate>

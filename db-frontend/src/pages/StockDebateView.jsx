@@ -88,6 +88,10 @@ const ExitButton = styled.button`
 `;
 
 const LikeButton = styled.button`
+  display:flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
   width: 70px;
   height: 70px;
   border-radius: 50%;
@@ -134,6 +138,7 @@ function StockDebateView(){
     Axios.post("/community/print", {
       stockName: stock
     }).then((res)=>{
+      console.log(res);
       setData(res.data.filter((item) => {
         return (idx === item.idx.toString());
       })[0]);
@@ -151,7 +156,7 @@ function StockDebateView(){
         <BoardDescription>
           <FirstRow>
             <span>{`${stock} | `}</span>
-            <span>{`${data?.createDate.split('T')[0]} | `}</span>
+            <span>{`${data?.createDate?.split('T')[0]} | `}</span>
             <span>{`${data?.userId}`}</span>
           </FirstRow>
           <SecondRow>
@@ -165,6 +170,7 @@ function StockDebateView(){
         </Content>
         <LikeButton onClick={onClickLike} name ="blike">
           <span><FontAwesomeIcon icon={faHeart} size='2x'/></span>
+          <span>{data?.blike}</span>
         </LikeButton>
       </ContentWrapper>
     </Box>

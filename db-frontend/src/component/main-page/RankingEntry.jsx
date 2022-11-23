@@ -31,11 +31,14 @@ const StockPrice = styled.div`
 `;
 
 function RankingEntry({entry, index}){
+  const transNumber = (num) => {
+    return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+  }
   return(
   <Entry>
     <RankNumber>{`${index+1}`}</RankNumber>
     <StockName>{`${entry.stkNm}`}</StockName>
-    <StockPrice>{`${entry.slast}원`}</StockPrice>
+    <StockPrice>{`${transNumber(entry.slast)}원`}</StockPrice>
   </Entry>
   );
 }

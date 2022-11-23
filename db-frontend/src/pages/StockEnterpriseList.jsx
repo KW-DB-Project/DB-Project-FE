@@ -167,7 +167,7 @@ function StockEnterpriseList(){
               <Price>{numberTransform(entry.enterpriseAndStockQuoteDto.sopen)}</Price>
               <Price>{numberTransform(entry.enterpriseAndStockQuoteDto.shigh)}</Price>
               <Price>{numberTransform(entry.enterpriseAndStockQuoteDto.slow)}</Price>
-              <Change>{`${entry.enterpriseAndStockQuoteDto.schg}%`}</Change>
+              <Change>{`${entry.enterpriseAndStockQuoteDto.schg.toFixed(3)}%`}</Change>
               <Volume>{numberTransform(entry.enterpriseAndStockQuoteDto.svol)}</Volume>
            </List> 
         <Routes>

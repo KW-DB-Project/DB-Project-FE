@@ -68,8 +68,9 @@ const HolderList = styled.div``;
 const Header = styled.div`
   display:grid;
   width: 100%;
-  grid-template-columns : 1fr 1fr 1fr;
+  grid-template-columns : 1.5fr 1fr 1fr;
   justify-items: center;
+  align-items: center;
   padding-bottom: 5px;
   margin-bottom: 5px;
   border-bottom: 2px solid black;
