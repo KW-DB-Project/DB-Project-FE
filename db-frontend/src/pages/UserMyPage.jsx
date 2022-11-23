@@ -32,19 +32,22 @@ function UserMyPage(){
 
   return(
   <div className='UserMyPage'>
+   { login.isLogined ?
    <MyPage>
     <UserInfo>{login.username} {login.age}</UserInfo>
     <Container>
       <Box>
       <MyBalance></MyBalance>
-      <MyStock id={login.id}></MyStock>
+      <MyStock></MyStock>
       </Box>
       <Box>
       <LikeStock></LikeStock>
       <MyBoard></MyBoard>
       </Box>
     </Container>
-    </MyPage>
+    </MyPage> :
+    <Login />
+    }
   </div>
   );
 }
