@@ -1,7 +1,40 @@
+import axios from "axios";
 import styled from "styled-components";
 
-function LikeStock () {
+function LikeStock (props) {
+
+    const datas = [];
+
+    axios
+    .post('/user/myInterest', {
+      id:props.id
+    })
+    .then((res) => {
+      console.log(res.data);
+      datas=res.data;
+    })
+    .catch((err) => {
+      console.log(err);
+    });
     
+    const printStock = () => {
+
+        const result = [];
+
+        for(var i =0 ; i <datas.length ; i++){
+        result.push(
+        
+        <GrayMargin>
+        <GrayLayout>
+            <LittleTitle>{datas[i].stkNm}</LittleTitle><RightLayout><LittleTitle>{datas[i].slast}원</LittleTitle></RightLayout>
+        </GrayLayout>
+        </GrayMargin>
+        )
+        }
+    
+        return result;
+    }
+
     return(
 <div className="likeStockPage">
 <StyledLayout>
@@ -15,11 +48,7 @@ function LikeStock () {
             </RightLayout>
     </CateBox>
     <ScrBox>
-    <GrayMargin>
-        <GrayLayout>
-            <LittleTitle>잔액</LittleTitle><RightLayout><LittleTitle>100원</LittleTitle></RightLayout>
-        </GrayLayout>
-    </GrayMargin>
+    {printStock()}
     </ScrBox>
     <div style={{marginBottom:'20px'}}/>
 </StyledLayout>

@@ -1,7 +1,8 @@
 import { useState } from "react";
 import styled from "styled-components";
+import axios from 'axios';
 
-function ChargeTab () {
+function ChargeTab (props) {
 
     const [amount,setAmount]=useState(1);
    
@@ -13,6 +14,18 @@ function ChargeTab () {
 
     const onClick = () => {
         alert((amount*10000)+'원');
+
+      axios
+    .post('/user/addDepositReceived', {
+      id:props.id
+    })
+    .then((res) => {
+      console.log(res.data);
+      
+    })
+    .catch((err) => {
+      console.log(err);
+    });
     };
 
     return(

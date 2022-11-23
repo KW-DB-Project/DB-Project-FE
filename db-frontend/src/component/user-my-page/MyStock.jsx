@@ -1,7 +1,48 @@
+import axios from "axios";
 import styled from "styled-components";
 
+function MyStock (props) {
 
-function MyStock () {
+    var rate = 0;
+    var amount = 0;
+    const datas = [];
+
+    axios
+    .post('/user/myStock', {
+      id:props.id
+    })
+    .then((res) => {
+      console.log(res.data);
+      rate=res.data.rateOfReturn;
+      amount = res.data.appraisalAmount;
+      datas=res.data.myStockDto;
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+
+    const printStock = () => {
+        const result = [];
+    for(var i =0 ; i <datas.length ; i++){
+        result.push(
+        <GrayMargin>
+        <GrayLayout>
+            <LittleTitle>{datas[i].stockStkCd}</LittleTitle>
+            <LittleTitle style={{marginLeft:'30px'}}>{datas[i].stkNum}</LittleTitle>
+        <RightLayout >
+        <div style={{display:'flex'}}>
+            <LittleTitle>{datas[i].stkNum}원</LittleTitle>
+            <LittleTitle style={{marginLeft:'25px'}}>{datas[i].averagePrice}원</LittleTitle>
+            <LittleTitle style={{marginLeft:'25px'}}>{datas[i].gainLoss}원</LittleTitle>
+            </div>
+        </RightLayout>
+        </GrayLayout>
+        </GrayMargin>
+        )
+    }
+
+    return result;
+    }
     
     return(
 <div className="myStockPage">
@@ -21,25 +62,13 @@ function MyStock () {
             </RightLayout>
         </CateBox>
         <ScrBox>
-            <GrayMargin>
-            <GrayLayout>
-                <LittleTitle>기업1</LittleTitle>
-                <LittleTitle style={{marginLeft:'30px'}}>10</LittleTitle>
-            <RightLayout >
-            <div style={{display:'flex'}}>
-                <LittleTitle>50000원</LittleTitle>
-                <LittleTitle style={{marginLeft:'25px'}}>500000원</LittleTitle>
-                <LittleTitle style={{marginLeft:'25px'}}>50000원</LittleTitle>
-                </div>
-            </RightLayout>
-            </GrayLayout>
-            </GrayMargin>
+        {printStock()}
         </ScrBox>
         <Box>
-            <MiddleTitle>총 수익률</MiddleTitle><RightLayout><Title>5.0%</Title></RightLayout>
+            <MiddleTitle>총 수익률</MiddleTitle><RightLayout><Title>{rate}%</Title></RightLayout>
         </Box>
         <Box>
-            <MiddleTitle>총 평가 금액</MiddleTitle><RightLayout><Title>130000원</Title></RightLayout>
+            <MiddleTitle>총 평가 금액</MiddleTitle><RightLayout><Title>{amount}</Title></RightLayout>
         </Box>
     </StyledLayout>
 </div>
