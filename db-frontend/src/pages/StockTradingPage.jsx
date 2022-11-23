@@ -16,38 +16,45 @@ function StockTradingPage(){
   const login = useRecoilValue(isLoginedAtom);
 
   const [wrSearch,setwrSearch]=useState('');
+  const datas =[];
 
   const onChange = (e) => {
     setwrSearch(e.target.value);
   };
 
-  const searchStock = (stockname) => {
+  const [stockInfo, setStockInfo] = useState([]);
+
+ // const tradeVal =  {cd:stockInfo.stockPriceDto.stkCd,price:stockInfo.stockPriceDto.slast};
+
+  useEffect(() =>{  
     axios
-    .get('/trade/search?name='+stockname, {
+    .get(`/trade/search?name=${encodeURIComponent('삼성전자')}`, {
+      id:login.id
+    })
+    .then((res) => {
+      console.log(res.data);
+      res.data= datas;
+      setStockInfo(stockInfo);
+    })
+    .catch((err) => {
+      console.log(err);
+    });},[]);
+
+  const searchStock = (stockname) => {
+
+    axios
+    .get(`/trade/search?name=${encodeURIComponent(stockname)}`, {
       id:login.id
     })
     .then((res) => {
       console.log(res.data);
       setStockInfo(res.data);
+      console.log(res.data);
     })
     .catch((err) => {
       console.log(err);
     });
   }
-
-  const [stockInfo, setStockInfo] = useState({s_name:'1',
-                                                cd:'1',
-                                                slow:'1',
-                                                sopen:'1',
-                                                slast:'1',
-                                                shigh:'1',
-                                                schg:1,
-                                                svol:'1',
-                                                lastPriceDto:[{day:'1',slast:'1'},{day:'2',slast:'2'},{day:'3',slast:'3'}]});
-
-  const tradeVal =  {cd:stockInfo.cd,price:stockInfo.slast};
-
-  //useEffect(searchStock('삼성전자'),[]);
 
   const SearchOnClick = () => {
       if(wrSearch===''){
@@ -73,7 +80,7 @@ function StockTradingPage(){
       </Box>
       <Box>
         <DebateBtn />
-        <StockTrade stockInfo={tradeVal} />
+        <StockTrade />
       </Box>
       </Container>
     </Tradelayout>

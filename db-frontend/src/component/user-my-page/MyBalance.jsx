@@ -7,10 +7,8 @@ import ChargeTab from "./tab/ChargeTab";
 import {useRecoilValue} from "recoil";
 import { isLoginedAtom } from '../../atom/loginAtom';
 
-import axios from 'axios';
 
-
-function MyBalance () {
+function MyBalance (props) {
 
     const [selTab,setSelTab] = useState(0);
     const [tabName,setTabName] =useState('잔액');
@@ -18,18 +16,8 @@ function MyBalance () {
 
     const login = useRecoilValue(isLoginedAtom);
 
-    axios
-    .post('/user/depositReceived', {
-      id:login.id
-    })
-    .then((res) => {
-      console.log(res.data);
-      setUserBal(res.data.balance);
-    })
-    .catch((err) => {
-      console.log(err);
-    });
-
+    console.log(props.bal);
+    setUserBal(props.bal);
 
     const obj = {
         0: <BalTab bal={userBal} />,

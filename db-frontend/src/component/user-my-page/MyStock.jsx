@@ -1,25 +1,16 @@
 import axios from "axios";
 import styled from "styled-components";
 
-function MyStock (props) {
+function MyStock ({rate,amount,stocks}) {
 
-    var rate = 0;
-    var amount = 0;
+    var s_rate = 0;
+    var s_amount = 0;
     const datas = [];
 
-    axios
-    .post('/user/myStock', {
-      id:props.id
-    })
-    .then((res) => {
-      console.log(res.data);
-      rate=res.data.rateOfReturn;
-      amount = res.data.appraisalAmount;
-      datas=res.data.myStockDto;
-    })
-    .catch((err) => {
-      console.log(err);
-    });
+    datas =stocks;
+    s_rate=rate;
+    s_amount=amount;
+
 
     const printStock = () => {
         const result = [];
@@ -65,10 +56,10 @@ function MyStock (props) {
         {printStock()}
         </ScrBox>
         <Box>
-            <MiddleTitle>총 수익률</MiddleTitle><RightLayout><Title>{rate}%</Title></RightLayout>
+            <MiddleTitle>총 수익률</MiddleTitle><RightLayout><Title>{s_rate}%</Title></RightLayout>
         </Box>
         <Box>
-            <MiddleTitle>총 평가 금액</MiddleTitle><RightLayout><Title>{amount}</Title></RightLayout>
+            <MiddleTitle>총 평가 금액</MiddleTitle><RightLayout><Title>{s_amount}</Title></RightLayout>
         </Box>
     </StyledLayout>
 </div>

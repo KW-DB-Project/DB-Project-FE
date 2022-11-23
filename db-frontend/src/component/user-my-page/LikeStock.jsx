@@ -1,21 +1,12 @@
 import axios from "axios";
+import { useEffect } from "react";
 import styled from "styled-components";
+
 
 function LikeStock (props) {
 
     const datas = [];
-
-    axios
-    .post('/user/myInterest', {
-      id:props.id
-    })
-    .then((res) => {
-      console.log(res.data);
-      datas=res.data;
-    })
-    .catch((err) => {
-      console.log(err);
-    });
+    datas= props.like; 
     
     const printStock = () => {
 
