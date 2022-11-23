@@ -11,18 +11,15 @@ import { isLoginedAtom } from '../../atom/loginAtom'
 function ComExplain(props){
     const login = useRecoilValue(isLoginedAtom);    
 
-    const {s_name,cd,slow,sopen,slast,shigh,schg,svol,lastPriceDto} = props.stockInfo;
+    const stockInfo = props.stockInfo;
 
     const datas = [];
     const [clicked,setClicked]= useState('false');
-    
-    console.log(lastPriceDto);
-           
 
-  for(let i=0; i<lastPriceDto.length; i++){
+  for(let i=1; i<=stockInfo.lastPriceDto.length; i++){
     datas.push({
-      x : lastPriceDto[i].day,
-      y : lastPriceDto[i].slast,
+      x : stockInfo.lastPriceDto[i].day,
+      y : stockInfo.lastPriceDto[i].slast,
     })
   }
 
@@ -82,7 +79,7 @@ function ComExplain(props){
         axios
         .post('/trade/interest', {
           id:login.id, //아이디
-          cd:1, // 주식코드
+          cd:stockInfo.stockPriceDto.stkCd, // 주식코드
           heart:!(clicked) // 타입
         })
         .then((res) => {
@@ -100,11 +97,11 @@ function ComExplain(props){
         <StyledLayout>
             <Box>
             <StyledFontawsome className={clicked ? 'clicked' : 'unclicked'} onClick={onClick} icon={faHeart} />
-            <Title style={{fontWeight:'bold'}}>{s_name}</Title>
+            <Title style={{fontWeight:'bold'}}>삼성전자</Title>
             <RightLayout><ComEx>ㅐㅐㅐㅐㅐㅐㅐㅐㅐㅐㅐㅐㅐㅐㅐㅐㅐㅐㅐㅐㅐㅐㅐㅐㅐㅐㅐㅐㅐㅐㅐㅐㅐㅐㅐㅐㅐㅐㅐㅐㅐㅐㅐㅐㅐㅐㅐㅐㅐㅐㅐㅐㅐㅐㅐㅐㅐㅐㅐㅐㅐㅐㅐㅐㅐ</ComEx></RightLayout>
             </Box>
             <Box>
-                <Title>{slast}원</Title><RightLayout>{schg < 0 ? <DownSchg>▼&nbsp;{-schg}%</DownSchg> : <UpSchg>▲&nbsp;{schg}%</UpSchg>}</RightLayout>
+                <Title>{stockInfo.stockPriceDto.slast}원</Title><RightLayout>{stockInfo.stockPriceDto.schg < 0 ? <DownSchg>▼&nbsp;{-stockInfo.stockPriceDto.schg}%</DownSchg> : <UpSchg>▲&nbsp;{stockInfo.stockPriceDto.schg}%</UpSchg>}</RightLayout>
             </Box>
             <Box>
                 <Line type="line" data={data} options={options} ></Line>
@@ -113,13 +110,13 @@ function ComExplain(props){
                 <Title style={{fontWeight:'bold'}}>투자정보</Title>
             </Box>
             <Box>
-                <Title>상한가</Title><RightLayout style={{color:'rgb(252,190,190)'}}>{shigh} 원</RightLayout>
+                <Title>상한가</Title><RightLayout style={{color:'rgb(252,190,190)'}}>{stockInfo.stockPriceDto.shigh} 원</RightLayout>
             </Box>
             <Box>
-                <Title>하한가</Title><RightLayout style={{color:'rgb(190,222,252)'}}>{slow} 원</RightLayout>
+                <Title>하한가</Title><RightLayout style={{color:'rgb(190,222,252)'}}>{stockInfo.stockPriceDto.slow} 원</RightLayout>
             </Box>
             <Box>
-                <Title>거래량</Title><RightLayout>{svol}</RightLayout>
+                <Title>거래량</Title><RightLayout>{stockInfo.stockPriceDto.svol}</RightLayout>
             </Box>
       </StyledLayout>
       </div>

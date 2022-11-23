@@ -1,6 +1,9 @@
 import styled from "styled-components";
 
-function MyBoard () {
+function MyBoard (props) {
+
+    const datas = [];
+    datas = props.board;
     
     const printStock = () => {
 
