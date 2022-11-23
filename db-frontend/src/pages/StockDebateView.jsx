@@ -115,7 +115,7 @@ function StockDebateView(){
   const onClickLike = (e) => {
     const {name} = e.target;
     if(login.isLogined){
-      Axios.post("community/like" , {
+      Axios.post("/community/like" , {
         idx : idx
       }).then((res)=> {
         setData({
