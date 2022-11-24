@@ -18,24 +18,52 @@ function StockTradingPage(){
   const [wrSearch,setwrSearch]=useState('');
   const [sname,setSname]=useState('삼성전자');
 
+  const data = {
+    "stockPriceDto" : {
+        "stkCd" : "005930",
+        "slow" : 57300,
+        "svol" : 14948174,
+        "schg" : 5.9200,
+        "shigh":59000,
+        "slast" : 57300,
+        "sopen" : 58900
+    },
+    "lastPriceDto" : [{
+        "day": "2022-10-13T15:00:00.000+00:00",
+        "slast" : 5000
+    },
+    {
+        "day": "2022-10-14T15:00:00.000+00:00",
+        "slast" : 10000
+    },
+    {
+        "day": "2022-10-15T15:00:00.000+00:00",
+        "slast" : 30000
+    },
+    
+]
+}
+
   const onChange = (e) => {
     setwrSearch(e.target.value);
   };
 
-  const [stockInfo,setStockInfo] = useState({stkCd:'',slow:'',svol:'',schg:'',shigh:'',slast:'',sopen:''});
-  const [lastPrice, setLastPrice] = useState([{}]);
+  const [stockInfo,setStockInfo] = useState({stkCd:'초기',slow:'초기',svol:'',schg:'',shigh:'',slast:'',sopen:''});
+  const [lastPrice, setLastPrice] = useState([]);
+
 
  // const tradeVal =  {cd:stockInfo.stockPriceDto.stkCd,price:stockInfo.stockPriceDto.slast};
 
-  useEffect(() =>{  
+ useEffect(() => {
 
+  console.log("트레이드 이펙트");
     axios
     .get(`/trade/search?name=${encodeURIComponent('삼성전자')}`, {
       id:login.id
     })
     .then((res) => {
       console.log(res.data);
-  
+
      setStockInfo({
       stkCd:res.data.stockPriceDto.stkCd,
       slow:res.data.stockPriceDto.slow,
@@ -46,17 +74,31 @@ function StockTradingPage(){
       sopen:res.data.stockPriceDto.sopen
     });
     
-    setLastPrice(res.data.lastPriceDto); 
+    const val=[];
 
-    })
-    .catch((err) => {
+      for(let j=0;j<data.lastPriceDto.length;j++){
+
+        const newData = {
+          day:data.lastPriceDto[j].day,
+          slast:data.lastPriceDto[j].slast,
+        };
+        val.push(newData);
+
+      }
+      setLastPrice(val);
+  })
+  .catch((err) => {
       console.log(err);
-    });},[]);
+  });
+
+ },[]);
+
+    
 
   const searchStock = (stockname) => {
 
     axios
-    .get(`/trade/search?name=${encodeURIComponent('삼성전자')}`, {
+    .get(`/trade/search?name=${encodeURIComponent(stockname)}`, {
       id:login.id
     })
     .then((res) => {
@@ -72,7 +114,7 @@ function StockTradingPage(){
        sopen:res.data.stockPriceDto.sopen
      });
      
-     setLastPrice(res.data.lastPriceDto); 
+     //setLastPrice(res.data.lastPriceDto); 
     })
     .catch((err) => {
       console.log(err);
@@ -91,6 +133,9 @@ function StockTradingPage(){
       setwrSearch('');
       }
   }
+
+ // console.log("stock");
+ // console.log(lastPrice); 
 
   return (
     <Tradelayout>

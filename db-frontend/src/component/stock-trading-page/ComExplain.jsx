@@ -2,7 +2,7 @@ import styled from "styled-components";
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 import { faHeart} from '@fortawesome/free-solid-svg-icons';
 import { Line } from 'react-chartjs-2'
-import { useState } from "react";
+import { useState, useEffect, React } from "react";
 import axios from 'axios';
 
 import {useRecoilValue} from "recoil";
@@ -16,58 +16,67 @@ function ComExplain({name,stockPriceDto,lastPriceDto}){
     const login = useRecoilValue(isLoginedAtom);    
 
     const {stkCd,slow,svol,schg,shigh,slast,sopen}=stockPriceDto;
-
     const datas = [];
     const [clicked,setClicked]= useState('false');
+    //let lastPrice = [];
+    const [lastPrice,setLastPrice]=useState([]);
 
-  for(let i=1; i<=lastPriceDto.length; i++){
+    //그래프 값 할당 및 props 값 할당 받기
+    useEffect  (() => {
 
-    const v = new Date(timestamp + tenMinutes * i);
+      console.log(lastPriceDto[0])
 
-    datas.push({
-      x : `${v.getHours() >= 10 ? v.getHours() : '0'+v.getHours()}:${v.getMinutes() >= 10 ? v.getMinutes() : '0'+v.getMinutes()}`,
-      y : lastPriceDto[i].slast,
-    })
-  }
+      for(let i=0; i<lastPriceDto.length; i++){
 
-  const options = {
-    fill: {
-      target : {value: 60},
-      above : "#ff7675",
-      below: "#74b9ff",
-    },
-    elements :{
-      point :{
-        radius: 1,
+        datas.push({
+          x : lastPriceDto[i].day,
+          y : lastPriceDto[i].slast,
+        })
+     
       }
-    },
-    plugins:{
-      legend :{
-        maxWidth : "100px",
+      ///////////////
+    }
+    ,[]);
+
+    const options = {
+      fill: {
+        target : {value: 60},
+        above : "#ff7675",
+        below: "#74b9ff",
       },
-    },
-    legend: {
-      display: false, // label 보이기 여부
+      elements :{
+        point :{
+          radius: 1,
+        }
+      },
+      plugins:{
+        legend :{
+          maxWidth : "100px",
+        },
+      },
+      legend: {
+        display: false, // label 보이기 여부
 
-    },
-    scales: {
-      
-    },
-   
-    // false : 사용자 정의 크기에 따라 그래프 크기가 결정됨.
-    // true : 크기가 알아서 결정됨.
-    maintainAspectRatio: false,
-    responsive : true,
-  }
-  const data = {
-    labels: [],
-    datasets:[
-      {
-        label: 'KOSPI',
-        data : datas,
-      }
-    ]
-  };
+      },
+      scales: {
+        
+      },
+    
+      // false : 사용자 정의 크기에 따라 그래프 크기가 결정됨.
+      // true : 크기가 알아서 결정됨.
+      maintainAspectRatio: false,
+      responsive : true,
+    }
+    const data = {
+      labels: [],
+      datasets:[
+        {
+          label: 'KOSPI',
+          data : datas,
+        }
+      ]
+    };
+    
 
   //관심 클릭 이벤트
   const onClick = () => {
