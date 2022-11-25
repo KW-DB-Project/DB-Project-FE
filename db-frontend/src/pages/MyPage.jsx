@@ -2,7 +2,7 @@ import styled from "styled-components";
 import {useRecoilValue} from "recoil";
 import { isLoginedAtom } from '../atom/loginAtom';
 import axios from 'axios';
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import MyBalance from '../component/user-my-page/MyBalance';
 import LikeStock from '../component/user-my-page/LikeStock';
 import MyBoard from '../component/user-my-page/MyBoard';
@@ -11,93 +11,20 @@ import MyStock from '../component/user-my-page/MyStock';
 function MyPage () {
 
     const login = useRecoilValue(isLoginedAtom);
-
-    var likes = [];
-    var boards = [];
-    var bals = 0;
-    var stocks = [];
-    var rate = 0;
-    var amount = 0;
-  
-    var getData = () => {
-  
-      //보유주식
-      axios
-      .post('/user/myStock', {
-        id:login.id
-      })
-      .then((res) => {
-        console.log("보유주식");
-        console.log(res.data);
-        rate=res.data.rateOfReturn;
-        amount = res.data.appraisalAmount;
-        stocks=res.data.myStockDto;
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  
-      //잔액
-      axios
-      .post('/user/depositReceived', {
-        id:login.id
-      })
-      .then((res) => {
-        console.log("잔액");
-        console.log(res.data);
-        bals=res.data.balance;
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  
-      //관심
-      axios
-      .post('/user/myInterest', {
-        id:login.id
-      })
-      .then((res) => {
-        console.log("관심");
-        console.log(res.data);
-        likes=res.data;
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  
-      //내가 쓴 글
-      axios
-      .post('/user/myWriting', {
-        id:login.id
-      })
-      .then((res) => {
-        console.log("내가 쓴 글");
-        console.log(res.data);
-        boards=res.data;
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  
-  
-    }
-  
-    const Val =  {rate:rate,amount:amount,stocks:stocks};
-  
-    useEffect(getData(),[]);
-  
+    const userId = login.id;
+    const userName =login.userName;
 
     return (
         <MyPageLayout>
-        <UserInfo>{login.username} {login.age}</UserInfo>
+        <UserInfo>{userId} {userName}</UserInfo>
         <Container>
           <Box>
-          <MyBalance bal={bals}></MyBalance>
-          <MyStock stock={Val}></MyStock>
+          <MyBalance></MyBalance>
+          <MyStock></MyStock>
           </Box>
           <Box>
-          <LikeStock like={likes}></LikeStock>
-          <MyBoard board={boards}></MyBoard>
+          <LikeStock></LikeStock>
+          <MyBoard></MyBoard>
           </Box>
         </Container>
         </MyPageLayout>

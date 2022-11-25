@@ -1,10 +1,13 @@
 import { useState } from "react";
 import styled from "styled-components";
 import axios from 'axios';
+import {useRecoilValue} from "recoil";
+import { isLoginedAtom } from '../../../atom/loginAtom';
 
-function ChargeTab (props) {
+function ChargeTab () {
 
     const [amount,setAmount]=useState(1);
+    const login = useRecoilValue(isLoginedAtom);
    
     const onChange = (e) => {
       
@@ -15,12 +18,16 @@ function ChargeTab (props) {
     const onClick = () => {
         alert((amount*10000)+'원');
 
-      axios
+    axios
     .post('/user/addDepositReceived', {
-      id:props.id
+      id:login.id
     })
     .then((res) => {
       console.log(res.data);
+
+      if(!res.data.isSuccess){
+        alert('오류가 발생했습니다.');
+      }
       
     })
     .catch((err) => {

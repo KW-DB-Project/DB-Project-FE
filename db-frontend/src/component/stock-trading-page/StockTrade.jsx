@@ -34,9 +34,9 @@ const [userSnum,setUserSnum]=useState(0); //사용자의 보유 주식 수
   //주문 버튼 이벤트
   const Trade = () => {
 
-    if(login.isLoginedAtom){
+    if(login.isLogined){
 
-    if(selectedType === '매수'){
+    if(selectedType === '매도'){
         alert('매수: '+amount+'주');
         
         //잔액 확인
@@ -75,7 +75,7 @@ const [userSnum,setUserSnum]=useState(0); //사용자의 보유 주식 수
         });
     
       }
-    else if(selectedType === '매도'){
+    else if(selectedType === '매수'){
         alert('매도: '+amount+'주');
 
         //잔액 확인

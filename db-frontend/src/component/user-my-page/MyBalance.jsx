@@ -1,27 +1,18 @@
 import { faArrowAltCircleLeft } from "@fortawesome/free-solid-svg-icons";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import styled from "styled-components";
 import BalTab from "./tab/BalTab";
 import ChargeTab from "./tab/ChargeTab";
 
-import {useRecoilValue} from "recoil";
-import { isLoginedAtom } from '../../atom/loginAtom';
 
-
-function MyBalance (props) {
+function MyBalance () {
 
     const [selTab,setSelTab] = useState(0);
     const [tabName,setTabName] =useState('잔액');
-    const [userBal,setUserBal] = useState(0);
-
-    const login = useRecoilValue(isLoginedAtom);
-
-    console.log(props.bal);
-    setUserBal(props.bal);
-
+    
     const obj = {
-        0: <BalTab bal={userBal} />,
-        1: <ChargeTab id={login.id}/>
+        0: <BalTab />,
+        1: <ChargeTab />
     }
 
     const ChargeBtn = () => {

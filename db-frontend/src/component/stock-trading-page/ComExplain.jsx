@@ -14,17 +14,15 @@ const timestamp = date.getTime();
 
 function ComExplain({name,stockPriceDto,lastPriceDto}){
     const login = useRecoilValue(isLoginedAtom);    
-
-    const {stkCd,slow,svol,schg,shigh,slast,sopen}=stockPriceDto;
+    
     const datas = [];
+    
+    const {stkCd,slow,svol,schg,shigh,slast,sopen}=stockPriceDto;
     const [clicked,setClicked]= useState('false');
-    //let lastPrice = [];
     const [lastPrice,setLastPrice]=useState([]);
 
     //그래프 값 할당 및 props 값 할당 받기
     useEffect  (() => {
-
-      console.log(lastPriceDto[0])
 
       for(let i=0; i<lastPriceDto.length; i++){
 
@@ -36,7 +34,7 @@ function ComExplain({name,stockPriceDto,lastPriceDto}){
       }
       ///////////////
     }
-    ,[]);
+    ,[name]);
 
     const options = {
       fill: {

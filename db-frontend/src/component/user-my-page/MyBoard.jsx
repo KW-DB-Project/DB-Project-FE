@@ -1,9 +1,31 @@
+import { useEffect, useState } from "react";
 import styled from "styled-components";
+import {useRecoilValue} from "recoil";
+import { isLoginedAtom } from '../../atom/loginAtom';
+import axios from "axios";
 
-function MyBoard (props) {
+function MyBoard () {
 
-    const datas = [];
-    datas = props.board;
+    const [datas,setDatas] = useState([]);
+    const login = useRecoilValue(isLoginedAtom);
+
+    useEffect(() => {
+        console.log('보유주식')
+        //관심
+        axios
+        .post('/user/myWriting', {
+          id:login.id
+        })
+        .then((res) => {
+          console.log("내가 쓴 글");
+          console.log(res.data);
+          setDatas(res.data);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+  
+      },[]);
     
     const printStock = () => {
 
@@ -13,7 +35,7 @@ function MyBoard (props) {
         result.push(
             <GrayMargin>
             <GrayLayout>
-                <LittleTitle>글제목</LittleTitle><RightLayout><LittleTitle>날짜</LittleTitle></RightLayout>
+                <LittleTitle>{datas[i].title}</LittleTitle><RightLayout><LittleTitle>{datas[i].createDate}</LittleTitle></RightLayout>
             </GrayLayout>
             </GrayMargin>
         )
