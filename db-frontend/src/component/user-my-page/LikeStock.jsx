@@ -1,12 +1,30 @@
-import axios from "axios";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import styled from "styled-components";
+import {useRecoilValue} from "recoil";
+import { isLoginedAtom } from '../../atom/loginAtom';
+import axios from "axios";
 
+function LikeStock () {
 
-function LikeStock (props) {
+    const [datas,setDatas] = useState([]);
+    const login = useRecoilValue(isLoginedAtom);
 
-    const datas = [];
-    datas= props.like; 
+    useEffect(() => {
+        //관심
+        axios
+        .post('/user/myInterest', {
+          id:login.id
+        })
+        .then((res) => {
+          console.log("관심");
+          console.log(res.data);
+          setDatas(res.data);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+  
+      },[]);
     
     const printStock = () => {
 

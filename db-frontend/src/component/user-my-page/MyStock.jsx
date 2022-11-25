@@ -1,30 +1,49 @@
-import axios from "axios";
+import { useEffect, useState } from "react";
 import styled from "styled-components";
+import {useRecoilValue} from "recoil";
+import { isLoginedAtom } from '../../atom/loginAtom';
+import axios from "axios";
 
-function MyStock ({rate,amount,stocks}) {
+function MyStock () {
 
-    var s_rate = 0;
-    var s_amount = 0;
-    const datas = [];
+    const [s_rate,setSrate] = useState(0);
+    const [s_amount,setSamount] = useState(0);
+    
+    const [stocks,setStocks] = useState([]);
+    const login = useRecoilValue(isLoginedAtom);
 
-    datas =stocks;
-    s_rate=rate;
-    s_amount=amount;
+    useEffect(() => {
+        //보유주식
+        axios
+        .post('/user/myStock', {
+        id:login.id
+        })
+        .then((res) => {
+        console.log("보유주식");
+        console.log(res.data);
+        setSrate(res.data.rateOfReturn);
+        setSamount(res.data.appraisalAmount);
+        setStocks(res.data.myStockDto);
+        })
+        .catch((err) => {
+        console.log(err);
+        });
+    },[]);
 
 
     const printStock = () => {
         const result = [];
-    for(var i =0 ; i <datas.length ; i++){
+    for(var i =0 ; i <stocks.length ; i++){
         result.push(
         <GrayMargin>
         <GrayLayout>
-            <LittleTitle>{datas[i].stockStkCd}</LittleTitle>
-            <LittleTitle style={{marginLeft:'30px'}}>{datas[i].stkNum}</LittleTitle>
+            <LittleTitle>{stocks[i].stockStkCd}</LittleTitle>
+            <LittleTitle style={{marginLeft:'30px'}}>{stocks[i].stkNum}</LittleTitle>
         <RightLayout >
         <div style={{display:'flex'}}>
-            <LittleTitle>{datas[i].stkNum}원</LittleTitle>
-            <LittleTitle style={{marginLeft:'25px'}}>{datas[i].averagePrice}원</LittleTitle>
-            <LittleTitle style={{marginLeft:'25px'}}>{datas[i].gainLoss}원</LittleTitle>
+            <LittleTitle>{stocks[i].stkNum}원</LittleTitle>
+            <LittleTitle style={{marginLeft:'25px'}}>{stocks[i].averagePrice}원</LittleTitle>
+            <LittleTitle style={{marginLeft:'25px'}}>{stocks[i].gainLoss}원</LittleTitle>
             </div>
         </RightLayout>
         </GrayLayout>

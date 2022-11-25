@@ -18,53 +18,44 @@ function StockTradingPage(){
   const [wrSearch,setwrSearch]=useState('');
   const [sname,setSname]=useState('삼성전자');
 
-  const data = {
-    "stockPriceDto" : {
-        "stkCd" : "005930",
-        "slow" : 57300,
-        "svol" : 14948174,
-        "schg" : 5.9200,
-        "shigh":59000,
-        "slast" : 57300,
-        "sopen" : 58900
-    },
-    "lastPriceDto" : [{
-        "day": "2022-10-13T15:00:00.000+00:00",
-        "slast" : 5000
-    },
-    {
-        "day": "2022-10-14T15:00:00.000+00:00",
-        "slast" : 10000
-    },
-    {
-        "day": "2022-10-15T15:00:00.000+00:00",
-        "slast" : 30000
-    },
-    
-]
-}
-
   const onChange = (e) => {
     setwrSearch(e.target.value);
   };
 
-  const [stockInfo,setStockInfo] = useState({stkCd:'초기',slow:'초기',svol:'',schg:'',shigh:'',slast:'',sopen:''});
+  const [stockInfo,setStockInfo] = useState({stkCd:'',slow:0,svol:0,schg:0,shigh:0,slast:0,sopen:0});
   const [lastPrice, setLastPrice] = useState([]);
 
+ const searchStock = (stockname) => {
 
- // const tradeVal =  {cd:stockInfo.stockPriceDto.stkCd,price:stockInfo.stockPriceDto.slast};
+  axios
+  .get(`/trade/search?name=${encodeURIComponent(stockname)}`)
+  .then((res) => {
+
+    setStockInfo({
+      stkCd:res.data.stockPriceDto.stkCd,
+      slow:res.data.stockPriceDto.slow,
+      svol:res.data.stockPriceDto.svol,
+      schg:res.data.stockPriceDto.schg,
+      shigh:res.data.stockPriceDto.shigh,
+      slast:res.data.stockPriceDto.slast,
+      sopen:res.data.stockPriceDto.sopen
+    });
+   
+      const val = res.data.lastPriceDto;
+      setLastPrice(val);
+  })
+  .catch((err) => {
+    console.log(err);
+  });
+}
 
  useEffect(() => {
 
-  console.log("트레이드 이펙트");
     axios
-    .get(`/trade/search?name=${encodeURIComponent('삼성전자')}`, {
-      id:login.id
-    })
+    .get(`/trade`)
     .then((res) => {
-      console.log(res.data);
 
-     setStockInfo({
+     /*  setStockInfo({
       stkCd:res.data.stockPriceDto.stkCd,
       slow:res.data.stockPriceDto.slow,
       svol:res.data.stockPriceDto.svol,
@@ -74,52 +65,30 @@ function StockTradingPage(){
       sopen:res.data.stockPriceDto.sopen
     });
     
-    const val=[];
+   const val=[];
 
-      for(let j=0;j<data.lastPriceDto.length;j++){
+      for(let j=0;j<res.data.lastPriceDto.length;j++){
 
         const newData = {
-          day:data.lastPriceDto[j].day,
-          slast:data.lastPriceDto[j].slast,
+          day:res.data.lastPriceDto[j].day,
+          slast:res.data.lastPriceDto[j].slast,
         };
         val.push(newData);
 
       }
+      setLastPrice(val);*/
+
+      setStockInfo(res.data.stockPriceDto);
+   
+      const val = res.data.lastPriceDto;
       setLastPrice(val);
+
   })
   .catch((err) => {
       console.log(err);
   });
 
- },[]);
-
-    
-
-  const searchStock = (stockname) => {
-
-    axios
-    .get(`/trade/search?name=${encodeURIComponent(stockname)}`, {
-      id:login.id
-    })
-    .then((res) => {
-      console.log(res.data);
-  
-      setStockInfo({
-       stkCd:res.data.stockPriceDto.stkCd,
-       slow:res.data.stockPriceDto.slow,
-       svol:res.data.stockPriceDto.svol,
-       schg:res.data.stockPriceDto.schg,
-       shigh:res.data.stockPriceDto.shigh,
-       slast:res.data.stockPriceDto.slast,
-       sopen:res.data.stockPriceDto.sopen
-     });
-     
-     //setLastPrice(res.data.lastPriceDto); 
-    })
-    .catch((err) => {
-      console.log(err);
-    });
-  }
+ },[sname]);
 
   const SearchOnClick = () => {
       if(wrSearch===''){
@@ -133,9 +102,6 @@ function StockTradingPage(){
       setwrSearch('');
       }
   }
-
- // console.log("stock");
- // console.log(lastPrice); 
 
   return (
     <Tradelayout>
