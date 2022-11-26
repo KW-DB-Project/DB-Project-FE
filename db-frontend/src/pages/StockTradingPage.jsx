@@ -31,64 +31,16 @@ function StockTradingPage(){
   .get(`/trade/search?name=${encodeURIComponent(stockname)}`)
   .then((res) => {
 
-    setStockInfo({
-      stkCd:res.data.stockPriceDto.stkCd,
-      slow:res.data.stockPriceDto.slow,
-      svol:res.data.stockPriceDto.svol,
-      schg:res.data.stockPriceDto.schg,
-      shigh:res.data.stockPriceDto.shigh,
-      slast:res.data.stockPriceDto.slast,
-      sopen:res.data.stockPriceDto.sopen
-    });
-   
-      const val = res.data.lastPriceDto;
-      setLastPrice(val);
+    setStockInfo(res.data.stockPriceDto);
+    setLastPrice(res.data.lastPriceDto);
+
   })
   .catch((err) => {
     console.log(err);
   });
 }
 
- useEffect(() => {
-
-    axios
-    .get(`/trade`)
-    .then((res) => {
-
-     /*  setStockInfo({
-      stkCd:res.data.stockPriceDto.stkCd,
-      slow:res.data.stockPriceDto.slow,
-      svol:res.data.stockPriceDto.svol,
-      schg:res.data.stockPriceDto.schg,
-      shigh:res.data.stockPriceDto.shigh,
-      slast:res.data.stockPriceDto.slast,
-      sopen:res.data.stockPriceDto.sopen
-    });
-    
-   const val=[];
-
-      for(let j=0;j<res.data.lastPriceDto.length;j++){
-
-        const newData = {
-          day:res.data.lastPriceDto[j].day,
-          slast:res.data.lastPriceDto[j].slast,
-        };
-        val.push(newData);
-
-      }
-      setLastPrice(val);*/
-
-      setStockInfo(res.data.stockPriceDto);
-   
-      const val = res.data.lastPriceDto;
-      setLastPrice(val);
-
-  })
-  .catch((err) => {
-      console.log(err);
-  });
-
- },[sname]);
+ useEffect(() => searchStock('삼성전자'),[sname]);
 
   const SearchOnClick = () => {
       if(wrSearch===''){

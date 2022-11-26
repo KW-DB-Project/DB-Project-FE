@@ -8,37 +8,27 @@ import axios from 'axios';
 import {useRecoilValue} from "recoil";
 import { isLoginedAtom } from '../../atom/loginAtom'
 
-const tenMinutes = 600000;
-const date = new Date('2010/07/24/00:00');
-const timestamp = date.getTime();
-
 function ComExplain({name,stockPriceDto,lastPriceDto}){
     const login = useRecoilValue(isLoginedAtom);    
-    
+   
     const datas = [];
-    
+
     const {stkCd,slow,svol,schg,shigh,slast,sopen}=stockPriceDto;
     const [clicked,setClicked]= useState('false');
-    const [lastPrice,setLastPrice]=useState([]);
 
     //그래프 값 할당 및 props 값 할당 받기
-    useEffect  (() => {
-
       for(let i=0; i<lastPriceDto.length; i++){
 
         datas.push({
-          x : lastPriceDto[i].day,
+          x : lastPriceDto[i].day.substr(0,10),
           y : lastPriceDto[i].slast,
         })
      
       }
-      ///////////////
-    }
-    ,[name]);
 
     const options = {
       fill: {
-        target : {value: 60},
+        target : {value: slast},
         above : "#ff7675",
         below: "#74b9ff",
       },
@@ -65,7 +55,7 @@ function ComExplain({name,stockPriceDto,lastPriceDto}){
       maintainAspectRatio: false,
       responsive : true,
     }
-    const data = {
+    const sData = {
       labels: [],
       datasets:[
         {
@@ -112,13 +102,12 @@ function ComExplain({name,stockPriceDto,lastPriceDto}){
             <Box>
             <StyledFontawsome className={clicked ? 'clicked' : 'unclicked'} onClick={onClick} icon={faHeart} />
             <Title style={{fontWeight:'bold'}}>{name}</Title>
-            <RightLayout><ComEx>ㅐㅐㅐㅐㅐㅐㅐㅐㅐㅐㅐㅐㅐㅐㅐㅐㅐㅐㅐㅐㅐㅐㅐㅐㅐㅐㅐㅐㅐㅐㅐㅐㅐㅐㅐㅐㅐㅐㅐㅐㅐㅐㅐㅐㅐㅐㅐㅐㅐㅐㅐㅐㅐㅐㅐㅐㅐㅐㅐㅐㅐㅐㅐㅐㅐ</ComEx></RightLayout>
             </Box>
             <Box>
                 <Title>{slast}원</Title><RightLayout>{schg < 0 ? <DownSchg>▼&nbsp;{-schg}%</DownSchg> : <UpSchg>▲&nbsp;{schg}%</UpSchg>}</RightLayout>
             </Box>
             <Box>
-                <Line type="line" data={data} options={options} ></Line>
+                <Line type="line" data={sData} options={options} ></Line>
             </Box>
             <Box>
                 <Title style={{fontWeight:'bold'}}>투자정보</Title>

@@ -4,10 +4,12 @@ import {useRecoilValue} from "recoil";
 import { isLoginedAtom } from '../../atom/loginAtom';
 import axios from "axios";
 
+
+
 function LikeStock () {
 
-    const [datas,setDatas] = useState([]);
-    const login = useRecoilValue(isLoginedAtom);
+  const [datas,setDatas] = useState([]);    
+  const login = useRecoilValue(isLoginedAtom);
 
     useEffect(() => {
         //관심
@@ -30,7 +32,7 @@ function LikeStock () {
 
         const result = [];
 
-        for(var i =0 ; i <datas.length ; i++){
+        for(var i =0 ; i <datas.length; i++){
         result.push(
         
         <GrayMargin>
