@@ -76,7 +76,7 @@ const [userSnum,setUserSnum]=useState(0); //사용자의 보유 주식 수
   //주문 버튼 이벤트
   const Trade = () => {
 
-    if(true){
+    if(login.isLogined){
 
     if(selectedType === '매수'){
         alert('매수: '+amount+'주');
