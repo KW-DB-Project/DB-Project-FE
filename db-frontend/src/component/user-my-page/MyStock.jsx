@@ -17,7 +17,7 @@ function MyStock () {
         //보유주식
         axios
         .post('/user/myStock', {
-        id:''
+        id:login.id
         })
         .then((res) => {
         setSrate(res.data.rateOfReturn);
