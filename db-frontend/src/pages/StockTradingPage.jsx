@@ -40,7 +40,7 @@ function StockTradingPage(){
   });
 }
 
- useEffect(() => searchStock('삼성전자'),[sname]);
+ useEffect(() => searchStock('삼성전자'),[]);
 
   const SearchOnClick = () => {
       if(wrSearch===''){

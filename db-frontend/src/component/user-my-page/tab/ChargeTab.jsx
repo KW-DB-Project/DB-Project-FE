@@ -8,6 +8,7 @@ function ChargeTab () {
 
     const [amount,setAmount]=useState(1);
     const login = useRecoilValue(isLoginedAtom);
+    const setLoginAtom = useSetRecoilState(isLoginedAtom);
    
     const onChange = (e) => {
       
