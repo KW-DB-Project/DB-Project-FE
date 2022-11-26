@@ -21,6 +21,7 @@ function BalTab () {
         console.log("잔액");
         console.log(res.data);
         setUserBal(res.data.balance);
+        login.balance
       })
       .catch((err) => {
         console.log(err);

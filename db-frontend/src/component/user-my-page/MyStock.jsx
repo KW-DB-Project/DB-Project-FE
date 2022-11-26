@@ -23,9 +23,9 @@ function MyStock () {
         
         setSrate(res.data.rateOfReturn);
         setSamount(res.data.appraisalAmount);
-        setStocks(res.data.myStockeDto);
+        setStocks(res.data.myStockDto);
 
-        console.log(res.data.myStockeDto);
+        console.log(res.data.myStockDto);
         })
         .catch((err) => {
         console.log(err);
