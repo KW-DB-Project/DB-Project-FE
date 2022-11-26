@@ -34,6 +34,10 @@ function MyStock () {
     const printStock = () => {
         const result = [];
     for(var i =0 ; i <stocks.length ; i++){
+        
+        //현재가
+        let prePrice= Math.ceil(stocks[i].gainLoss / stocks[i].stkNum ) + stocks[i].averagePrice ; 
+
         result.push(
         <GrayMargin>
         <GrayLayout>
@@ -42,7 +46,7 @@ function MyStock () {
         <RightLayout >
         <div style={{display:'flex'}}>
             <LittleTitle>{stocks[i].averagePrice}원</LittleTitle>
-            <LittleTitle style={{marginLeft:'25px'}}>{stocks[i].averagePrice + stocks[i].gainLoss}원</LittleTitle>
+            <LittleTitle style={{marginLeft:'25px'}}>{prePrice}원</LittleTitle>
             <LittleTitle style={{marginLeft:'25px'}}>{stocks[i].gainLoss}원</LittleTitle>
             </div>
         </RightLayout>
