@@ -35,7 +35,7 @@ function MyBoard () {
         result.push(
             <GrayMargin>
             <GrayLayout>
-                <LittleTitle>{datas[i].title}</LittleTitle><RightLayout><LittleTitle>{datas[i].createDate}</LittleTitle></RightLayout>
+                <LittleTitle>{datas[i].title}</LittleTitle><RightLayout><LittleTitle>{datas[i].createDate.subStr(0,10)}</LittleTitle></RightLayout>
             </GrayLayout>
             </GrayMargin>
         )
