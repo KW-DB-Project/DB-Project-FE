@@ -40,9 +40,9 @@ function StockTradingPage(){
   });
 }
 
- //useEffect(searchStock('삼성전자'),[]);
+ useEffect(searchStock('삼성전자'),[]);
 
- useEffect(() =>{
+ /*useEffect(() =>{
   axios
   .get(`/trade`)
   .then((res) => {
@@ -55,7 +55,7 @@ function StockTradingPage(){
     console.log(err);
   });
 
- },[]);
+ },[]);*/
 
   const SearchOnClick = () => {
       if(wrSearch===''){

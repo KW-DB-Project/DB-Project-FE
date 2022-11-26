@@ -15,9 +15,10 @@ function UserMyPage(){
 
   return(
   <div className='UserMyPage'>
-
-   <MyPage />
-
+  { login.isLogined ?
+   <MyPage />:
+    <Login />
+    }
   </div>
   );
 }
