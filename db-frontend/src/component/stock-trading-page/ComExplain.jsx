@@ -69,6 +69,8 @@ function ComExplain({name,stockPriceDto,lastPriceDto}){
   //관심 클릭 이벤트
   const onClick = () => {
 
+      console.log(stkCd);
+
     axios
     .post('/trade/interest', {
       id:login.id, //아이디
@@ -77,6 +79,7 @@ function ComExplain({name,stockPriceDto,lastPriceDto}){
     })
     .then((res) => {
       console.log(res.data);
+      alert(res.data.isSuccess);
     })
     .catch((err) => {
       console.log(err);
