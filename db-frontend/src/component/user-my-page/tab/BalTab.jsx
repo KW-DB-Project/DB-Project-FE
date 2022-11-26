@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import styled from "styled-components";
-import {useRecoilValue} from "recoil";
+import {useRecoilValue, useSetRecoilState} from "recoil";
 import { isLoginedAtom } from '../../../atom/loginAtom';
 import axios from 'axios';
 
@@ -8,6 +8,7 @@ function BalTab () {
 
     const [userBal,setUserBal] = useState(0);
     const login = useRecoilValue(isLoginedAtom);
+    const setLoginAtom = useSetRecoilState(isLoginedAtom);
 
     useEffect(() => {
 
@@ -21,7 +22,15 @@ function BalTab () {
         console.log("잔액");
         console.log(res.data);
         setUserBal(res.data.balance);
-        login.balance
+        setLoginAtom({
+          isLogined : true,
+          userName : login.userName,
+          id : login.id,
+          password: login.pw,
+          age : login.age,
+          balance : res.data.balance
+        });
+
       })
       .catch((err) => {
         console.log(err);
