@@ -2,13 +2,14 @@ import { useEffect, useState } from "react";
 import styled from "styled-components";
 import axios from 'axios';
 
-import {useRecoilValue} from "recoil";
+import {useRecoilValue, useSetRecoilState} from "recoil";
 import { isLoginedAtom } from '../../atom/loginAtom'
 
 function StockTrade ({s_cd,s_price}){
 const login = useRecoilValue(isLoginedAtom);
+const setLoginAtom = useSetRecoilState(isLoginedAtom);
 
-const [amount,setAmount]=useState('1');
+const [amount,setAmount]=useState(1);
 const [selectedType,setSelectedType]=useState('매수');
 const [userBal,setUserBal]=useState(0); // 사용자의 잔액
 const [userSnum,setUserSnum]=useState(0); //사용자의 보유 주식 수
@@ -53,6 +54,14 @@ const [userSnum,setUserSnum]=useState(0); //사용자의 보유 주식 수
       })
       .then((res) => { 
         setUserBal(res.data.balance); 
+        setLoginAtom({
+          isLogined : true,
+          userName : login.userName,
+          id : login.id,
+          password: login.pw,
+          age : login.age,
+          balance : res.data.balance
+        });
       })
       .catch((err) => {
         console.log(err);
@@ -76,7 +85,7 @@ const [userSnum,setUserSnum]=useState(0); //사용자의 보유 주식 수
   //주문 버튼 이벤트
   const Trade = () => {
 
-    if(login.isLogined){
+    if(true){
 
     if(selectedType === '매수'){
         alert('매수: '+amount+'주');
@@ -93,6 +102,23 @@ const [userSnum,setUserSnum]=useState(0); //사용자의 보유 주식 수
             })
             .then((res) => {
               console.log(res.data);
+
+            if(res.data.isSuccess){
+               // setUserSnum(userBal-(s_price*amount));
+                setUserSnum(userSnum+amount);
+                setLoginAtom({
+                  isLogined : true,
+                  userName : login.userName,
+                  id : login.id,
+                  password: login.pw,
+                  age : login.age,
+                  balance : userBal-(s_price*amount)
+                });
+            }
+            else{
+              alert('거래 실패');
+            }
+
             })
             .catch((err) => {
               console.log(err);
@@ -119,6 +145,24 @@ const [userSnum,setUserSnum]=useState(0); //사용자의 보유 주식 수
             })
             .then((res) => {
               console.log(res.data);
+
+            if(res.data.isSuccess){
+               // setUserSnum(userSnum+amount);
+                setUserBal(userBal+(s_price * amount));
+                setLoginAtom({
+                  isLogined : true,
+                  userName : login.userName,
+                  id : login.id,
+                  password: login.pw,
+                  age : login.age,
+                  balance : userBal+(s_price*amount)
+                });
+                
+            }
+            else{
+              alert('거래 실패');
+            }
+
             })
             .catch((err) => {
               console.log(err);
@@ -147,7 +191,7 @@ const [userSnum,setUserSnum]=useState(0); //사용자의 보유 주식 수
         <StyledBtn style={{backgroundColor:'rgb(190,222,252)',marginLeft:'40px'}} onClick={SellClick}>매도</StyledBtn>
         </Box>
         <Box>
-        <TitleLayout><Title>보유 주식</Title></TitleLayout>
+        <TitleLayout><Title>보유수량</Title></TitleLayout>
         <InputLayout>
          <RightLayout><Title style={{marginRight:'15px'}}>{userSnum}주</Title></RightLayout> 
         </InputLayout>
@@ -155,7 +199,7 @@ const [userSnum,setUserSnum]=useState(0); //사용자의 보유 주식 수
         <Box>
         <TitleLayout><Title>잔액</Title></TitleLayout>
         <InputLayout>
-          <RightLayout><Title style={{marginRight:'15px'}}>{userBal}원</Title></RightLayout>
+          <RightLayout><Title style={{marginRight:'15px'}}>{login.balance}원</Title></RightLayout>
         </InputLayout>
         </Box>
         <Box>
