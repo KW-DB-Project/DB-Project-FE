@@ -17,10 +17,19 @@ function ChargeTab () {
 
     const onClick = () => {
         alert((amount*10000)+'원');
+        setLoginAtom({
+          isLogined : true,
+          userName : login.userName,
+          id : login.id,
+          password: login.pw,
+          age : login.age,
+          balance : login.balance + (amount*10000)
+        });
 
     axios
     .post('/user/addDepositReceived', {
-      id:login.id
+      id:login.id,
+      balance:login.balance
     })
     .then((res) => {
       console.log(res.data);

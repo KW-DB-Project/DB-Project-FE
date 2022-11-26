@@ -18,8 +18,8 @@ function MyBoard () {
         })
         .then((res) => {
           console.log("내가 쓴 글");
-          console.log(res.data);
           setDatas(res.data);
+          console.log(res.data);
         })
         .catch((err) => {
           console.log(err);
@@ -31,7 +31,7 @@ function MyBoard () {
 
         const result = [];
 
-        for(var i =0 ; i <10 ; i++){
+        for(var i =0 ; i <datas.length ; i++){
         result.push(
             <GrayMargin>
             <GrayLayout>
@@ -50,7 +50,7 @@ function MyBoard () {
         <Title>내가 쓴 글</Title><RightLayout></RightLayout>
     </Box>
     <ScrBox>
-    {printStock()}
+      {printStock()}
     </ScrBox>
     <div style={{marginBottom:'20px'}}/>
 </StyledLayout>

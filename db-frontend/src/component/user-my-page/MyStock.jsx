@@ -20,10 +20,12 @@ function MyStock () {
         })
         .then((res) => {
         console.log("보유주식");
-        console.log(res.data);
+        
         setSrate(res.data.rateOfReturn);
         setSamount(res.data.appraisalAmount);
         setStocks(res.data.myStockDto);
+
+        console.log(res.data.myStockDto);
         })
         .catch((err) => {
         console.log(err);
@@ -72,13 +74,13 @@ function MyStock () {
             </RightLayout>
         </CateBox>
         <ScrBox>
-        {printStock()}
+            {printStock()}
         </ScrBox>
         <Box>
-            <MiddleTitle>총 수익률</MiddleTitle><RightLayout><Title>{s_rate}%</Title></RightLayout>
+            <MiddleTitle>총 수익률</MiddleTitle><RightLayout><Title>{s_rate < 0 ? <DownSchg>▼&nbsp;{-s_rate}%</DownSchg> : <UpSchg>▲&nbsp;{s_rate}%</UpSchg>}</Title></RightLayout>
         </Box>
         <Box>
-            <MiddleTitle>총 평가 금액</MiddleTitle><RightLayout><Title>{s_amount}</Title></RightLayout>
+            <MiddleTitle>총 평가 금액</MiddleTitle><RightLayout><Title>{s_amount}원</Title></RightLayout>
         </Box>
     </StyledLayout>
 </div>
@@ -86,6 +88,16 @@ function MyStock () {
 }
 
 export default MyStock;
+
+//상승
+const UpSchg = styled.div`
+color:rgb(252,190,190);
+`;
+
+//하락
+const DownSchg = styled.div`
+color:rgb(190,222,252);
+`;
 
 //회색 박스 간격
 const GrayMargin = styled.div`
