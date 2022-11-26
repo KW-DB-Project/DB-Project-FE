@@ -74,7 +74,7 @@ const [userSnum,setUserSnum]=useState(0); //사용자의 보유 주식 수
         cd:s_cd
       })
       .then((res) => {
-        setUserSnum(res.data.num); 
+        setUserSnum(res.data.stkNum); 
       })
       .catch((err) => {
         console.log(err);
