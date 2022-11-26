@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import styled from "styled-components";
 import axios from 'axios';
 
@@ -31,22 +31,55 @@ const [userSnum,setUserSnum]=useState(0); //사용자의 보유 주식 수
       console.log(selectedType);
   }
 
+  useEffect(() => {
+    //잔액 확인
+    /*axios
+    .all([axios.post('/trade/balance', { id:login.id}), axios.post('/trade/num', {id:login.id,cd:s_cd})])
+    .then((res1,res2) => {
+      console.log(res1.data);
+      console.log(res2.data);
+      setUserBal(res1.data.balance); 
+      setUserSnum(res2.data.num);
+    
+    })
+      .catch((err) => {
+        console.log(err);
+      });*/
+
+      //구매
+      axios
+      .post('/trade/balance',{
+        id:login.id
+      })
+      .then((res) => { 
+        setUserBal(res.data.balance); 
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+
+      //구매
+      axios
+      .post('/trade/num',{
+        id:login.id,
+        cd:s_cd
+      })
+      .then((res) => {
+        setUserSnum(res.data.num); 
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+
+  },[]);
+
   //주문 버튼 이벤트
   const Trade = () => {
 
-    if(login.isLogined){
+    if(true){
 
-    if(selectedType === '매도'){
+    if(selectedType === '매수'){
         alert('매수: '+amount+'주');
-        
-        //잔액 확인
-        axios
-        .post('/trade/balance', {
-          id:login.id, //아이디
-        })
-        .then((res) => {
-          console.log(res.data);
-          setUserBal(res.data.balance);
 
           if(userBal > (s_price*amount)){
 
@@ -69,25 +102,11 @@ const [userSnum,setUserSnum]=useState(0); //사용자의 보유 주식 수
           else{
             alert('잔액이 부족합니다.');
           }
-        })
-        .catch((err) => {
-          console.log(err);
-        });
     
       }
-    else if(selectedType === '매수'){
+    else if(selectedType === '매도'){
         alert('매도: '+amount+'주');
 
-        //잔액 확인
-        axios
-        .post('/trade/num', {
-          id:login.id, //아이디
-          cd:s_cd
-        })
-        .then((res) => {
-          console.log(res.data);
-          setUserSnum(res.data.num);
-          
           if(userSnum >= amount){ 
           
             //판매
@@ -108,11 +127,6 @@ const [userSnum,setUserSnum]=useState(0); //사용자의 보유 주식 수
           else{
             alert('판매 주식 수가 보유 주식 수 보다 많습니다.');
           }
-          
-        })
-        .catch((err) => {
-          console.log(err);
-        });
     }
     else{
         alert('매수, 매도 알수없음');
@@ -133,6 +147,18 @@ const [userSnum,setUserSnum]=useState(0); //사용자의 보유 주식 수
         <StyledBtn style={{backgroundColor:'rgb(190,222,252)',marginLeft:'40px'}} onClick={SellClick}>매도</StyledBtn>
         </Box>
         <Box>
+        <TitleLayout><Title>보유 주식</Title></TitleLayout>
+        <InputLayout>
+         <RightLayout><Title style={{marginRight:'15px'}}>{userSnum}주</Title></RightLayout> 
+        </InputLayout>
+        </Box>
+        <Box>
+        <TitleLayout><Title>잔액</Title></TitleLayout>
+        <InputLayout>
+          <RightLayout><Title style={{marginRight:'15px'}}>{userBal}원</Title></RightLayout>
+        </InputLayout>
+        </Box>
+        <Box>
         <TitleLayout><Title>주문수량</Title></TitleLayout>
         <InputLayout>
           <StyledInput type="number" onChange={onChange} name="amount" value={amount}></StyledInput><Title style={{marginRight:'15px'}}>주</Title>
@@ -141,7 +167,7 @@ const [userSnum,setUserSnum]=useState(0); //사용자의 보유 주식 수
         <Box>
         <TitleLayout><Title>주문가격</Title></TitleLayout>
         <InputLayout>
-          <StyledInput type="number" onChange={onChange} name="amount" value={amount*1000} disabled></StyledInput><Title style={{marginRight:'15px'}}>원</Title>
+          <StyledInput type="number" onChange={onChange} name="amount" value={amount*s_price} disabled></StyledInput><Title style={{marginRight:'15px'}}>원</Title>
         </InputLayout>
         </Box>
         <Box>
@@ -235,4 +261,11 @@ ${(props)=>{
     }
 }};
 `;
+
+//기업명 기업정보 아이콘 묶는 레이아웃
+const RightLayout =styled.div`
+margin-left:auto;
+text-algin:right;
+`;
+
 

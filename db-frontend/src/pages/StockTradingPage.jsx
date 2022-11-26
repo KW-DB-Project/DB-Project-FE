@@ -40,7 +40,22 @@ function StockTradingPage(){
   });
 }
 
- useEffect(() => searchStock('삼성전자'),[]);
+ //useEffect(searchStock('삼성전자'),[]);
+
+ useEffect(() =>{
+  axios
+  .get(`/trade`)
+  .then((res) => {
+
+    setStockInfo(res.data.stockPriceDto);
+    setLastPrice(res.data.lastPriceDto);
+
+  })
+  .catch((err) => {
+    console.log(err);
+  });
+
+ },[]);
 
   const SearchOnClick = () => {
       if(wrSearch===''){
@@ -67,7 +82,7 @@ function StockTradingPage(){
       </Box>
       <Box>
         <DebateBtn />
-        <StockTrade />
+        <StockTrade s_cd={stockInfo.stkCd} s_price={stockInfo.slast}/>
       </Box>
       </Container>
     </Tradelayout>
