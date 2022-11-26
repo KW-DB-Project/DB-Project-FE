@@ -1,7 +1,7 @@
 import { useState } from "react";
 import styled from "styled-components";
 import axios from 'axios';
-import {useRecoilValue} from "recoil";
+import {useRecoilValue, useSetRecoilState} from "recoil";
 import { isLoginedAtom } from '../../../atom/loginAtom';
 
 function ChargeTab () {
