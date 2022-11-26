@@ -75,7 +75,7 @@ function ComExplain({name,stockPriceDto,lastPriceDto}){
     .post('/trade/interest', {
       id:login.id, //아이디
       cd:stkCd, // 주식코드
-      heart:!(clicked) // 타입
+      heart:clicked // 타입
     })
     .then((res) => {
       console.log(res.data);

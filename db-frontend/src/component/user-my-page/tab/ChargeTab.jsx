@@ -18,13 +18,13 @@ function ChargeTab () {
 
     const onClick = () => {
         alert((amount*10000)+'원');
-        setLoginAtom({
+        setLoginAtom({ 
           isLogined : true,
           userName : login.userName,
           id : login.id,
           password: login.pw,
           age : login.age,
-          balance : login.balance + (amount*10000)
+          balance : (amount*10000)
         });
 
     axios
