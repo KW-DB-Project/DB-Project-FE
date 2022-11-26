@@ -13,23 +13,21 @@ function MyStock () {
     const login = useRecoilValue(isLoginedAtom);
 
     useEffect(() => {
+
         //보유주식
         axios
         .post('/user/myStock', {
-        id:login.id
+        id:''
         })
         .then((res) => {
-        console.log("보유주식");
-        
         setSrate(res.data.rateOfReturn);
         setSamount(res.data.appraisalAmount);
         setStocks(res.data.myStockDto);
-
-        console.log(res.data.myStockDto);
         })
         .catch((err) => {
         console.log(err);
         });
+
     },[]);
 
 
@@ -43,8 +41,8 @@ function MyStock () {
             <LittleTitle style={{marginLeft:'30px'}}>{stocks[i].stkNum}</LittleTitle>
         <RightLayout >
         <div style={{display:'flex'}}>
-            <LittleTitle>{stocks[i].stkNum}원</LittleTitle>
-            <LittleTitle style={{marginLeft:'25px'}}>{stocks[i].averagePrice}원</LittleTitle>
+            <LittleTitle>{stocks[i].averagePrice}원</LittleTitle>
+            <LittleTitle style={{marginLeft:'25px'}}>{stocks[i].averagePrice + stocks[i].gainLoss}원</LittleTitle>
             <LittleTitle style={{marginLeft:'25px'}}>{stocks[i].gainLoss}원</LittleTitle>
             </div>
         </RightLayout>
@@ -74,7 +72,7 @@ function MyStock () {
             </RightLayout>
         </CateBox>
         <ScrBox>
-            {printStock()}
+        {printStock()}
         </ScrBox>
         <Box>
             <MiddleTitle>총 수익률</MiddleTitle><RightLayout><Title>{s_rate < 0 ? <DownSchg>▼&nbsp;{-s_rate}%</DownSchg> : <UpSchg>▲&nbsp;{s_rate}%</UpSchg>}</Title></RightLayout>

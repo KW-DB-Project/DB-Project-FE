@@ -14,7 +14,7 @@ function ComExplain({name,stockPriceDto,lastPriceDto}){
     const datas = [];
 
     const {stkCd,slow,svol,schg,shigh,slast,sopen}=stockPriceDto;
-    const [clicked,setClicked]= useState('false');
+    const [clicked,setClicked]= useState(false);
 
     //그래프 값 할당 및 props 값 할당 받기
       for(let i=0; i<lastPriceDto.length; i++){
@@ -68,30 +68,30 @@ function ComExplain({name,stockPriceDto,lastPriceDto}){
 
   //관심 클릭 이벤트
   const onClick = () => {
+
+    axios
+    .post('/trade/interest', {
+      id:login.id, //아이디
+      cd:stkCd, // 주식코드
+      heart:!(clicked) // 타입
+    })
+    .then((res) => {
+      console.log(res.data);
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+
         if(clicked){
-          console.log(clicked);  
           setClicked(false);
         }
         else if(clicked === false){
-          console.log(clicked);  
+
           setClicked(true);    
         }
         else{
             console.log('clicked value 변경불가');
         }
-
-        axios
-        .post('/trade/interest', {
-          id:login.id, //아이디
-          cd:stkCd, // 주식코드
-          heart:!(clicked) // 타입
-        })
-        .then((res) => {
-          console.log(res.data);
-        })
-        .catch((err) => {
-          console.log(err);
-        });
         
         return;
   }

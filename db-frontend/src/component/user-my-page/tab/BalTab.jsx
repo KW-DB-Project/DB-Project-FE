@@ -12,15 +12,13 @@ function BalTab () {
 
     useEffect(() => {
 
-        const userId = login.id;
+      const userId = login.id;
       //잔액
       axios
       .post('/user/depositReceived', {
         id:userId
       })
       .then((res) => {
-        console.log("잔액");
-        console.log(res.data);
         setUserBal(res.data.balance);
         setLoginAtom({
           isLogined : true,
@@ -36,7 +34,7 @@ function BalTab () {
         console.log(err);
       });
 
-    });
+    },[]);
 
     return(
         <div>

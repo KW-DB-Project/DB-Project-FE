@@ -3,7 +3,12 @@ import {useRecoilValue} from "recoil";
 import { isLoginedAtom } from '../atom/loginAtom';
 import MyPage from '../pages/MyPage';
 
-
+/*
+  { login.isLogined ?
+   <MyPage />:
+    <Login />
+    }
+*/
 
 function UserMyPage(){
   const login = useRecoilValue(isLoginedAtom);
