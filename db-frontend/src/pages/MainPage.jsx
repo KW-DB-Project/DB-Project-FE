@@ -8,11 +8,15 @@ import UpDownRanking from "../component/main-page/UpDownRanking";
 
 const MainBox = styled.div`
   display: flex;
+  position:relative;
   flex-direction: column;
-  width:60%;
+  width:1500px;
   padding-top: 160px;
   padding-bottom: 160px;
   margin: 0 auto;
+  @media screen and (max-width : 1600px){
+    width: 600px;
+  }
 `;
 
 const FirstContainer = styled.div`
@@ -22,7 +26,7 @@ const FirstContainer = styled.div`
     grid-template-columns : repeat(1, 550px);
   }
   @media screen and (min-width : 1600px){
-    grid-template-columns : repeat(2, 1fr);
+    grid-template-columns : repeat(2, 720px);
   }
   justify-content : center;
   gap: 20px;
@@ -36,7 +40,7 @@ const SecondContainer = styled.div`
     grid-template-columns : repeat(1, 550px);
   }
   @media screen and (min-width : 1600px){
-    grid-template-columns : 2fr 3fr 2fr;
+    grid-template-columns : 410px 600px 410px;
   }
   justify-content : center;
   margin-top: 25px;
@@ -63,6 +67,7 @@ const Header = styled.h1`
   font-weight: 600;
   font-size: 24px;
   margin-top: 25px;
+  margin-left: 20px;
 `;
 
 const dayNames = [
@@ -74,7 +79,6 @@ const dayNames = [
  '금요일',
  '토요일'
 ];
-
 
 function MainPage(){
   const[today, setToday] = useState(new Date(Date.now()));

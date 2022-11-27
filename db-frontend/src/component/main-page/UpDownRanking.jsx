@@ -20,7 +20,7 @@ const Title = styled.div`
   align-items: center;
   background-color: rgba(0,0,0,0.2);
   border-radius:15px;
-  padding: 5px 5px;
+  padding: 8px 8px;
   margin-left: 10px;
 
   h3{
@@ -74,6 +74,7 @@ const DownMark =styled.div`
 
 function UpDownRanking(){
   const [data, setData] = useState([]);
+  
   useEffect(()=>{
     Axios.get("main/fluctuation")
       .then((res) => {
@@ -82,7 +83,6 @@ function UpDownRanking(){
         console.error(e);
       })
   }, []);
-
 
   return(
     <>
