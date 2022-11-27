@@ -72,9 +72,9 @@ function ComExplain({name,stockPriceDto,lastPriceDto}){
     //처음에 관심인지 아닌지 설정할 때
     useEffect(()=>{
 
-      if(login.isLogined){
+      if(true){
 
-      axios.post('/',
+      axios.post('/trade/heart',
       {
         id:login.id,
         stkCd:stkCd

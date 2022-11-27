@@ -11,8 +11,6 @@ import MyStock from '../component/user-my-page/MyStock';
 function MyPage () {
 
     const login = useRecoilValue(isLoginedAtom);
-    const userId = login.id;
-    const userName =login.userName;
 
     return (
         <MyPageLayout>
