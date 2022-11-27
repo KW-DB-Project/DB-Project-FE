@@ -46,7 +46,7 @@ function MyBoard () {
         result.push(
             <GrayMargin>
             <GrayLayout onClick={() => { const str=datas[i].stkNm + '/' + datas[i].idx;  move(str);}}>
-                <LittleTitle>{datas[i].title}</LittleTitle><RightLayout><LittleTitle>{datas[i].createDate.substr(0,10)}</LittleTitle></RightLayout>
+                <LittleTitle>{datas[i].title}</LittleTitle><LittleTitle>{datas[i].stkNm}</LittleTitle><RightLayout><LittleTitle>{datas[i].createDate.substr(0,10)}</LittleTitle></RightLayout>
             </GrayLayout>
             </GrayMargin>
         )
