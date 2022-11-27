@@ -16,7 +16,6 @@ function MyPage () {
 
     return (
         <MyPageLayout>
-        <UserInfo>{userId} {userName}</UserInfo>
         <Container>
           <Box>
           <MyBalance></MyBalance>
@@ -32,13 +31,6 @@ function MyPage () {
 }
 
 export default MyPage;
-
-const UserInfo = styled.div`
-font-weight:bold;
-font-size:20px;
-margin-bottom:10px;
-margin-left:auto;
-`;
 
 const MyPageLayout = styled.div`
 display: flex;

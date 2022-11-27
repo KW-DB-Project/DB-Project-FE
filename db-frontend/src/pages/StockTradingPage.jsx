@@ -41,22 +41,7 @@ function StockTradingPage(){
 
 }
 
- useEffect( () => {
-
-  ///search?name=${encodeURIComponent(sname)}
-  axios
-  .get(`search?name=${encodeURIComponent('삼성전자')}`)
-  .then((res) => {
-
-    setStockInfo(res.data.stockPriceDto);
-    setLastPrice(res.data.lastPriceDto);
-
-  })
-  .catch((err) => {
-    console.log(err);
-  });
-
- },[]);
+ useEffect(searchStock(sname),[]);
 
  /*useEffect(() =>{
   axios
