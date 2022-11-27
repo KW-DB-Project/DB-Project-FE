@@ -24,13 +24,13 @@ function ChargeTab () {
           id : login.id,
           password: login.pw,
           age : login.age,
-          balance : (amount*10000)
+          balance : login.balance + (amount*10000)
         });
 
     axios
     .post('/user/addDepositReceived', {
       id:login.id,
-      balance:login.balance
+      balance:(amount*10000)
     })
     .then((res) => {
       console.log(res.data);
