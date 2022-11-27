@@ -3,19 +3,12 @@ import styled from "styled-components";
 import {useRecoilValue} from "recoil";
 import { isLoginedAtom } from '../../atom/loginAtom';
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 
 function MyBoard () {
 
     const [datas,setDatas] = useState([]);
     const login = useRecoilValue(isLoginedAtom);
-
-    const navigate=useNavigate();
-    
-    const move = (des) => {
-      const url='/debate/'+des;
-      navigate(url);
-    }
 
     useEffect(() => {
         console.log('보유주식')
@@ -41,14 +34,15 @@ function MyBoard () {
 
         for(var i =0 ; i <datas.length ; i++){ 
 
-          let date=datas[i].createDate.subs
+          let url='/debate/'+datas[i].stkNm+'/'+datas[i].idx;
 
-        result.push(
+        result.push( <NavLink to={url}>
             <GrayMargin>
-            <GrayLayout onClick={() => { const str=datas[i].stkNm + '/' + datas[i].idx;  move(str);}}>
+            <GrayLayout>
                 <LittleTitle>{datas[i].title}</LittleTitle><LittleTitle>{datas[i].stkNm}</LittleTitle><RightLayout><LittleTitle>{datas[i].createDate.substr(0,10)}</LittleTitle></RightLayout>
             </GrayLayout>
-            </GrayMargin>
+          
+            </GrayMargin>  </NavLink>
         )
         }
         return result;
