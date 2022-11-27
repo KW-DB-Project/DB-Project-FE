@@ -3,11 +3,19 @@ import styled from "styled-components";
 import {useRecoilValue} from "recoil";
 import { isLoginedAtom } from '../../atom/loginAtom';
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 function MyBoard () {
 
     const [datas,setDatas] = useState([]);
     const login = useRecoilValue(isLoginedAtom);
+
+    const navigate=useNavigate();
+    
+    const move = (des) => {
+      const url='/debate/'+des;
+      navigate(url);
+    }
 
     useEffect(() => {
         console.log('보유주식')
@@ -37,7 +45,7 @@ function MyBoard () {
 
         result.push(
             <GrayMargin>
-            <GrayLayout>
+            <GrayLayout onClick={() => { const str=datas[i].stkNm + '/' + datas[i].idx;  move(str);}}>
                 <LittleTitle>{datas[i].title}</LittleTitle><RightLayout><LittleTitle>{datas[i].createDate.substr(0,10)}</LittleTitle></RightLayout>
             </GrayLayout>
             </GrayMargin>
