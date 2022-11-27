@@ -39,7 +39,7 @@ function MyBoard () {
         result.push( <NavLink to={url}>
             <GrayMargin>
             <GrayLayout>
-                <LittleTitle>{datas[i].title}</LittleTitle><LittleTitle>{datas[i].stkNm}</LittleTitle><RightLayout><LittleTitle>{datas[i].createDate.substr(0,10)}</LittleTitle></RightLayout>
+              <LittleTitle style={{fontWeight:'bold'}}>{datas[i].stkNm}</LittleTitle><LittleTitle>{datas[i].title}</LittleTitle><RightLayout><LittleTitle>{datas[i].createDate.substr(0,10)}</LittleTitle></RightLayout>
             </GrayLayout>
           
             </GrayMargin>  </NavLink>
