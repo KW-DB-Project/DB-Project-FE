@@ -8,6 +8,7 @@ const Container = styled.div`
   display: flex;
   flex-direction: column;
   padding: 0 10px;
+  height: 100%;
 `;
 
 const SubNav = styled.div`
@@ -36,7 +37,7 @@ opacity : ${props => props.match ? "1" : "0.5"};
 
 const RankList = styled.ul`
   width: 100%;
-  height:90%;
+  height: 85%;
   overflow: scroll;
   overflow-x:hidden;
   padding-right: 10px;

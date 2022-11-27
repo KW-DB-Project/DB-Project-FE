@@ -18,34 +18,32 @@ const RankNumber = styled.div`
   align-items: center;
   width:30px;
   height:30px;
+  border-radius: 5px;
   background-color: rgba(0,0,0,0.2);
   padding-bottom: 2px;
   margin-right: 20px;
 `;
 
 const StockName = styled.div`
-  width: 40%;
+  width: 165px;
+  font-size : ${(props) => (props.len > 7) ? "16px" : "20px"};
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 `;
 
 const StockPrice = styled.div`
   display:flex;
-  justify-content: flex-end;
-  width: 40%;
+  width: 150px;
   margin-right:5px;
   padding-right: 10px;
 `;
 
 const StockRate = styled.div`
   display:flex;
-  justify-content: flex-start;
-  width: 18%;
+  width: 70px;
   color : ${props => props.theme.upColor};
-  div{
-    font-size: 20px;
-    margin-right: 10px;
-    padding-top:1px;
-  }
-  margin-left:10px;
+  margin-left: 20px;
 `;
 
 function StockPriceLeftEntry({entry, index}){
@@ -54,8 +52,8 @@ function StockPriceLeftEntry({entry, index}){
   return(
   <Entry>
     <RankNumber>{`${index+1}`}</RankNumber>
-    <StockName>{`${entry.stkNm}`}</StockName>
-    <StockPrice>{`${number}원`}</StockPrice>
+    <StockName len = {entry.stkNm.length}>{`${entry.stkNm}`}</StockName>
+    <StockPrice><span>{`${number}`}</span><span>원</span></StockPrice>
     <StockRate>
       {`${entry.cnt}명`}
     </StockRate>

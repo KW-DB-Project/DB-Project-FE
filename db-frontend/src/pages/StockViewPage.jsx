@@ -61,6 +61,7 @@ const SubNavMenu = styled.button`
 `;
 
 
+
 function StockViewPage(){
   const [leftMatch, setLeftMatch] = useState("금액");
   const [rightMatch, setRightMatch] = useState("관심");
@@ -78,11 +79,11 @@ function StockViewPage(){
         })
     }else if(rightMatch === "등락"){
       Axios.get("/stock/fluctuation")
-        .then((res)=>{
-          setRightData(res.data);
-        }).catch((e)=>{
-          console.error(e);
-        })
+      .then((res)=>{
+        setRightData(res.data);
+      }).catch((e)=>{
+        console.error(e);
+      })
     }else if(rightMatch === "거래"){
       Axios.get("/stock/volume")
         .then((res)=>{

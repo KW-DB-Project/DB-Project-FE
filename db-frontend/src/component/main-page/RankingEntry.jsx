@@ -6,7 +6,7 @@ const Entry = styled.li`
   width: 100%;
   height:52px;
   margin-bottom:7px;
-  font-size: 20px;
+  font-size: ${(props) => props.length > 7 ? "20px" : "20px"};
   font-weight: 800;
 `;
 
@@ -19,15 +19,16 @@ const RankNumber = styled.div`
   background-color: rgba(0,0,0,0.2);
   padding-bottom: 2px;
   margin-right: 20px;
+  border-radius: 5px;
 `;
 
 const StockName = styled.div`
   width: 40%;
-  margin-left : 10px;
+  margin-left : 0px;
 `;
 
 const StockPrice = styled.div`
-  margin-left: 60px;
+  margin-left: 50px;
 `;
 
 function RankingEntry({entry, index}){
@@ -37,7 +38,7 @@ function RankingEntry({entry, index}){
   return(
   <Entry>
     <RankNumber>{`${index+1}`}</RankNumber>
-    <StockName>{`${entry.stkNm}`}</StockName>
+    <StockName length = {entry.stkNm.length}>{`${entry.stkNm}`}</StockName>
     <StockPrice>{`${transNumber(entry.slast)}원`}</StockPrice>
   </Entry>
   );
