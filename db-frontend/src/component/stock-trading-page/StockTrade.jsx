@@ -4,6 +4,7 @@ import axios from 'axios';
 
 import {useRecoilValue, useSetRecoilState} from "recoil";
 import { isLoginedAtom } from '../../atom/loginAtom'
+import { useNavigate } from "react-router-dom";
 
 function StockTrade ({s_cd,s_price}){
 const login = useRecoilValue(isLoginedAtom);
@@ -13,6 +14,8 @@ const [amount,setAmount]=useState(1);
 const [selectedType,setSelectedType]=useState('매수');
 const [userBal,setUserBal]=useState(0); // 사용자의 잔액
 const [userSnum,setUserSnum]=useState(0); //사용자의 보유 주식 수
+
+const navigate=useNavigate();
 
 
   //인풋 이벤트
@@ -84,8 +87,6 @@ const [userSnum,setUserSnum]=useState(0); //사용자의 보유 주식 수
 
   //주문 버튼 이벤트
   const Trade = () => {
-
-    if(true){
 
     if(selectedType === '매수'){
         alert('매수: '+amount+'주');
@@ -177,14 +178,10 @@ const [userSnum,setUserSnum]=useState(0); //사용자의 보유 주식 수
     }
 
   }
-  else{
-    alert('로그인 후 이용해주십시오.');
-  }
-
-  }
 
   return(
    <StockTradeCom className="StockTradeComponent">
+    {login.isLogined ?
     <StyledLayout>
         <Box>  
         <StyledBtn style={{backgroundColor:'rgb(252,190,190)'}} onClick={BuyClick} >매수</StyledBtn>
@@ -218,6 +215,7 @@ const [userSnum,setUserSnum]=useState(0); //사용자의 보유 주식 수
         <StyledBtn className={selectedType === '매수' ? 'buy' : 'sell'} onClick={Trade} >주문</StyledBtn>
         </Box>
       </StyledLayout>
+      : <StyledLayout><Box><Title style={{margin:'0 auto'}}>로그인 후 이용해 주십시오.</Title></Box></StyledLayout>}
       </StockTradeCom>
   );
 

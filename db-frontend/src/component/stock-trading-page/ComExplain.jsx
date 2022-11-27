@@ -7,11 +7,14 @@ import axios from 'axios';
 
 import {useRecoilValue} from "recoil";
 import { isLoginedAtom } from '../../atom/loginAtom'
+import { useNavigate } from "react-router-dom";
 
 function ComExplain({name,stockPriceDto,lastPriceDto}){
     const login = useRecoilValue(isLoginedAtom);    
    
     const datas = [];
+    const navigate=useNavigate();
+
 
     const {stkCd,slow,svol,schg,shigh,slast,sopen}=stockPriceDto;
     const [clicked,setClicked]= useState(false);
@@ -66,10 +69,31 @@ function ComExplain({name,stockPriceDto,lastPriceDto}){
     };
     
 
+    //처음에 관심인지 아닌지 설정할 때
+    useEffect(()=>{
+
+      if(login.isLogined){
+
+      axios.post('/',
+      {
+        id:login.id,
+        stkCd:stkCd
+      })
+      .then((res)=>{
+          console.log(res.data.isSuccess);
+          setClicked(res.data.isSuccess);
+      })
+      .catch((err)=>{
+          console.log(err);
+      });
+    }
+
+    },[]);
+
   //관심 클릭 이벤트
   const onClick = () => {
 
-      console.log(stkCd);
+    if(login.isLogined){
 
     axios
     .post('/trade/interest', {
@@ -85,16 +109,20 @@ function ComExplain({name,stockPriceDto,lastPriceDto}){
       console.log(err);
     });
 
-        if(clicked){
-          setClicked(false);
-        }
-        else if(clicked === false){
 
-          setClicked(true);    
-        }
-        else{
-            console.log('clicked value 변경불가');
-        }
+      if(clicked){
+      setClicked(false);
+      }
+      else if(clicked === false){
+       setClicked(true);    
+      }
+      else{
+      console.log('clicked value 변경불가');
+      }
+    }
+    else{
+      navigate('/login');
+    }
         
         return;
   }

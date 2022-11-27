@@ -43,8 +43,9 @@ function StockTradingPage(){
 
  useEffect( () => {
 
+  ///search?name=${encodeURIComponent(sname)}
   axios
-  .get(`/trade/search?name=${encodeURIComponent(sname)}`)
+  .get(`search?name=${encodeURIComponent('삼성전자')}`)
   .then((res) => {
 
     setStockInfo(res.data.stockPriceDto);
@@ -96,7 +97,7 @@ function StockTradingPage(){
       <ComExplain name={sname} stockPriceDto={stockInfo} lastPriceDto={lastPrice}/>
       </Box>
       <Box>
-        <DebateBtn />
+        <DebateBtn sname={sname} />
         <StockTrade s_cd={stockInfo.stkCd} s_price={stockInfo.slast}/>
       </Box>
       </Container>
