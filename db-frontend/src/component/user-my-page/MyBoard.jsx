@@ -31,11 +31,14 @@ function MyBoard () {
 
         const result = [];
 
-        for(var i =0 ; i <datas.length ; i++){
+        for(var i =0 ; i <datas.length ; i++){ 
+
+          let date=datas[i].createDate.subs
+
         result.push(
             <GrayMargin>
             <GrayLayout>
-                <LittleTitle>{datas[i].title}</LittleTitle><RightLayout><LittleTitle>{datas[i].createDate.subStr(0,10)}</LittleTitle></RightLayout>
+                <LittleTitle>{datas[i].title}</LittleTitle><RightLayout><LittleTitle>{datas[i].createDate.substr(0,10)}</LittleTitle></RightLayout>
             </GrayLayout>
             </GrayMargin>
         )
