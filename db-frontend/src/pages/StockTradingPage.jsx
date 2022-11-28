@@ -42,6 +42,7 @@ function StockTradingPage(){
 }
 
 useEffect(() =>{
+
   axios
   .get(`/trade/search?name=${encodeURIComponent('삼성전자')}`)
   .then((res) => {

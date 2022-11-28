@@ -15,7 +15,7 @@ const MenuNav = () => {
 
   useEffect(() => {
     setIsLogined(login.isLogined);
-  }, [])
+  }, [login])
 
   const onClickLogout = ()  => {
     setLoginAtom({
@@ -27,7 +27,7 @@ const MenuNav = () => {
       balance : null
     });
     setIsLogined(false);
-    navigate(-1);
+    navigate('/');
   }
 
     return (
