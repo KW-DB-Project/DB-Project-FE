@@ -58,7 +58,7 @@ const navigate=useNavigate();
       .then((res) => { 
         setUserBal(res.data.balance); 
         setLoginAtom({
-          isLogined : true,
+          isLogined : login.isLogined,
           userName : login.userName,
           id : login.id,
           password: login.pw,
@@ -111,7 +111,7 @@ const navigate=useNavigate();
                // setUserSnum(userBal-(s_price*amount));
                 setUserSnum(userSnum+amount);
                 setLoginAtom({
-                  isLogined : true,
+                  isLogined : login.isLogined,
                   userName : login.userName,
                   id : login.id,
                   password: login.pw,
@@ -154,7 +154,7 @@ const navigate=useNavigate();
                // setUserSnum(userSnum+amount);
                 setUserBal(userBal+(s_price * amount));
                 setLoginAtom({
-                  isLogined : true,
+                  isLogined : login.isLogined,
                   userName : login.userName,
                   id : login.id,
                   password: login.pw,
