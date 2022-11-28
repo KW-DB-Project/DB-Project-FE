@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {faCaretUp} from "@fortawesome/free-solid-svg-icons";
+import {faCaretUp, faHeart} from "@fortawesome/free-solid-svg-icons";
 
 const Entry = styled.li`
   display: flex;
@@ -41,6 +41,8 @@ const StockPrice = styled.div`
 
 const StockRate = styled.div`
   display:flex;
+  flex-direction: column;
+  align-items:center;
   width: 70px;
   color : ${props => props.theme.upColor};
   margin-left: 20px;
@@ -55,7 +57,8 @@ function StockPriceLeftEntry({entry, index}){
     <StockName len = {entry.stkNm.length}>{`${entry.stkNm}`}</StockName>
     <StockPrice><span>{`${number}`}</span><span>원</span></StockPrice>
     <StockRate>
-      {`${entry.cnt}명`}
+      <FontAwesomeIcon icon = {faHeart} />
+      {`${entry.cnt}`}
     </StockRate>
   </Entry>
   );

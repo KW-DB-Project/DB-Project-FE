@@ -87,6 +87,9 @@ const ExitButton = styled.button`
   cursor: pointer;
 `;
 
+const DeleteButton = styled(ExitButton)`
+`;
+
 const LikeButton = styled.button`
   display:flex;
   flex-direction: column;
@@ -134,6 +137,10 @@ function StockDebateView(){
     }
   };
 
+  const onClickDelete = () => {
+
+  };
+
   useEffect(() => {
     Axios.post("/community/print", {
       stockName: stock
@@ -150,6 +157,7 @@ function StockDebateView(){
   return(
   <MainBox>
     <ExitButton onClick = {onClickExit}>목록</ExitButton>
+    {(login.isLogined && login.id === data?.userId) ? <DeleteButton onClick = {onClickDelete}>삭제</DeleteButton> : null}
     <Box>
       <Header>
         <Title>{`${data?.title}`}</Title>
