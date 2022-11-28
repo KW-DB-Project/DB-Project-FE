@@ -11,7 +11,7 @@ function MyBoard () {
     const login = useRecoilValue(isLoginedAtom);
 
     useEffect(() => {
-        console.log('보유주식')
+       
         //관심
         axios
         .post('/user/myWriting', {
@@ -39,7 +39,7 @@ function MyBoard () {
         result.push( <NavLink to={url}>
             <GrayMargin>
             <GrayLayout>
-              <LittleTitle style={{fontWeight:'bold'}}>{datas[i].stkNm}</LittleTitle><LittleTitle>{datas[i].title}</LittleTitle><RightLayout><LittleTitle>{datas[i].createDate.substr(0,10)}</LittleTitle></RightLayout>
+              <LittleTitle style={{fontWeight:'bold'}}>{'['}{datas[i].stkNm}{']'}</LittleTitle><LittleTitle>{datas[i].title}</LittleTitle><RightLayout><LittleTitle>{datas[i].createDate.substr(0,10)}</LittleTitle></RightLayout>
             </GrayLayout>
           
             </GrayMargin>  </NavLink>

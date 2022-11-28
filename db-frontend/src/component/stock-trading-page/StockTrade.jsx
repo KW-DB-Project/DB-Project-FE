@@ -70,20 +70,23 @@ const navigate=useNavigate();
         console.log(err);
       });
 
-      //구매
-      axios
-      .post('/trade/num',{
-        id:login.id,
-        cd:s_cd
-      })
-      .then((res) => {
-        setUserSnum(res.data.stkNum); 
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+      console.log(login.balance);
 
   },[]);
+
+   //구매
+   axios
+   .post('/trade/num',{
+     id:login.id,
+     cd:s_cd
+   })
+   .then((res) => {
+     console.log(res.data.stkNum);
+     setUserSnum(res.data.stkNum); 
+   })
+   .catch((err) => {
+     console.log(err);
+   });
 
   //주문 버튼 이벤트
   const Trade = () => {

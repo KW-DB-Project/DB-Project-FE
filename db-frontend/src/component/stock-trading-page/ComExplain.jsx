@@ -70,17 +70,14 @@ function ComExplain({name,stockPriceDto,lastPriceDto}){
     
 
     //처음에 관심인지 아닌지 설정할 때
-    useEffect(()=>{
-
-      if(true){
+      if(login.isLogined){
 
       axios.post('/trade/heart',
       {
         id:login.id,
-        stkCd:stkCd
+        cd:stkCd
       })
       .then((res)=>{
-          console.log(res.data.isSuccess);
           setClicked(res.data.isSuccess);
       })
       .catch((err)=>{
@@ -88,7 +85,6 @@ function ComExplain({name,stockPriceDto,lastPriceDto}){
       });
     }
 
-    },[]);
 
   //관심 클릭 이벤트
   const onClick = () => {
