@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 import { faMagnifyingGlass} from '@fortawesome/free-solid-svg-icons';
 
@@ -7,14 +7,70 @@ import ComExplain from '../component/stock-trading-page/ComExplain';
 import StockTrade from '../component/stock-trading-page/StockTrade';
 import DebateBtn from '../component/stock-trading-page/DebateBtn'
 
+import {useRecoilValue} from "recoil";
+import { isLoginedAtom } from '../atom/loginAtom';
+import axios from 'axios';
+
 function StockTradingPage(){
 
-  const [wrSearch,setwrSearch]=useState('')
+  const login = useRecoilValue(isLoginedAtom);
+
+  const [wrSearch,setwrSearch]=useState('');
+  const [sname,setSname]=useState('삼성전자');
 
   const onChange = (e) => {
     setwrSearch(e.target.value);
   };
 
+  const [stockInfo,setStockInfo] = useState({stkCd:'',slow:0,svol:0,schg:0,shigh:0,slast:0,sopen:0});
+  const [lastPrice, setLastPrice] = useState([]);
+
+ const searchStock = (stockname) => {
+
+  axios
+  .get(`/trade/search?name=${encodeURIComponent(stockname)}`)
+  .then((res) => {
+
+    setStockInfo(res.data.stockPriceDto);
+    setLastPrice(res.data.lastPriceDto);
+
+  })
+  .catch((err) => {
+    console.log(err);
+  });
+
+}
+
+useEffect(() =>{
+
+  axios
+  .get(`/trade/search?name=${encodeURIComponent('삼성전자')}`)
+  .then((res) => {
+
+    setStockInfo(res.data.stockPriceDto);
+    setLastPrice(res.data.lastPriceDto);
+
+  })
+  .catch((err) => {
+    console.log(err);
+  });
+
+ },[]);
+
+ /*useEffect(() =>{
+  axios
+  .get(`/trade`)
+  .then((res) => {
+
+    setStockInfo(res.data.stockPriceDto);
+    setLastPrice(res.data.lastPriceDto);
+
+  })
+  .catch((err) => {
+    console.log(err);
+  });
+
+ },[]);*/
 
   const SearchOnClick = () => {
       if(wrSearch===''){
@@ -23,6 +79,8 @@ function StockTradingPage(){
       }
       else{
       alert(wrSearch);
+      searchStock(wrSearch);
+      setSname(wrSearch);
       setwrSearch('');
       }
   }
@@ -32,26 +90,14 @@ function StockTradingPage(){
       <Container>
       <Box>
       <StyledSearchLayout>
-        <input type="text" value={wrSearch} onChange={onChange} style={{
-            width:"80%",
-            margin:"10px",
-            borderBottom:"0px",
-            borderRight:"0px",
-            borderTop:"0px",
-            borderLeft:"0px",
-            padding:"5px",
-            color:"black",
-            fontSize:"22px",
-            marginLeft:"25px",
-            marginTop:"13px"
-          }}></input>
-          <StyledFontawsome icon={faMagnifyingGlass} onClick={SearchOnClick}/> 
+        <StyledInput type="text" value={wrSearch} onChange={onChange} />
+        <StyledFontawsome icon={faMagnifyingGlass} onClick={SearchOnClick}/> 
       </StyledSearchLayout>
-      <ComExplain />
+      <ComExplain name={sname} stockPriceDto={stockInfo} lastPriceDto={lastPrice}/>
       </Box>
       <Box>
-        <DebateBtn />
-        <StockTrade />
+        <DebateBtn sname={sname} />
+        <StockTrade s_cd={stockInfo.stkCd} s_price={stockInfo.slast}/>
       </Box>
       </Container>
     </Tradelayout>
@@ -60,6 +106,15 @@ function StockTradingPage(){
 }
 
 export default StockTradingPage;
+
+//인풋 스타일
+const StyledInput = styled.input`
+width:80%;
+color:black;
+font-size:22px;
+margin:10px;
+border:none;
+`;
 
 //전체 화면 레이아웃
 const Tradelayout = styled.div`
@@ -96,10 +151,14 @@ height:70px;
 border-radius: 30px;
 box-shadow: ${(props) => props.theme.defaultShadow};
 padding:5px;
+display:flex;
+justify-content:center;
 `;
 
 //아이콘 스타일
 const StyledFontawsome = styled(FontAwesomeIcon)`
 width:30px;
 height:30px;
+margin-left:5px;
+margin-top:13px;
 `;

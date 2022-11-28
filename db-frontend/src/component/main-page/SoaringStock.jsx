@@ -26,18 +26,6 @@ const Wrapper = styled.div`
   display:flex;
 `;
 
-const Calendar = styled.div`
-  display:flex;
-  justify-content: space-evenly;
-  align-items: center;
-  flex-direction: column;
-  width: 50px;
-  height: 75px;
-  background-color: rgba(0,0,0,0.2);
-  border-radius: 20px;
-  font-size: 25px;
-`;
-
 const Title = styled.div`
   display:flex;
   justify-content: center;
@@ -45,7 +33,7 @@ const Title = styled.div`
   font-size:20px;
   background-color: rgba(0,0,0,0.2);
   border-radius:15px;
-  padding: 0 5px;
+  padding: 0px 5px;
   margin-left: 10px;
 
   h3{

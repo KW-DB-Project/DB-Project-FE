@@ -2,78 +2,123 @@ import styled from "styled-components";
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 import { faHeart} from '@fortawesome/free-solid-svg-icons';
 import { Line } from 'react-chartjs-2'
-import { useState } from "react";
+import { useState, useEffect, React } from "react";
+import axios from 'axios';
 
-const tenMinutes = 600000;
-const date = new Date('2010/07/24/00:00');
-const timestamp = date.getTime();
+import {useRecoilValue} from "recoil";
+import { isLoginedAtom } from '../../atom/loginAtom'
+import { useNavigate } from "react-router-dom";
 
-function ComExplain(){
-
-    const datas = [];
-    const [price,setPrice] = useState(0);
-    const [clicked,setClicked]= useState('false');
-
-  for(let i=0; i<=36; i++){
-    const v = new Date(timestamp + tenMinutes * i);
-
-    datas.push({
-      x : `${v.getHours() >= 10 ? v.getHours() : '0'+v.getHours()}:${v.getMinutes() >= 10 ? v.getMinutes() : '0'+v.getMinutes()}`,
-      y : Math.floor(Math.random() * 100),
-    })
-  }
-
-  const options = {
-    fill: {
-      target : {value: 60},
-      above : "#ff7675",
-      below: "#74b9ff",
-    },
-    elements :{
-      point :{
-        radius: 1,
-      }
-    },
-    plugins:{
-      legend :{
-        maxWidth : "100px",
-      },
-    },
-    legend: {
-      display: false, // label 보이기 여부
-
-    },
-    scales: {
-      
-    },
+function ComExplain({name,stockPriceDto,lastPriceDto}){
+    const login = useRecoilValue(isLoginedAtom);    
    
-    // false : 사용자 정의 크기에 따라 그래프 크기가 결정됨.
-    // true : 크기가 알아서 결정됨.
-    maintainAspectRatio: false,
-    responsive : true,
-  }
-  const data = {
-    labels: [],
-    datasets:[
-      {
-        label: 'KOSPI',
-        data : datas,
-      }
-    ]
-  };
+    const datas = [];
+    const navigate=useNavigate();
 
+
+    const {stkCd,slow,svol,schg,shigh,slast,sopen}=stockPriceDto;
+    const [clicked,setClicked]= useState(false);
+
+    //그래프 값 할당 및 props 값 할당 받기
+      for(let i=0; i<lastPriceDto.length; i++){
+
+        datas.push({
+          x : lastPriceDto[i].day.substr(0,10),
+          y : lastPriceDto[i].slast,
+        })
+     
+      }
+
+    const options = {
+      fill: {
+        target : {value: slast},
+        above : "#ff7675",
+        below: "#74b9ff",
+      },
+      elements :{
+        point :{
+          radius: 1,
+        }
+      },
+      plugins:{
+        legend :{
+          maxWidth : "100px",
+        },
+      },
+      legend: {
+        display: false, // label 보이기 여부
+
+      },
+      scales: {
+        
+      },
+    
+      // false : 사용자 정의 크기에 따라 그래프 크기가 결정됨.
+      // true : 크기가 알아서 결정됨.
+      maintainAspectRatio: false,
+      responsive : true,
+    }
+    const sData = {
+      labels: [],
+      datasets:[
+        {
+          label: 'KOSPI',
+          data : datas,
+        }
+      ]
+    };
+    
+
+    //처음에 관심인지 아닌지 설정할 때
+      if(login.isLogined){
+
+      axios.post('/trade/heart',
+      {
+        id:login.id,
+        cd:stkCd
+      })
+      .then((res)=>{
+          setClicked(res.data.isSuccess);
+      })
+      .catch((err)=>{
+          console.log(err);
+      });
+    }
+
+
+  //관심 클릭 이벤트
   const onClick = () => {
-        if(clicked){
-            setClicked(false);
-            console.log(clicked);
-        }
-        else if(clicked === false){
-            setClicked(true);
-            console.log(clicked);
-        }
-        else{
-            console.log('clicked value 변경불가');
-        }
+
+    if(login.isLogined){
+
+    axios
+    .post('/trade/interest', {
+      id:login.id, //아이디
+      cd:stkCd, // 주식코드
+      heart:clicked // 타입
+    })
+    .then((res) => {
+      console.log(res.data);
+      alert(res.data.isSuccess);
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+
+
+      if(clicked){
+      setClicked(false);
+      }
+      else if(clicked === false){
+       setClicked(true);    
+      }
+      else{
+      console.log('clicked value 변경불가');
+      }
+    }
+    else{
+      navigate('/login');
+    }
         
         return;
   }
@@ -83,26 +128,25 @@ function ComExplain(){
         <StyledLayout>
             <Box>
             <StyledFontawsome className={clicked ? 'clicked' : 'unclicked'} onClick={onClick} icon={faHeart} />
-            <Title style={{fontWeight:'bold'}}>기업명</Title>
-            <RightLayout><ComEx>ㅐㅐㅐㅐㅐㅐㅐㅐㅐㅐㅐㅐㅐㅐㅐㅐㅐㅐㅐㅐㅐㅐㅐㅐㅐㅐㅐㅐㅐㅐㅐㅐㅐㅐㅐㅐㅐㅐㅐㅐㅐㅐㅐㅐㅐㅐㅐㅐㅐㅐㅐㅐㅐㅐㅐㅐㅐㅐㅐㅐㅐㅐㅐㅐㅐ</ComEx></RightLayout>
+            <Title style={{fontWeight:'bold'}}>{name}</Title>
             </Box>
             <Box>
-                <Title>{price}원</Title><RightLayout>5.0%</RightLayout>
+                <Title>{slast}원</Title><RightLayout>{schg < 0 ? <DownSchg>▼&nbsp;{-schg}%</DownSchg> : <UpSchg>▲&nbsp;{schg}%</UpSchg>}</RightLayout>
             </Box>
             <Box>
-                <Line type="line" data={data} options={options} ></Line>
+                <Line type="line" data={sData} options={options} ></Line>
             </Box>
             <Box>
                 <Title style={{fontWeight:'bold'}}>투자정보</Title>
             </Box>
             <Box>
-                <Title>상한가</Title><RightLayout style={{color:'rgb(252,190,190)'}}>상한가 원</RightLayout>
+                <Title>상한가</Title><RightLayout style={{color:'rgb(252,190,190)'}}>{shigh} 원</RightLayout>
             </Box>
             <Box>
-                <Title>하한가</Title><RightLayout style={{color:'rgb(190,222,252)'}}>하한가 원</RightLayout>
+                <Title>하한가</Title><RightLayout style={{color:'rgb(190,222,252)'}}>{slow} 원</RightLayout>
             </Box>
             <Box>
-                <Title>거래량</Title><RightLayout>거래량</RightLayout>
+                <Title>거래량</Title><RightLayout>{svol}</RightLayout>
             </Box>
       </StyledLayout>
       </div>
@@ -110,6 +154,16 @@ function ComExplain(){
 }
 
 export default ComExplain;
+
+//상승
+const UpSchg = styled.div`
+color:rgb(252,190,190);
+`;
+
+//하락
+const DownSchg = styled.div`
+color:rgb(190,222,252);
+`;
 
 //스타일 레이아웃
 const StyledLayout = styled.div`

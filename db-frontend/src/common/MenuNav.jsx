@@ -1,31 +1,56 @@
-import { NavLink, useLocation } from "react-router-dom";
+import { NavLink, useLocation, useNavigate } from "react-router-dom";
 import styled from 'styled-components';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
-import {faUser} from '@fortawesome/free-solid-svg-icons';
+import {faUser, faArrowRightFromBracket} from '@fortawesome/free-solid-svg-icons';
 import { isLoginedAtom } from '../atom/loginAtom';
-import { useRecoilValue } from "recoil";
+import { useRecoilValue, useSetRecoilState } from "recoil";
+import { useEffect, useState } from "react";
 
 const MenuNav = () => {
   const login = useRecoilValue(isLoginedAtom);
   const location = useLocation();
+  const [isLogined, setIsLogined] = useState(false);
+  const setLoginAtom = useSetRecoilState(isLoginedAtom);
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    setIsLogined(login.isLogined);
+  }, [login])
+
+  const onClickLogout = ()  => {
+    setLoginAtom({
+      isLogined : false,
+      userName : null,
+      id : null,
+      password: null,
+      age : null,
+      balance : null
+    });
+    setIsLogined(false);
+    navigate('/');
+  }
 
     return (
-        <MenubarLayout>
-      <StyledMenubar>
-        <StyledMenuButton to="/" >
-        {location.pathname === '/' ? <ClickMenuName>홈</ClickMenuName> : <MenuName>홈</MenuName> }
-        </StyledMenuButton>
-        <StyledMenuButton to="/stockview" >
-        {location.pathname === '/stockview' ? <ClickMenuName>국내</ClickMenuName> : <MenuName>국내</MenuName> }
-        </StyledMenuButton>
-        <StyledMenuButton to="/stocktrading" >
-        {location.pathname === '/stocktrading' ? <ClickMenuName>매매</ClickMenuName> : <MenuName>매매</MenuName> }
-        </StyledMenuButton>
-      </StyledMenubar>
-      <StyledMenuButton to="/usermy">
-      <StyledFontawsome icon={faUser}  />
-      {login.isLogined? <span>{`${login.userName}님 안녕하세요!`}</span> :null}
-      </StyledMenuButton>
+      <MenubarLayout>
+        <StyledMenubar>
+          <StyledMenuButton to="/" >
+          {location.pathname === '/' ? <ClickMenuName>홈</ClickMenuName> : <MenuName>홈</MenuName> }
+          </StyledMenuButton>
+          <StyledMenuButton to="/stockview" >
+          {location.pathname === '/stockview' ? <ClickMenuName>국내</ClickMenuName> : <MenuName>국내</MenuName> }
+          </StyledMenuButton>
+          <StyledMenuButton to="/stocktrading" >
+          {location.pathname === '/stocktrading' ? <ClickMenuName>매매</ClickMenuName> : <MenuName>매매</MenuName> }
+          </StyledMenuButton>
+          <StyledMenuButton to="/enterprise" >
+          {location.pathname === '/enterprise' ? <ClickMenuName>기업</ClickMenuName> : <MenuName>기업</MenuName> }
+          </StyledMenuButton>
+        </StyledMenubar>
+        <StyledMenuButtonProfile>
+          {isLogined? <span>{`${login.userName}님 안녕하세요!`}</span> :null}
+          <NavLink to = "/usermy"><StyledFontawsome icon={faUser}  /></NavLink>
+          {isLogined ? <div><StyledFontawsome icon = {faArrowRightFromBracket} onClick = {onClickLogout}/> </div> : null}
+        </StyledMenuButtonProfile>
       </MenubarLayout>
     );
   };
@@ -41,8 +66,11 @@ const MenuNav = () => {
   z-index: 1;
 `;
 
+
 const StyledMenubar = styled.nav`
     display:flex;
+    width : 100%;
+    justify-content: center;
 `;
 
 const StyledMenuButton = styled(NavLink)`
@@ -50,14 +78,20 @@ const StyledMenuButton = styled(NavLink)`
   align-items:center;
 `;
 
+const StyledMenuButtonProfile = styled.div`
+  display:flex;
+  align-items:center;
+  position: absolute;
+  width: 300px;
+  justify-content: space-between;
+  right: 450px;
+  top : 40px;
+`;
+
 const StyledFontawsome = styled(FontAwesomeIcon)`
-
-margin-top:40px;
-width:30px;
-height:30px;
-position:absolute; 
-margin-left:190px;
-
+  width:30px;
+  height:30px;
+  cursor: pointer;
 `;
 
 const MenuName = styled.div`

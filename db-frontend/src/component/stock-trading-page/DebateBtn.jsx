@@ -1,11 +1,13 @@
 import styled from "styled-components";
 import { Link } from "react-router-dom";
 
-function DebateBtn () {
+function DebateBtn (props) {
+
+    const url='/debate/'+props.sname;
 
     return (
 <StyledBtnLayout>
-<DebateLink to='/debate'>종목토론방 이동</DebateLink>
+<DebateLink to={url}>종목토론방 이동</DebateLink>
 </StyledBtnLayout>
     );
 }
