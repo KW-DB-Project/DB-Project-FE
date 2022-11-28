@@ -41,7 +41,7 @@ function MyStock () {
         result.push(
         <GrayMargin>
         <GrayLayout>
-            <LittleTitle>{stocks[i].stockStkCd}</LittleTitle>
+            <LittleTitle>{stocks[i].stkNm}</LittleTitle>
             <LittleTitle style={{marginLeft:'30px'}}>{stocks[i].stkNum}</LittleTitle>
         <RightLayout >
         <div style={{display:'flex'}}>
