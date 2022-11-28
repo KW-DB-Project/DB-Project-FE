@@ -38,6 +38,8 @@ function KOSPIChart(){
     })
   }
 
+  datas.reverse();
+
   const options = {
     fill: {
       target : {value: datas[29]?.y},

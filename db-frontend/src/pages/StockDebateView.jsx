@@ -88,6 +88,7 @@ const ExitButton = styled.button`
 `;
 
 const DeleteButton = styled(ExitButton)`
+  margin-left : 20px;
 `;
 
 const LikeButton = styled.button`
@@ -107,6 +108,12 @@ const LikeButton = styled.button`
   cursor: pointer;
 `;
 
+const ButtonWrapper = styled.div`
+  display:flex;
+`;
+
+
+
 function StockDebateView(){
   const [data, setData] = useState([]);
   const {idx} = useParams();
@@ -123,7 +130,8 @@ function StockDebateView(){
     const {name} = e.target;
     if(login.isLogined){
       Axios.post("/community/like" , {
-        idx : idx
+        postIdx : idx,
+        userId : login.id,
       }).then((res)=> {
         setData({
           ...data,
@@ -156,8 +164,10 @@ function StockDebateView(){
 
   return(
   <MainBox>
+    <ButtonWrapper>
     <ExitButton onClick = {onClickExit}>목록</ExitButton>
     {(login.isLogined && login.id === data?.userId) ? <DeleteButton onClick = {onClickDelete}>삭제</DeleteButton> : null}
+    </ButtonWrapper>
     <Box>
       <Header>
         <Title>{`${data?.title}`}</Title>
