@@ -76,7 +76,7 @@ function SoaringStock(){
               <h3>급등주</h3>
             </Title>
           </Wrapper>
-          <Timeline>{`${today.getMonth()+1}/${today.getDate()} ${today.getHours()}:00`}</Timeline>
+          <Timeline>{`10/28`}</Timeline>
         </Container>
       </Header>
       <SoaringStockList>

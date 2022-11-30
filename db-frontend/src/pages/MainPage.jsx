@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import styled from "styled-components"
 import ChartWrapper from "../component/main-page/ChartWrapper";
 import InterestStock from "../component/main-page/InterestStock";
@@ -82,10 +82,10 @@ const dayNames = [
 
 function MainPage(){
   const[today, setToday] = useState(new Date(Date.now()));
-
+  
   return (
   <MainBox>
-    <Header>{`${today.getMonth() + 1}월 ${today.getDate()}일 ${dayNames[today.getDay()]} 오늘의 주식 입니다.`}</Header>
+    <Header>{`${10}월 ${28}일 금요일 오늘의 주식 입니다.`}</Header>
     <FirstContainer>
       <Box>
         <ChartWrapper/>
