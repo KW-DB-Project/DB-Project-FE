@@ -93,6 +93,7 @@ const DeleteButton = styled(ExitButton)`
 
 const LikeButton = styled.button`
   display:flex;
+  background-color : white;
   flex-direction: column;
   align-items: center;
   justify-content: center;
@@ -103,10 +104,10 @@ const LikeButton = styled.button`
   box-shadow: ${(props) => props.theme.defaultShadow};
   border: none;
   span{
-    opacity: 0.5;
+    opacity: 1.0;
   }
   cursor: pointer;
-  color : ${props => props.isLike? props.theme.upColor : "black"};
+  color : ${props => props.isLike? "tomato" : "black"};
 `;
 
 const ButtonWrapper = styled.div`
@@ -115,6 +116,7 @@ const ButtonWrapper = styled.div`
 
 const ButtonWrapperDelete = styled.div`
   display:flex;
+  margin-top : 20px;
   width: 100%;
   justify-content: flex-end;
 `;
@@ -141,10 +143,17 @@ function StockDebateView(){
         postIdx : idx,
         userId : login.id,
       }).then((res)=> {
-        setData({
-          ...data,
-          [name] : res.data.likeCount
-        });
+        Axios.post("/community/print", {
+          stockName: stock,
+          userId : login.id
+        }).then((res)=>{
+          setData(res.data.filter((item) => {
+            return (idx === item.board.idx.toString());
+          })[0]);
+        })
+          .catch((e)=>{
+            console.error(e);
+        })
       }).catch((e)=>{
         console.error(e);
       })
@@ -169,18 +178,19 @@ function StockDebateView(){
 
   useEffect(() => {
     Axios.post("/community/print", {
-      stockName: stock
+      stockName: stock,
+      userId : login.id,
     }).then((res)=>{
       setData(res.data.filter((item) => {
         return (idx === item.board.idx.toString());
       })[0]);
-    }).then(()=>{
-      setIsLike(data.isLike);
     })
       .catch((e)=>{
         console.error(e);
     })
   }, []);
+
+  console.log(data.isLike);
 
   return(
   <MainBox>
@@ -189,30 +199,30 @@ function StockDebateView(){
     </ButtonWrapper>
     <Box>
       <Header>
-        <Title>{`${data?.title}`}</Title>
+        <Title>{`${data?.board?.title}`}</Title>
         <BoardDescription>
           <FirstRow>
             <span>{`${stock} | `}</span>
-            <span>{`${data?.createDate?.split('T')[0]} | `}</span>
-            <span>{`${data?.userId}`}</span>
+            <span>{`${data?.board?.createDate?.split('T')[0]} | `}</span>
+            <span>{`${data?.board?.userId}`}</span>
           </FirstRow>
           <SecondRow>
-            <span>{`좋아요 : ${data?.blike}`}</span>
+            <span>{`좋아요 : ${data?.board?.blike}`}</span>
           </SecondRow>
         </BoardDescription>
       </Header>
       <ContentWrapper> 
         <Content>
-          {data?.content}
+          {data?.board?.content}
         </Content>
-        <LikeButton isLike = {isLike} onClick={onClickLike} name ="blike">
+        <LikeButton isLike = {data?.isLike} onClick={onClickLike} name ="blike">
           <span><FontAwesomeIcon icon={faHeart} size='2x'/></span>
-          <span>{data?.blike}</span>
+          <span>{data?.board?.blike}</span>
         </LikeButton>
       </ContentWrapper>
     </Box>
     <ButtonWrapperDelete>
-      {(login.isLogined && login.id === data?.userId) ? <DeleteButton onClick = {onClickDelete}>삭제</DeleteButton> : null}
+      {(login.isLogined && login.id === data?.board?.userId) ? <DeleteButton onClick = {onClickDelete}>삭제</DeleteButton> : null}
     </ButtonWrapperDelete>
   </MainBox>);
 }

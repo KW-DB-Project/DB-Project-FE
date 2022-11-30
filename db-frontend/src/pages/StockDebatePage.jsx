@@ -75,7 +75,7 @@ const Like = styled.div`
   margin-right: 50px;
   color : ${props => props.isLike ? props.theme.upColor : "black"};
   span{
-    opacity: 0.5;
+    opacity: 1.0;
     font-size: 10px;
     margin-right: 5px;
     z-index : -1;
@@ -96,11 +96,11 @@ function StockDebatePage(){
 
   useEffect(() => {
     Axios.post("/community/print", {
-      stockName : stock
+      stockName : stock,
+      userId : login.id,
     })
     .then((res) => {
-      setBoards(res.data.board);
-      setIsLike(res.data.isLike);
+      setBoards(res.data);
     })
     .catch((e) => {
       console.error(e);
@@ -116,12 +116,12 @@ function StockDebatePage(){
     </Header>
     {
       boards.map((item, index) => {
-        return (<BoardEntry key = {item.idx}>
-          <Index>{item.idx}</Index>
-          <Title to = {`/debate/${stock}/${item.idx}`}>{item.title}</Title>
-          <Like isLike = {isLike[index] ? true : false}><span><FontAwesomeIcon icon={faHeart} size='2x'/></span>{item.blike}</Like>
-          <Name>{item.userId}</Name>
-          <Cdate>{item.createDate.split('T')[0]}</Cdate>
+        return (<BoardEntry key = {item.board.idx}>
+          <Index>{item.board.idx}</Index>
+          <Title to = {`/debate/${stock}/${item.board.idx}`}>{item.board.title}</Title>
+          <Like isLike = {item.isLike}><span><FontAwesomeIcon icon={faHeart} size='2x'/></span>{item.board.blike}</Like>
+          <Name>{item.board.userId}</Name>
+          <Cdate>{item.board.createDate.split('T')[0]}</Cdate>
           </BoardEntry>);
       })
     }
