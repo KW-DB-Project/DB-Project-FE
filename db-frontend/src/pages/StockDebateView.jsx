@@ -106,10 +106,17 @@ const LikeButton = styled.button`
     opacity: 0.5;
   }
   cursor: pointer;
+  color : ${props => props.isLike? props.theme.upColor : "black"};
 `;
 
 const ButtonWrapper = styled.div`
   display:flex;
+`;
+
+const ButtonWrapperDelete = styled.div`
+  display:flex;
+  width: 100%;
+  justify-content: flex-end;
 `;
 
 
@@ -120,6 +127,7 @@ function StockDebateView(){
   const {stock} = useParams();
   const navigate = useNavigate();
   const login = useRecoilValue(isLoginedAtom);
+  const [isLike, setIsLike] = useState(false);
   //useEffect();
 
   const onClickExit = () =>{
@@ -146,27 +154,38 @@ function StockDebateView(){
   };
 
   const onClickDelete = () => {
-
+    if(window.confirm("정말로 삭제하시겠습니까?") === true){
+      Axios.post("/community/postDelete" , {
+        idx : idx
+      }).then((res) => {
+        navigate(`/debate/${stock}`);      
+      }).catch((e) => {
+        console.error(e);
+      })
+    }else{
+      return;
+    }
   };
 
   useEffect(() => {
     Axios.post("/community/print", {
       stockName: stock
     }).then((res)=>{
-      console.log(res);
       setData(res.data.filter((item) => {
-        return (idx === item.idx.toString());
+        return (idx === item.board.idx.toString());
       })[0]);
-    }).catch((e)=>{
-      console.error(e);
+    }).then(()=>{
+      setIsLike(data.isLike);
+    })
+      .catch((e)=>{
+        console.error(e);
     })
   }, []);
 
   return(
   <MainBox>
     <ButtonWrapper>
-    <ExitButton onClick = {onClickExit}>목록</ExitButton>
-    {(login.isLogined && login.id === data?.userId) ? <DeleteButton onClick = {onClickDelete}>삭제</DeleteButton> : null}
+      <ExitButton onClick = {onClickExit}>목록</ExitButton>
     </ButtonWrapper>
     <Box>
       <Header>
@@ -186,12 +205,15 @@ function StockDebateView(){
         <Content>
           {data?.content}
         </Content>
-        <LikeButton onClick={onClickLike} name ="blike">
+        <LikeButton isLike = {isLike} onClick={onClickLike} name ="blike">
           <span><FontAwesomeIcon icon={faHeart} size='2x'/></span>
           <span>{data?.blike}</span>
         </LikeButton>
       </ContentWrapper>
     </Box>
+    <ButtonWrapperDelete>
+      {(login.isLogined && login.id === data?.userId) ? <DeleteButton onClick = {onClickDelete}>삭제</DeleteButton> : null}
+    </ButtonWrapperDelete>
   </MainBox>);
 }
 

@@ -14,7 +14,7 @@ const RankList = styled.ul`
   overflow: scroll;
   overflow-x:hidden;
   padding-right: 10px;
-  margin-top: 65px;
+  margin-top: 5px;
   padding-bottom: 20px;
   &::-webkit-scrollbar {
     width: 8px;
