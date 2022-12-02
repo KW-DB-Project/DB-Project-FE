@@ -124,13 +124,13 @@ function AdminCom () {
                 <InputBox>
                 <TitleLayout><Title>기업이름</Title></TitleLayout>
                     <InputLayout>
-                    <StyledInput type="text" onChange={()=>{onChangeData(i)}} name="entNm" value={datas[i].entNm}></StyledInput>
+                    <StyledInput type="text" onChange={()=>{onChangeDataNm(i)}} name="entNm" value={datas[i].entNm}></StyledInput>
                     </InputLayout>
                 </InputBox>
                 <InputBox>
                 <TitleLayout><Title>기업정보</Title></TitleLayout>
                     <InputLayout>
-                    <StyledInput type="text" onChange={onChangeData} name="entSmry" value={datas[i].entSmry}></StyledInput>
+                    <StyledInput type="text" onChange={onChangeDataSmry} name="entSmry" value={datas[i].entSmry}></StyledInput>
                     </InputLayout>
                 </InputBox>
                 <InputBox>
