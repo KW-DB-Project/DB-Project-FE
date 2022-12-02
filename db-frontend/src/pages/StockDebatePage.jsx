@@ -117,7 +117,6 @@ function StockDebatePage(){
     {
       boards.map((item, index) => {
         return (<BoardEntry key = {item.board.idx}>
-          <Index>{item.board.idx}</Index>
           <Title to = {`/debate/${stock}/${item.board.idx}`}>{item.board.title}</Title>
           <Like isLike = {item.isLike}><span><FontAwesomeIcon icon={faHeart} size='2x'/></span>{item.board.blike}</Like>
           <Name>{item.board.userId}</Name>
