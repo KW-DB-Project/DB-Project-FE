@@ -1,33 +1,33 @@
-import { useEffect } from "react";
+import axios from "axios";
+import { useEffect, useState } from "react";
 import styled from "styled-components";
+
 
 function AdminUser () {
 
-    /*
+    const [datas,setDatas]=useState([]);
+    
     useEffect(() => {
 
         //초기데이터 받기
-        axios.post('/',
-        {id:login.id})
+        axios.get('/admin/user')
         .then((res)=>{
-            console.log(res.data)
+            console.log(res.data);
             setDatas(res.data);
         })
         .catch((err)=>{
             console.log(err);
         });
 
-    },[]);*/
+    },[]);
 
     const Del= (delId) => {
 
         alert(delId);
 
-
         //삭제 할 게시판 idx 보내기
-        /*
-        axios.post('/',
-        {idx:delIdx})
+        axios.post('/admin/user/delete',
+        {id:delId})
         .then((res)=>{
             console.log(res.data)
             if(!res.data){
@@ -36,7 +36,7 @@ function AdminUser () {
         })
         .catch((err)=>{
             console.log(err);
-        });*/
+        });
 
         return;
 
@@ -44,26 +44,29 @@ function AdminUser () {
 
     const printUser = () => {
         const result = [];
+
+        console.log(datas[0]);
     
-        for(let i=0; i < 10 ; i++){
+        if(datas.length != 0){
+        for(let i=0; i < datas.length ; i++){
            result.push( 
            <Box>
                 <Info>
-                    <Title>아이디</Title>
-                    <Title>닉네임</Title>
-                    <Title>나이</Title>
+                    <Title>{datas[i].id}</Title>
+                    <Title>{datas[i].age}</Title>
+                    <Title>{datas[i].unm}</Title>
                 </Info>
-                <DelBtn onClick={()=>{ Del(i); }}><Title>삭제</Title></DelBtn>
+                <DelBtn onClick={()=>{ Del(datas[i].id); }}><Title>삭제</Title></DelBtn>
             </Box>
            )
         }
-
+    }
         return result;
     }
 
     return (
         <ScrBox>
-            {printUser()}
+            {datas.length === 0 ? <Box><Title style={{color:'gray'}}>회원이 없습니다.</Title></Box> : printUser()}
         </ScrBox>
       
     );
