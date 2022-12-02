@@ -11,93 +11,84 @@ function AdminBoard () {
     const [wrSearch,setwrSearch]=useState('');
     const [sname,setSname]=useState('삼성전자');
     const [datas,setDatas]=useState([]);
-    const [board,setBoard]=useState([]);
-
 
     const login = useRecoilValue(isLoginedAtom);
 
-    /*
+    //초기 화면 로그 시 & sname 변할 경우 작동
     useEffect(() => {
 
+
         //초기데이터 받기
-        axios.post('/',
-        {name:sname})
+        axios.post('/admin/community/searchPosts',
+        {stockName:sname})
         .then((res)=>{
-            console.log(res.data)
             setDatas(res.data);
         })
         .catch((err)=>{
             console.log(err);
         });
 
-    },[]);*/
+    },[sname]);
 
-    const Del= (delIdx) => {
-
-        alert(delIdx);
-
+    //삭제 버튼 이벤트
+    const Del= (delIdx,i) => {
 
         //삭제 할 게시판 idx 보내기
-        /*
-        axios.post('/',
+        axios.post('/admin/community/postDelete',
         {idx:delIdx})
         .then((res)=>{
-            console.log(res.data)
-            if(!res.data){
+            console.log(res.data.isSuccess)
+            if(!res.data.isSuccess){
                 alert('삭제에 실패했습니다.');
+            }
+            else{
+                datas.splice(i,1);
             }
         })
         .catch((err)=>{
             console.log(err);
-        });*/
+        });
 
         return;
 
     }
 
+    //글 배열 출력 함수
     const printBoard = () => {
         const result = [];
+
+        if(datas.length != 0){
     
-        for(let i=0; i < 10 ; i++){
+        for(let i=0; i < datas.length ; i++){
           
            result.push( 
            <Box>
             <HeadCon>
                 <Info>
-                    <Title>제목</Title>
-                    <Title>작성자</Title>
+                    <Title>{datas[i].title}</Title>
+                    <Title>{datas[i].userId}</Title>
                 </Info>
-                <DelBtn onClick={() => { Del(i); }} ><Title>삭제</Title></DelBtn>
+                <DelBtn onClick={() => { Del(datas[i].idx,i); }} ><Title>삭제</Title></DelBtn>
             </HeadCon>
             <StyledLine />
-            <Title>내용</Title>
+            <Title>{datas[i].content}</Title>
             </Box>
            )
         }
+    }
 
         return result;
     }
 
+    //검색창 입력 이벤트 
     const onChange = (e) => {
         setwrSearch(e.target.value);
       };
 
+      //검색 버튼 클릭 이벤트
     const searchStock = () => {
         setSname(wrSearch);
         setwrSearch('');
-
-        console.log('search click')
-
-
-        //게시판 데이터
-       /* axios
-        .get(`/trade/search?name=${encodeURIComponent(sname)}`)
-        .then((res) => {
-            setBoard(res.data);
-        })
-        .catch((err) => {
-          console.log(err);
-        });*/
       
       }
 
@@ -108,9 +99,15 @@ function AdminBoard () {
         <StyledInput type="text" value={wrSearch} onChange={onChange} placeholder="검색" dir="rtl"/>
         <StyledFontawsome icon={faMagnifyingGlass} onClick={searchStock}/> 
       </StyledSearchLayout>
+      {datas.length === 0 ?
+      <Box>
+        <Title style={{color:'gray'}}>게시글이 존재하지 않습니다.</Title>
+      </Box>
+      :
+      
       <ScrBox>
         {printBoard()}
-      </ScrBox>
+      </ScrBox>}
       </div>
     );
 }

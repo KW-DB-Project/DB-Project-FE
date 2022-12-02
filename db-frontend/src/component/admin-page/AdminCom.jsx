@@ -1,37 +1,110 @@
-import { useState } from "react";
+import axios from "axios";
+import { useState, useEffect } from "react";
 import styled from "styled-components";
 
 function AdminCom () {
 
     const [addBox,setAddBox]=useState(false);
-    const [inputs, setInputs] = useState({stk_nm:'초반이름',stock_stk_cd:'',ls:0,ent_smry:'초반 설명',category:'',s_open:0,s_high:0,s_low:0,up_nm:'수정이름',up_smry:'수정정보'});
-    const {stk_nm,stock_stk_cd,ls,ent_smry,category,s_open,s_high,s_low,up_nm,up_smry} = inputs; // 비구조화 할당을 통해 값 추출
+    const [inputs, setInputs] = useState({stk_nm:'',stock_stk_cd:'',ls:0,ent_smry:'',category:'',price:0});
+    const {stk_nm,stock_stk_cd,ls,ent_smry,category,price} = inputs; // 비구조화 할당을 통해 값 추출
+    const [datas,setDatas]=useState([]);
 
-  const onChangeLoginInput= (e) => {
-    const {name, value} =e.target; //우선 e.target에서 id와 value 추출
-    setInputs({
-      ...inputs, //기존의 input 객체를 복사한 뒤
-      [name]: value // name 키를 가진 값을 value 로 설정
-    });
-  };
+    const onChangeInput= (e) => {
+        const {name, value} =e.target; //우선 e.target에서 id와 value 추출
+        setInputs({
+        ...inputs, //기존의 input 객체를 복사한 뒤
+        [name]: value // name 키를 가진 값을 value 로 설정
+        });
+    };
+
+    const onChangeDataNm= (e) => {
+        const {name, value} =e.target; //우선 e.target에서 id와 value 추출
+        setDatas({
+        ...datas, //기존의 input 객체를 복사한 뒤
+        [name]: value // name 키를 가진 값을 value 로 설정
+        });
+    };
+
+    const onChangeDataSmry= (e) => {
+        const {name, value} =e.target; //우선 e.target에서 id와 value 추출
+        setDatas({
+        ...datas, //기존의 input 객체를 복사한 뒤
+        [name]: value // name 키를 가진 값을 value 로 설정
+        });
+    };
+
+    useEffect(()=>{
+
+        axios.post('/admin/enterprise',{
+            id:'admin'
+        })
+        .then((res)=>{
+            setDatas(res.data);
+            console.log(res.data);
+
+        })
+        .catch((err)=>{
+            console.log(err);
+        });
+    },[]);
 
     //삭제 버튼
     const Del = (idx) => {
         alert(idx+'delete');
+
+        /*
+        axios.post('/',{
+            idx:idx
+        })
+        .then((res)=>{
+            if(!res.data.isSuccess){
+                alert('삭제에 실패했습니다.');
+            }
+        })
+        .catch((err)=>{
+
+        });
+        */
+
     }
     
     //수정 버튼
     const Update = (idx) => {
         alert(idx+'update');
+
+        
+
     }
 
     //기업 추가 여부 설정
     const setAdd = () => {
 
         if(addBox)
-        {setAddBox(false);}
+        {
+            axios.post('/admin/enterprise/insert',{
+                name:stk_nm,
+                code:stock_stk_cd,
+                count:ls,
+                content:ent_smry,
+                category:category,
+                price:price
+            })
+            .then((res)=>{
+                if(!res.data.isSuccess)
+                {
+                    alert('기업 추가에 실패했습니다.');
+                }
+                
+            })
+            .catch((err)=>{
+                console.log(err);
+            });
+            setAddBox(false);
+        }
         else
-        {setAddBox(true);}
+        {
+            setAddBox(true);
+        }
 
     }
 
@@ -39,7 +112,8 @@ function AdminCom () {
     const printCom = () => {
         const result = [];
     
-        for(let i=0; i < 10 ; i++){
+        for(let i=0; i < datas.length ; i++){
+            const {entNm,entSmry,slast} = datas[i];
            result.push( 
            <Box>
                 <HeadCon>
@@ -50,25 +124,19 @@ function AdminCom () {
                 <InputBox>
                 <TitleLayout><Title>기업이름</Title></TitleLayout>
                     <InputLayout>
-                    <StyledInput type="text" onChange={onChangeLoginInput} name="up_nm" value={up_nm}></StyledInput>
+                    <StyledInput type="text" onChange={()=>{onChangeData(i)}} name="entNm" value={datas[i].entNm}></StyledInput>
                     </InputLayout>
                 </InputBox>
                 <InputBox>
                 <TitleLayout><Title>기업정보</Title></TitleLayout>
                     <InputLayout>
-                    <StyledInput type="text" onChange={onChangeLoginInput} name="up_smry" value={up_smry}></StyledInput>
+                    <StyledInput type="text" onChange={onChangeData} name="entSmry" value={datas[i].entSmry}></StyledInput>
                     </InputLayout>
                 </InputBox>
                 <InputBox>
                 <TitleLayout><Title>가격</Title></TitleLayout>
                     <InputLayout>
-                    <StyledInput type="text" name="stk_nm" value={stk_nm} disabled></StyledInput>
-                    </InputLayout>
-                </InputBox>
-                <InputBox>
-                 <TitleLayout><Title>관심수</Title></TitleLayout>
-                    <InputLayout>
-                    <StyledInput type="text"  name="stk_nm" value={stk_nm} disabled></StyledInput>
+                    <StyledInput type="text" name="slast" value={datas[i].slast} disabled></StyledInput>
                     </InputLayout>
                 </InputBox>
             </Box>
@@ -86,54 +154,44 @@ function AdminCom () {
         <InputBox>
             <TitleLayout><Title>기업이름</Title></TitleLayout>
                 <InputLayout>
-                <StyledInput type="text" onChange={onChangeLoginInput} name="stk_nm" value={stk_nm}></StyledInput>
+                <StyledInput type="text" onChange={onChangeInput} name="stk_nm" value={stk_nm}></StyledInput>
                 </InputLayout>
         </InputBox>
         <InputBox>
             <TitleLayout><Title>기업코드</Title></TitleLayout>
                 <InputLayout>
-                <StyledInput type="text" onChange={onChangeLoginInput} name="stock_stk_cd" value={stock_stk_cd}></StyledInput>
+                <StyledInput type="text" onChange={onChangeInput} name="stock_stk_cd" value={stock_stk_cd}></StyledInput>
                 </InputLayout>
         </InputBox>
         <InputBox>
             <TitleLayout><Title>상장주식수</Title></TitleLayout>
                 <InputLayout>
-                <StyledInput type="text" onChange={onChangeLoginInput} name="ls" value={ls}></StyledInput>
+                <StyledInput type="text" onChange={onChangeInput} name="ls" value={ls}></StyledInput>
                 </InputLayout>
         </InputBox>
         <InputBox>
             <TitleLayout><Title>기업설명</Title></TitleLayout>
                 <InputLayout>
-                <StyledInput type="text" onChange={onChangeLoginInput} name="ent_smry" value={ent_smry}></StyledInput>
+                <StyledInput type="text" onChange={onChangeInput} name="ent_smry" value={ent_smry}></StyledInput>
                 </InputLayout>
         </InputBox>
         <InputBox>
             <TitleLayout><Title>카테고리</Title></TitleLayout>
                 <InputLayout>
-                <StyledSelect onChange={onChangeLoginInput} name="category">
-                    <option value="반도체" selected>반도체</option>
-                    <option value="종목2" >종목2</option>
-                    <option value="종목3" >종목3</option>
-                    <option value="종목4" >종목4</option>
+                <StyledSelect onChange={onChangeInput} name="category">
+                    <option value="반도체" selected>건설업</option>
+                    <option value="농업" >농업</option>
+                    <option value="제조업" >제조업</option>
+                    <option value="운송업" >운송업</option>
+                    <option value="금융업" >금융업</option>
+                    <option value="서비스업" >서비스업</option>
                 </StyledSelect>
                 </InputLayout>
         </InputBox>
         <InputBox>
-            <TitleLayout><Title>시가</Title></TitleLayout>
+            <TitleLayout><Title>가격</Title></TitleLayout>
                 <InputLayout>
-                <StyledInput type="text" onChange={onChangeLoginInput} name="s_open" value={s_open}></StyledInput>
-                </InputLayout>
-        </InputBox>
-        <InputBox>
-            <TitleLayout><Title>고가</Title></TitleLayout>
-                <InputLayout>
-                <StyledInput type="text" onChange={onChangeLoginInput} name="s_high" value={s_high}></StyledInput>
-                </InputLayout>
-        </InputBox>
-        <InputBox>
-            <TitleLayout><Title>저가</Title></TitleLayout>
-                <InputLayout>
-                <StyledInput type="text" onChange={onChangeLoginInput} name="s_low" value={s_low}></StyledInput>
+                <StyledInput type="text" onChange={onChangeInput} name="price" value={price}></StyledInput>
                 </InputLayout>
         </InputBox>
       </Box> 
