@@ -3,16 +3,12 @@ import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 import { faMagnifyingGlass} from '@fortawesome/free-solid-svg-icons';
 import { useState, useEffect } from "react";
 import axios from "axios";
-import {useRecoilValue} from "recoil";
-import { isLoginedAtom } from '../../atom/loginAtom';
 
 function AdminBoard () {
 
     const [wrSearch,setwrSearch]=useState('');
     const [sname,setSname]=useState('삼성전자');
     const [datas,setDatas]=useState([]);
-
-    const login = useRecoilValue(isLoginedAtom);
 
     //초기 화면 로그 시 & sname 변할 경우 작동
     useEffect(() => {
@@ -42,7 +38,7 @@ function AdminBoard () {
                 alert('삭제에 실패했습니다.');
             }
             else{
-                datas.splice(i,1);
+                window.location.reload();
             }
         })
         .catch((err)=>{
@@ -57,7 +53,7 @@ function AdminBoard () {
     const printBoard = () => {
         const result = [];
 
-        if(datas.length != 0){
+        if(datas.length !== 0){
     
         for(let i=0; i < datas.length ; i++){
           
@@ -161,7 +157,7 @@ margin:2%;
 
 //기업명
 const ComTitle = styled.div`
-font-size:25px;
+font-size:150%;
 font-weight:bold;
 margin:2.5%;
 text-align:center;
