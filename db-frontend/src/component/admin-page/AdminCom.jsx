@@ -5,10 +5,12 @@ import styled from "styled-components";
 function AdminCom () {
 
     const [addBox,setAddBox]=useState(false);
-    const [inputs, setInputs] = useState({stk_nm:'',stock_stk_cd:'',ls:0,ent_smry:'',category:'',price:0});
-    const {stk_nm,stock_stk_cd,ls,ent_smry,category,price} = inputs; // 비구조화 할당을 통해 값 추출
+    const [UPBox,setUPBox]=useState(-1);
+    const [inputs, setInputs] = useState({stk_nm:'',stock_stk_cd:'',ls:0,ent_smry:'',category:'',price:0,upnm:'',upSmry:''});
+    const {stk_nm,stock_stk_cd,ls,ent_smry,category,price,upnm,upSmry} = inputs; // 비구조화 할당을 통해 값 추출
     const [datas,setDatas]=useState([]);
 
+    //인풋 이벤트 함수
     const onChangeInput= (e) => {
         const {name, value} =e.target; //우선 e.target에서 id와 value 추출
         setInputs({
@@ -17,22 +19,7 @@ function AdminCom () {
         });
     };
 
-    const onChangeDataNm= (e) => {
-        const {name, value} =e.target; //우선 e.target에서 id와 value 추출
-        setDatas({
-        ...datas, //기존의 input 객체를 복사한 뒤
-        [name]: value // name 키를 가진 값을 value 로 설정
-        });
-    };
-
-    const onChangeDataSmry= (e) => {
-        const {name, value} =e.target; //우선 e.target에서 id와 value 추출
-        setDatas({
-        ...datas, //기존의 input 객체를 복사한 뒤
-        [name]: value // name 키를 가진 값을 value 로 설정
-        });
-    };
-
+    //첫화면
     useEffect(()=>{
 
         axios.post('/admin/enterprise',{
@@ -48,39 +35,12 @@ function AdminCom () {
         });
     },[]);
 
-    //삭제 버튼
-    const Del = (idx) => {
-        alert(idx+'delete');
-
-        /*
-        axios.post('/',{
-            idx:idx
-        })
-        .then((res)=>{
-            if(!res.data.isSuccess){
-                alert('삭제에 실패했습니다.');
-            }
-        })
-        .catch((err)=>{
-
-        });
-        */
-
-    }
-    
-    //수정 버튼
-    const Update = (idx) => {
-        alert(idx+'update');
-
-        
-
-    }
-
     //기업 추가 여부 설정
     const setAdd = () => {
 
         if(addBox)
         {
+            if(stk_nm === ''){ setAddBox(false); return;}
             axios.post('/admin/enterprise/insert',{
                 name:stk_nm,
                 code:stock_stk_cd,
@@ -93,6 +53,9 @@ function AdminCom () {
                 if(!res.data.isSuccess)
                 {
                     alert('기업 추가에 실패했습니다.');
+                }
+                else{
+                    window.location.reload();
                 }
                 
             })
@@ -108,38 +71,81 @@ function AdminCom () {
 
     }
 
+    //기업 추가 여부 설정
+    const setUP = (idx) => {
+
+        if(UPBox !== -1)
+        {
+            
+            setUPBox(-1);
+        }
+        else
+        {
+            setUPBox(idx);
+            setInputs({
+                ...inputs, //기존의 input 객체를 복사한 뒤
+                upnm: datas[idx].entNm,
+                upSmry: datas[idx].entSmry // name 키를 가진 값을 value 로 설정
+                });
+        }
+
+    }
+
+    //삭제 버튼
+    const Del = (idx) => {
+
+         axios.post('/admin/enterprise/delete',{
+            code:datas[idx].stockStkCd,
+        })
+        .then((res)=>{
+            if(!res.data.isSuccess){
+                alert('삭제에 실패했습니다.');
+            }
+            else{
+                setUPBox(-1);
+            }
+        })
+        .catch((err)=>{
+            console.log(err);
+        });
+        
+
+    }
+    
+    //수정 버튼
+    const Update = (idx) => {
+        alert(idx+'update');
+
+       
+        axios.post('/admin/enterprise/update',{
+            stockCode:datas[idx].stockStkCd,
+            newEntNm:upnm,
+            newEntSmr:upSmry
+        })
+        .then((res)=>{
+            if(!res.data.isSuccess){
+                alert('삭제에 실패했습니다.');
+            }
+            else{
+                setUPBox(-1);
+            }
+        })
+        .catch((err)=>{
+            console.log(err);
+        });
+
+    }
+
     //기업 정보 출력 함수
     const printCom = () => {
         const result = [];
     
         for(let i=0; i < datas.length ; i++){
-            const {entNm,entSmry,slast} = datas[i];
+            
            result.push( 
-           <Box>
-                <HeadCon>
-                    <Info></Info>
-                    <StyledBtn classname="update" onClick={() => { Update(i); }} ><Title>수정</Title></StyledBtn>
-                    <StyledBtn classname="delete" onClick={() => { Del(i); }} ><Title>삭제</Title></StyledBtn>
-                </HeadCon>
-                <InputBox>
-                <TitleLayout><Title>기업이름</Title></TitleLayout>
-                    <InputLayout>
-                    <StyledInput type="text" onChange={()=>{onChangeDataNm(i)}} name="entNm" value={datas[i].entNm}></StyledInput>
-                    </InputLayout>
-                </InputBox>
-                <InputBox>
-                <TitleLayout><Title>기업정보</Title></TitleLayout>
-                    <InputLayout>
-                    <StyledInput type="text" onChange={onChangeDataSmry} name="entSmry" value={datas[i].entSmry}></StyledInput>
-                    </InputLayout>
-                </InputBox>
-                <InputBox>
-                <TitleLayout><Title>가격</Title></TitleLayout>
-                    <InputLayout>
-                    <StyledInput type="text" name="slast" value={datas[i].slast} disabled></StyledInput>
-                    </InputLayout>
-                </InputBox>
-            </Box>
+                <Box>
+                   <ComTitle onClick={()=>{setUP(i);}}>{datas[i].entNm}</ComTitle>
+                </Box>
            )
         }
 
@@ -195,13 +201,48 @@ function AdminCom () {
                 </InputLayout>
         </InputBox>
       </Box> 
-            :  <ScrBox>{printCom()}</ScrBox>}
+            :  (
+                UPBox === -1 ? <ScrBox>{printCom()}</ScrBox> :
+                <Box>
+                <HeadCon>
+                    <Info></Info>
+                    <StyledBtn classname="update" onClick={() => { Update(UPBox); }} ><Title>수정</Title></StyledBtn>
+                    <StyledBtn classname="delete" onClick={() => { Del(UPBox); }} ><Title>삭제</Title></StyledBtn>
+                </HeadCon>
+                <InputBox>
+                <TitleLayout><Title>기업이름</Title></TitleLayout>
+                    <InputLayout>
+                    <StyledInput type="text" onChange={onChangeInput} name="upnm" value={upnm}></StyledInput>
+                    </InputLayout>
+                </InputBox>
+                <InputBox>
+                <TitleLayout><Title>기업정보</Title></TitleLayout>
+                    <InputLayout>
+                    <StyledInput type="text" onChange={onChangeInput} name="upSmry" value={upSmry}></StyledInput>
+                    </InputLayout>
+                </InputBox>
+                <InputBox>
+                <TitleLayout><Title>가격</Title></TitleLayout>
+                    <InputLayout>
+                    <StyledInput type="text" name="price" value={price} disabled></StyledInput>
+                    </InputLayout>
+                </InputBox>
+            </Box>
+                )
+        }
      
       </div>
     );
 }
 
 export default AdminCom;
+
+//기업명
+const ComTitle = styled.div`
+font-size:150%;
+font-weight:bold;
+text-align:center;
+`;
 
 const StyledSelect =styled.select`
 outline:none;
@@ -245,10 +286,7 @@ margin:2%;
 width:100%;
 `;
 
-//작성자, 제목 묶는
-const HeadCon = styled.div`
-display:flex;
-`;
+
 
 //스크롤 페이지
 const ScrBox = styled.div`
@@ -294,4 +332,9 @@ const Info = styled.div`
 display:flex;
 width:90%;
 text-algin:center;
+`;
+
+//작성자, 제목 묶는
+const HeadCon = styled.div`
+display:flex;
 `;
