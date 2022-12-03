@@ -108,14 +108,12 @@ function AdminCom () {
         .catch((err)=>{
             console.log(err);
         });
-        
 
     }
     
     //수정 버튼
     const Update = (idx) => {
         alert(idx+'update');
-
        
         axios.post('/admin/enterprise/update',{
             stockCode:datas[idx].stockStkCd,
@@ -141,7 +139,6 @@ function AdminCom () {
         const result = [];
     
         for(let i=0; i < datas.length ; i++){
-            
            result.push( 
                 <Box>
                    <ComTitle onClick={()=>{setUP(i);}}>{datas[i].entNm}</ComTitle>

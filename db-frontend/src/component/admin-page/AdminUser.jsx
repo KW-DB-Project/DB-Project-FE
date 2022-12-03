@@ -2,8 +2,6 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import styled from "styled-components";
 
-
-
 function AdminUser () {
 
     const [datas,setDatas]=useState([]);
@@ -48,6 +46,8 @@ function AdminUser () {
 
     const printUser = () => {
         const result = [];
+
+        console.log(datas[0]);
     
         if(datas.length !== 0){
         for(let i=0; i < datas.length ; i++){

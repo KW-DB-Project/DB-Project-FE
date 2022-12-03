@@ -13,6 +13,7 @@ function AdminBoard () {
     //초기 화면 로그 시 & sname 변할 경우 작동
     useEffect(() => {
 
+
         //초기데이터 받기
         axios.post('/admin/community/searchPosts',
         {stockName:sname})
