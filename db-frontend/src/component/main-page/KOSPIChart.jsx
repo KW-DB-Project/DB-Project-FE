@@ -1,6 +1,8 @@
 import { Chart as ChartJS } from 'chart.js/auto'
+import { useEffect, useState } from 'react';
 import { Line }            from 'react-chartjs-2'
 import styled from 'styled-components';
+import Axios from "axios";
 
 const tenMinutes = 600000;
 const date = new Date('2010/07/24/00:00');
@@ -17,20 +19,30 @@ const Container = styled.div`
 `;
 
 function KOSPIChart(){
+  const [kospi, setKospi] = useState([]);
   const datas = [];
 
-  for(let i=0; i<=36; i++){
-    const v = new Date(timestamp + tenMinutes * i);
+  useEffect(()=>{
+    Axios.get("/main/kospi")
+      .then((res)=>{
+        setKospi(res.data);
+      }).catch((e)=>{
+        console.error(e);
+      })
+  }, []);
 
+  for(let i=0; i<kospi.length; i++){
     datas.push({
-      x : `${v.getHours() >= 10 ? v.getHours() : '0'+v.getHours()}:${v.getMinutes() >= 10 ? v.getMinutes() : '0'+v.getMinutes()}`,
-      y : Math.floor(Math.random() * 100),
+      x : kospi[i].sdate.split('T')[0],
+      y : kospi[i].slast,
     })
   }
 
+  datas.reverse();
+
   const options = {
     fill: {
-      target : {value: 60},
+      target : {value: datas[29]?.y},
       above : "#ff7675",
       below: "#74b9ff",
     },
@@ -41,7 +53,7 @@ function KOSPIChart(){
     },
     plugins:{
       legend :{
-        maxWidth : "100px",
+        maxWidth : "200px",
       },
     },
     legend: {

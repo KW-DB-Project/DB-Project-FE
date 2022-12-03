@@ -73,8 +73,9 @@ const Name = styled.div`
 const Like = styled.div`
   display:flex;
   margin-right: 50px;
+  color : ${props => props.isLike ? props.theme.upColor : "black"};
   span{
-    opacity: 0.5;
+    opacity: 1.0;
     font-size: 10px;
     margin-right: 5px;
     z-index : -1;
@@ -88,13 +89,15 @@ const Cdate = styled.div``;
 
 function StockDebatePage(){
   const [boards, setBoards] = useState([]);
+  const [isLike, setIsLike] = useState([]);
   const [stocks, setStocks] = useState();
   const {stock} = useParams();
   const login = useRecoilValue(isLoginedAtom);
 
   useEffect(() => {
     Axios.post("/community/print", {
-      stockName : stock
+      stockName : stock,
+      userId : login.id,
     })
     .then((res) => {
       setBoards(res.data);
@@ -112,13 +115,12 @@ function StockDebatePage(){
       <WriteButton to = {login.isLogined?`/debate/${stock}/write` : `/login`}>글쓰기</WriteButton>
     </Header>
     {
-      boards.map((item) => {
-        return (<BoardEntry key = {item.idx}>
-          <Index>{item.idx}</Index>
-          <Title to = {`/debate/${stock}/${item.idx}`}>{item.title}</Title>
-          <Like><span><FontAwesomeIcon icon={faHeart} size='2x'/></span>{item.blike}</Like>
-          <Name>{item.userId}</Name>
-          <Cdate>{item.createDate.split('T')[0]}</Cdate>
+      boards.map((item, index) => {
+        return (<BoardEntry key = {item.board.idx}>
+          <Title to = {`/debate/${stock}/${item.board.idx}`}>{item.board.title}</Title>
+          <Like isLike = {item.isLike}><span><FontAwesomeIcon icon={faHeart} size='2x'/></span>{item.board.blike}</Like>
+          <Name>{item.board.userId}</Name>
+          <Cdate>{item.board.createDate.split('T')[0]}</Cdate>
           </BoardEntry>);
       })
     }

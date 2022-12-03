@@ -38,7 +38,7 @@ function JoinPage(){
       }).then((res)=>{
         if(res.data.isSuccess === true){
           alert("성공");
-          navigate('/usermy');
+          navigate('/');
         }else{
           alert("실패");
        }
