@@ -54,6 +54,7 @@ const StyledMenubar = styled.div`
 //버튼
 const StyledMenuButton = styled.button`
   align-items:center;
+  cursor: pointer;
   font-size:20px;
   font-weight:bold;
   text-align:center;

@@ -161,4 +161,5 @@ width:30px;
 height:30px;
 margin-left:5px;
 margin-top:13px;
+cursor: pointer;
 `;

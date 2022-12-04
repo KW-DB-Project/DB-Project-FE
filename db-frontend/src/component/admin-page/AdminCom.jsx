@@ -53,7 +53,7 @@ function AdminCom () {
                     alert('기업 추가에 실패했습니다.');
                 }
                 else{
-                    datas.splice(datas.length,0,inputs);
+                    datas.push({entNm:stk_nm,entSmry:ent_smry,slast:parseInt(price)});
                     setInputs({stk_nm:'',stock_stk_cd:'',ls:0,ent_smry:'',category:'',price:0,upnm:'',upSmry:''});
                
                 }
@@ -242,6 +242,7 @@ const ComTitle = styled.div`
 font-size:150%;
 font-weight:bold;
 text-align:center;
+cursor: pointer;
 `;
 
 const StyledSelect =styled.select`
@@ -311,6 +312,7 @@ margin:1%;
 //버튼 레이아웃
 const StyledBtn = styled.button`
 height:80%;
+cursor: pointer;
 width:13%;
 border:none;
 border-radius:30px;

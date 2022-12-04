@@ -286,6 +286,7 @@ display:flex;
 const StyledBtn = styled.button`
 height:45px;
 width:200px;
+cursor: pointer;
 border-radius: 30px;
 padding:5px;
 text-algin:center;

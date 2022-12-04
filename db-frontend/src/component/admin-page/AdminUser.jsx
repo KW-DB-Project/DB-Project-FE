@@ -108,6 +108,7 @@ color:white;
 border:none;
 padding:7px;
 border-radius:30px;
+cursor: pointer;
 `;
 
 //글자 속성
