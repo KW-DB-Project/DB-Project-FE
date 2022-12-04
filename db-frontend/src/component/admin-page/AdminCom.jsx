@@ -156,11 +156,12 @@ function AdminCom () {
     //목록 버튼 이벤트
     const goList = () => {
         setAddBox(false);
+        setUPBox(-1);
     }
 
     return (
         <div>
-        <StyledBtn classname="add" onClick={setAdd} style={{marginLeft:'2%'}} ><Title>{addBox ? '추가하기'  : '기업 추가'}</Title></StyledBtn>
+        { UPBox === -1 ? <StyledBtn classname="add" onClick={setAdd} style={{marginLeft:'2%'}} ><Title>{addBox ? '추가하기'  : '기업 추가'}</Title></StyledBtn> : <StyledBtn  onClick={goList} style={{marginLeft:'2%'}} ><Title>목록</Title></StyledBtn>}
         {addBox ? <StyledBtn  onClick={goList} style={{marginLeft:'2%'}} ><Title>목록</Title></StyledBtn> : null}
       {addBox ? 
       <Box>
