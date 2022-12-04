@@ -6,8 +6,8 @@ function AdminCom () {
 
     const [addBox,setAddBox]=useState(false);
     const [UPBox,setUPBox]=useState(-1);
-    const [inputs, setInputs] = useState({stk_nm:'',stock_stk_cd:'',ls:0,ent_smry:'',category:'',price:0,upnm:'',upSmry:''});
-    const {stk_nm,stock_stk_cd,ls,ent_smry,category,price,upnm,upSmry} = inputs; // 비구조화 할당을 통해 값 추출
+    const [inputs, setInputs] = useState({stk_nm:'',stock_stk_cd:'',ls:0,ent_smry:'',category:'',price:0,upnm:'',upSmry:'',upSlast:0});
+    const {stk_nm,stock_stk_cd,ls,ent_smry,category,price,upnm,upSmry,upSlast} = inputs; // 비구조화 할당을 통해 값 추출
     const [datas,setDatas]=useState([]);
 
     //인풋 이벤트 함수
@@ -54,8 +54,8 @@ function AdminCom () {
                 }
                 else{
                     datas.push({entNm:stk_nm,entSmry:ent_smry,slast:parseInt(price)});
-                    setInputs({stk_nm:'',stock_stk_cd:'',ls:0,ent_smry:'',category:'',price:0,upnm:'',upSmry:''});
-               
+                    setInputs({stk_nm:'',stock_stk_cd:'',ls:0,ent_smry:'',category:'',price:0,upnm:'',upSmry:'',upSlast:0});
+                    
                 }
                 
             })
@@ -71,7 +71,7 @@ function AdminCom () {
 
     }
 
-    //기업 추가 여부 설정
+    //기업 수정 데이터 설정
     const setUP = (idx) => {
 
         if(UPBox !== -1)
@@ -83,7 +83,8 @@ function AdminCom () {
         {
             setUPBox(idx);
             setInputs({
-                ...inputs, //기존의 input 객체를 복사한 뒤
+                ...inputs,
+                upSlast:datas[idx].slast, //기존의 input 객체를 복사한 뒤
                 upnm: datas[idx].entNm,
                 upSmry: datas[idx].entSmry // name 키를 가진 값을 value 로 설정
                 });
@@ -122,13 +123,13 @@ function AdminCom () {
         })
         .then((res)=>{
             if(!res.data.isSuccess){
-                alert('삭제에 실패했습니다.');
+                alert('수정에 실패했습니다.');
             }
             else{
                 setUPBox(-1);
                 datas[idx].entNm = upnm;
                 datas[idx].entSmry = upSmry;
-                setInputs({stk_nm:'',stock_stk_cd:'',ls:0,ent_smry:'',category:'',price:0,upnm:'',upSmry:''});
+                setInputs({stk_nm:'',stock_stk_cd:'',ls:0,ent_smry:'',category:'',price:0,upnm:'',upSmry:'',upSlast:0});
             }
         })
         .catch((err)=>{
@@ -152,9 +153,16 @@ function AdminCom () {
         return result;
     }
 
+    //목록 버튼 이벤트
+    const goList = () => {
+        setAddBox(false);
+        setUPBox(-1);
+    }
+
     return (
         <div>
-        <StyledBtn classname="add" onClick={setAdd} style={{marginLeft:'2%'}} ><Title>{addBox ? '추가하기'  : '기업 추가'}</Title></StyledBtn>
+        { UPBox === -1 ? <StyledBtn classname="add" onClick={setAdd} style={{marginLeft:'2%'}} ><Title>{addBox ? '추가하기'  : '기업 추가'}</Title></StyledBtn> : <StyledBtn  onClick={goList} style={{marginLeft:'2%'}} ><Title>목록</Title></StyledBtn>}
+        {addBox ? <StyledBtn  onClick={goList} style={{marginLeft:'2%'}} ><Title>목록</Title></StyledBtn> : null}
       {addBox ? 
       <Box>
         <InputBox>
@@ -224,7 +232,7 @@ function AdminCom () {
                 <InputBox>
                 <TitleLayout><Title>가격</Title></TitleLayout>
                     <InputLayout>
-                    <StyledInput type="text" name="price" value={price} disabled></StyledInput>
+                    <StyledInput type="number" name="price" value={upSlast} disabled></StyledInput>
                     </InputLayout>
                 </InputBox>
             </Box>

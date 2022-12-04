@@ -37,7 +37,7 @@ const MenuNav = () => {
           {location.pathname === '/' ? <ClickMenuName>홈</ClickMenuName> : <MenuName>홈</MenuName> }
           </StyledMenuButton>
           <StyledMenuButton to="/stockview" >
-          {location.pathname === '/stockview' ? <ClickMenuName>국내</ClickMenuName> : <MenuName>국내</MenuName> }
+          {location.pathname === '/stockview' ? <ClickMenuName>순위</ClickMenuName> : <MenuName>순위</MenuName> }
           </StyledMenuButton>
           <StyledMenuButton to="/stocktrading" >
           {location.pathname === '/stocktrading' ? <ClickMenuName>매매</ClickMenuName> : <MenuName>매매</MenuName> }
@@ -95,7 +95,6 @@ const StyledFontawsome = styled(FontAwesomeIcon)`
 `;
 
 const MenuName = styled.div`
-
   font-size: 20px;
   font-weight:bold;
   margin:15px;
@@ -104,7 +103,6 @@ const MenuName = styled.div`
   height:65px;
   padding:20px;
   text-align:center;
-
 `;
 
 const ClickMenuName = styled.div`
@@ -118,4 +116,3 @@ border-radius:15px 15px 15px 15px;
   padding:20px;
   background-color: rgb(238,238,238);
 `;
-  
