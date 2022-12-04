@@ -22,9 +22,7 @@ function AdminCom () {
     //첫화면
     useEffect(()=>{
 
-        axios.post('/admin/enterprise',{
-            id:'admin'
-        })
+        axios.get('/admin/enterprise')
         .then((res)=>{
             setDatas(res.data);
             console.log(res.data);
@@ -55,7 +53,9 @@ function AdminCom () {
                     alert('기업 추가에 실패했습니다.');
                 }
                 else{
-                    window.location.reload();
+                    datas.splice(datas.length,0,inputs);
+                    setInputs({stk_nm:'',stock_stk_cd:'',ls:0,ent_smry:'',category:'',price:0,upnm:'',upSmry:''});
+               
                 }
                 
             })
@@ -103,6 +103,7 @@ function AdminCom () {
             }
             else{
                 setUPBox(-1);
+                datas.splice(idx,1);
             }
         })
         .catch((err)=>{
@@ -113,7 +114,6 @@ function AdminCom () {
     
     //수정 버튼
     const Update = (idx) => {
-        alert(idx+'update');
        
         axios.post('/admin/enterprise/update',{
             stockCode:datas[idx].stockStkCd,
@@ -126,6 +126,9 @@ function AdminCom () {
             }
             else{
                 setUPBox(-1);
+                datas[idx].entNm = upnm;
+                datas[idx].entSmry = upSmry;
+                setInputs({stk_nm:'',stock_stk_cd:'',ls:0,ent_smry:'',category:'',price:0,upnm:'',upSmry:''});
             }
         })
         .catch((err)=>{
