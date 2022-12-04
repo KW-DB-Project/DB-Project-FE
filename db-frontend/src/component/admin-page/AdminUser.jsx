@@ -8,7 +8,7 @@ function AdminUser () {
     
     useEffect(() => {
 
-        console.log('eff');
+        console.log('usereff');
 
         //초기데이터 받기
         axios.get('/admin/user')
@@ -22,7 +22,7 @@ function AdminUser () {
 
     },[]);
 
-    const Del= (delId) => {
+    const Del= (delId, idx) => {
 
         //삭제 할 게시판 idx 보내기
         axios.post('/admin/user/delete',
@@ -34,6 +34,7 @@ function AdminUser () {
             }
             else{
                 window.location.reload();
+                //datas.splice(idx,1);
             }
         })
         .catch((err)=>{
@@ -46,8 +47,6 @@ function AdminUser () {
 
     const printUser = () => {
         const result = [];
-
-        console.log(datas[0]);
     
         if(datas.length !== 0){
         for(let i=0; i < datas.length ; i++){
@@ -58,7 +57,7 @@ function AdminUser () {
                     <Title>{datas[i].age}</Title>
                     <Title>{datas[i].unm}</Title>
                 </Info>
-                <DelBtn onClick={()=>{ Del(datas[i].id); }}><Title>삭제</Title></DelBtn>
+                <DelBtn onClick={()=>{ Del(datas[i].id , i); }}><Title>삭제</Title></DelBtn>
             </Box>
            )
         }

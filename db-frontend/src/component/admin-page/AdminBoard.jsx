@@ -38,6 +38,7 @@ function AdminBoard () {
                 alert('삭제에 실패했습니다.');
             }
             else{
+                //datas.splice(i,1);
                 window.location.reload();
             }
         })
