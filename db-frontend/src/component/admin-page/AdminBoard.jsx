@@ -118,6 +118,7 @@ background-color: black;
 color:white;
 border:none;
 border-radius:30px;
+cursor: pointer;
 `;
 
 //작성자, 제목 묶는
@@ -154,6 +155,7 @@ const StyledFontawsome = styled(FontAwesomeIcon)`
 width:30px;
 height:30px;
 margin:2%;
+cursor: pointer;
 `;
 
 //기업명

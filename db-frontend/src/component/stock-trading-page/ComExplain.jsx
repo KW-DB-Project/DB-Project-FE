@@ -207,6 +207,7 @@ const Title = styled.div`
 const StyledFontawsome = styled(FontAwesomeIcon)`
 width:30px;
 height:30px;
+cursor: pointer;
 ${(props)=>{
     if(props.className === 'clicked' ){
         return `
