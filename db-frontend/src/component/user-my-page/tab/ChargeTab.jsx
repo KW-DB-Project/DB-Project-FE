@@ -23,13 +23,13 @@ function ChargeTab () {
           id : login.id,
           password: login.pw,
           age : login.age,
-          balance : (amount*10000)
+          balance : login.balance + (amount*10000)
         });
 
     axios
     .post('/user/addDepositReceived', {
       id:login.id,
-      balance:login.balance
+      balance:(amount*10000)
     })
     .then((res) => {
       console.log(res.data);
@@ -37,7 +37,10 @@ function ChargeTab () {
       if(!res.data.isSuccess){
         alert('오류가 발생했습니다.');
       }
-      
+      else{
+        alert('충전 완료 되었습니다.');
+      }
+    
     })
     .catch((err) => {
       console.log(err);
@@ -63,7 +66,7 @@ const StyledBtn = styled.button`
   padding:5px;
   background-color: black;
   color:white;
-
+  cursor: pointer;
 `;
 
 //소제목

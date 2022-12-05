@@ -26,7 +26,7 @@ function BalTab () {
           id : login.id,
           password: login.pw,
           age : login.age,
-          balance : res.data.balance
+          balance : login.balance
         });
 
       })

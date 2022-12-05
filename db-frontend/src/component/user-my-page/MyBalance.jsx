@@ -86,6 +86,7 @@ const StyledBtn = styled.button`
   width:30%;
   border:none;
   padding:7px;
+  cursor: pointer;
   ${(props)=> {
     if(props.className === 'charge'){
         return `background-color: rgb(217,217,217);
