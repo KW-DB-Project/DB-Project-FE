@@ -21,6 +21,7 @@ border-radius: 30px;
 padding:25px;
 background-color:black;
 text-align:center;
+box-shadow: ${(props) => props.theme.defaultShadow};
 `;
 
 const DebateLink = styled(Link)`

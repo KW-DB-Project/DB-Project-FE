@@ -279,7 +279,7 @@ const InputLayout =styled.div`
 width:89%;
 margin-top:1%;
 margin-bottom:1%;
-height:50px;
+height:55px;
 border-radius: 30px;
 background-color:rgb(217,217,217);
 display:flex;
@@ -321,6 +321,7 @@ margin:1%;
 const StyledBtn = styled.button`
 height:80%;
 cursor: pointer;
+box-shadow: ${(props) => props.theme.defaultShadow};
 width:13%;
 border:none;
 border-radius:30px;
