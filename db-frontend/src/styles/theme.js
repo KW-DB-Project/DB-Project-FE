@@ -4,6 +4,5 @@ export const defaultTheme = {
   accentColor : "#FAB005",
   upColor: "#ff7675",
   downColor: "#74b9ff",
-  defaultShadow: "1px 2px 0px 3px rgba(0,0,0,0.3)",
-
+  defaultShadow: "0 5px 18px -7px rgba(0,0,0,1)"
 }

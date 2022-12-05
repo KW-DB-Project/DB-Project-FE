@@ -54,6 +54,7 @@ const StyledMenubar = styled.div`
 //버튼
 const StyledMenuButton = styled.button`
   align-items:center;
+
   cursor: pointer;
   font-size:20px;
   font-weight:bold;
@@ -66,6 +67,7 @@ const StyledMenuButton = styled.button`
   ${(props)=> {
     if(props.className === 'notselected'){
         return `background-color: rgb(217,217,217);
+        box-shadow:0 4px 5px rgba(0, 0, 0, 0.6);
         `;
     }
     else if(props.className === 'selected'){
