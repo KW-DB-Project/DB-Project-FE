@@ -43,7 +43,7 @@ function LoginPage(){
               age : res.data.age,
               balance : res.data.balance
             });
-            navigate(-1);
+            navigate("/");
          }else{
           alert("실패");
          }
